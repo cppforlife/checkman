@@ -34,6 +34,8 @@
 
 - (void)addCheck:(Check *)check {
     [self.checks addObject:check];
+    [self _updateStatusAndRunning];
+
     [check addObserverForStatusAndRunning:self];
     [self.delegate checkCollection:self didAddCheck:check];
 }
@@ -41,7 +43,9 @@
 - (void)removeCheck:(Check *)check {
     [self.delegate checkCollection:self willRemoveCheck:check];
     [check removeObserverForStatusAndRunning:self];
+
     [self.checks removeObject:check];
+    [self _updateStatusAndRunning];
 }
 
 - (NSUInteger)indexOfCheck:(Check *)check {
@@ -58,20 +62,24 @@
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    self.status = [self updateStatus];
-    self.running = [self updateRunning];
+    [self _updateStatusAndRunning];
+}
+
+- (void)_updateStatusAndRunning {
+    self.status = [self _updateStatus];
+    self.running = [self _updateRunning];
     [self.delegate checkCollectionStatusAndRunningDidChange:self];
 }
 
-- (CheckStatus)updateStatus {
+- (CheckStatus)_updateStatus {
     for (Check *check in self.checks) {
         if (check.status == CheckStatusFail) return CheckStatusFail;
         if (check.status == CheckStatusUndetermined) return CheckStatusUndetermined;
     }
-    return CheckStatusOk;
+    return self.checks.count ? CheckStatusOk : CheckStatusUndetermined;
 }
 
-- (BOOL)updateRunning {
+- (BOOL)_updateRunning {
     for (Check *check in self.checks) {
         if (check.isRunning) return YES;
     }
@@ -80,13 +88,13 @@
 
 - (NSString *)statusDescription {
     if (self.status == CheckStatusFail || self.status == CheckStatusUndetermined) {
-        int count = [self numberOfChecksWithStatus:self.status];
+        int count = [self _numberOfChecksWithStatus:self.status];
         return [NSString stringWithFormat:@"%d", count];
     }
     return nil;
 }
 
-- (int)numberOfChecksWithStatus:(CheckStatus)status {
+- (int)_numberOfChecksWithStatus:(CheckStatus)status {
     int count = 0;
     for (Check *check in self.checks) {
         if (check.status == status) count++;

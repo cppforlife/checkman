@@ -24,17 +24,17 @@
 
 - (id)initWithChecks:(CheckCollection *)checks {
     if (self = [super init]) {
+        self.checks = checks;
+        self.checks.delegate = self;
+
         // Install status item into the menu bar
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-        self.statusItem.image = [NSImage imageNamed:@"icon-inactive"];
         self.statusItem.highlightMode = YES;
+        [self _updateStatusAndRunning];
 
         self.menu = [[NSMenu alloc] initWithTitle:@"Checks"];
         self.menu.autoenablesItems = NO;
         self.statusItem.menu = self.menu;
-
-        self.checks = checks;
-        self.checks.delegate = self;
     }
     return self;
 }
@@ -95,9 +95,13 @@
 - (void)checkCollection:(CheckCollection *)collection willRemoveCheck:(Check *)check {}
 
 - (void)checkCollectionStatusAndRunningDidChange:(CheckCollection *)collection {
-    NSString *statusImageName = [Check statusImageNameForCheckStatus:collection.status running:collection.isRunning];
+    [self _updateStatusAndRunning];
+}
+
+- (void)_updateStatusAndRunning {
+    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.checks.status running:self.checks.isRunning];
     self.statusItem.image = [NSImage imageNamed:statusImageName];
-    self.statusItem.title = collection.statusDescription;
+    self.statusItem.title = self.checks.statusDescription;
 }
 @end
 
