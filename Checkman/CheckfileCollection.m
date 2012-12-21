@@ -74,6 +74,7 @@
     NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtPath:directoryPath];
 
     while (fileName = [enumerator nextObject]) {
+        if ([fileName isEqualToString:@".DS_Store"]) continue;
         NSString *filePath = [NSString stringWithFormat:@"%@/%@", directoryPath, fileName];
 
         BOOL isDirectory = NO;
