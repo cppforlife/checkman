@@ -1,28 +1,42 @@
 # Checkman
 
-Checkman runs your custom script(s) periodically and then updates system tray icon status.
-It could be used to check on CI build status, see that your site is up, etc.
+Checkman runs your custom script(s) periodically and then updates system tray icon.
+It could be used to check on CI build status, check site response status, etc.
+
 
 # Installation
 
+Install and open Checkman Mac app into `/Applications`:
+
     \curl https://raw.github.com/cppforlife/checkman/master/bin/install | bash -s
 
-Installs Checkman Mac app into /Applications. If you ever need to kill Checkman:
+If you ever need to kill Checkman:
 
     killall Checkman
 
-# Configuration
 
-Checkman is configured via one or more config files. To let Checkman know about a config file
-just put it into `~/Checkman` directory. Here is an example of a config file:
+# Configuring Checkman via Checkfile(s)
 
+* Configured via one or more files from `~/Checkman` directory.
+  Checkfile example with 3 checks (very similar to Procfile):
+
+    ```
     ci: jenkins_build.check https://ci:pwd@127.0.0.1/job/FancySite/lastBuild/api/json
     staging-deploy: jenkins_build.check https://ci:pwd@127.0.0.1/job/FancySiteDeploy/lastBuild/api/json
 
     #-
     staging-web: site.check http://fancysite.com
+    ```
 
-Above config file would result in 3 checks. To be continued...
+* Symlinks are resolved. Suggested approach is to have Checkfile with project
+  specific checks in project directories and then symlink from `~/Checkman` directory.
+
+* Config files are reloaded when changes are saved.
+
+* Commands run relative to the containing checkfile.
+
+* `#` can be used to comment. `#-` is used as a separator.
+
 
 # Included scripts
 
@@ -31,6 +45,16 @@ Above config file would result in 3 checks. To be continued...
 * `site.check <URL>` checks returned http response for 200 OK
 
 * `vmc_apps.check <DIR> <APP_PREFIX>` checks that all apps are running
+
+
+# Todos
+
+* Custom run intervals for individual checks
+* Audit CPU/memory usage
+* Fix jenkins_build.check to show last build status while build is in progress
+* Indicate when check info was last updated
+* Run only single instance of the app
+
 
 # Thanks to
 
