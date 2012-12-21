@@ -40,6 +40,10 @@
 
 - (void)_startTrackingChanges {
     [self _reloadEntries];
+
+    // Track directory changes because RubyMine is doing atomic file saves (write tmp, rename)
+    // more http://timnew.github.com/blog/2012/11/15/pitfall-in-fs-dot-watch/
+    [self.fsChangesNotifier startNotifying:self forFilePath:self.resolvedDirectoryPath];
     [self.fsChangesNotifier startNotifying:self forFilePath:self.resolvedFilePath];
 }
 
@@ -81,7 +85,7 @@
 #pragma mark - FSChangesNotifierDelegate
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
-    [self _reloadEntries];
+    [self _reloadEntries]; // nuclear!
 }
 
 @end
