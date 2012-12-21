@@ -24,6 +24,14 @@ just put it into `~/Checkman` directory. Here is an example of a config file:
 
 Above config file would result in 3 checks. To be continued...
 
+# Included scripts
+
+* `jenkins_build.check <URL>` checks specific Jenkins build status
+
+* `site.check <URL>` checks returned http response for 200 OK
+
+* `vmc_apps.check <DIR> <APP_PREFIX>` checks that all apps are running
+
 # Thanks to
 
 * Doc Ritezel
