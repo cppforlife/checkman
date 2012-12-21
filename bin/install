@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+TMP_DIR=/tmp/CheckmanInstall
+INSTALL_DIR=/Applications
+
+set -e
+set -x
+
+rm -rf $TMP_DIR
+mkdir $TMP_DIR
+
+# Unpack and install local Checkman.zip if it's present in current directory
+if [ -e Checkman.zip ]; then
+  cp Checkman.zip $TMP_DIR
+  cd $TMP_DIR
+else
+  cd $TMP_DIR
+  curl -sO https://raw.github.com/cppforlife/checkman/master/bin/Checkman.zip
+fi
+
+unzip Checkman.zip
+
+rm -rf "$INSTALL_DIR/Checkman.app"
+cp -R Checkman.app $INSTALL_DIR
