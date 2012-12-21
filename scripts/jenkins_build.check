@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "net/http"
+require "net/https"
+require "uri"
+require "json"
+
+class JenkinsBuildStatus
+  def initialize(json)
+    @build_data = JSON.parse(json)
+  end
+
+  def success?
+    @build_data["result"] == "SUCCESS"
+  end
+
+  def building?
+    @build_data["building"]
+  end
+
+  def full_name
+    @build_data["fullDisplayName"]
+  end
+
+  def console_url
+    @build_data["url"] + "console"
+  end
+
+  def duration
+    # unlikely that duration >24hrs
+    Time.at(@build_data["duration"]/1000).gmtime.strftime("%R:%S")
+  end
+
+  def last_commit_author
+    change_set = @build_data["changeSet"]["items"].last
+    change_set && change_set["author"]["fullName"]
+  end
+
+  def last_commit_short_sha
+    build_action = @build_data["actions"].detect { |a| a["lastBuiltRevision"] }
+    build_action && build_action["lastBuiltRevision"]["SHA1"][0..5]
+  end
+
+  def recent_commit_messages
+    items = @build_data["changeSet"]["items"].reverse
+    header = [["-", ""], ["Recents", ""]]
+    header + items.map { |i| [" - #{i["msg"]}", i["commitId"][0..5]] }
+  end
+
+  def as_json(*)
+    {
+      result: success?,
+      running: building?,
+      url: console_url,
+      info: [
+        [:Name, full_name],
+        [:Duration, duration],
+        [:SHA, last_commit_short_sha],
+        [:Author, last_commit_author]
+      ] + recent_commit_messages
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class JenkinsBuild
+  def initialize(url)
+    raise ArgumentError "url must not be nil" unless url
+    @uri = URI.parse(url)
+  end
+
+  def latest_status
+    JenkinsBuildStatus.new(http_get(@uri))
+  end
+
+  private
+
+  def http_get(uri)
+    `curl -sk #{uri}`
+  end
+end
+
+puts JenkinsBuild.new(*ARGV).latest_status.to_json

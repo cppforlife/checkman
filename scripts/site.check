@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "uri"
+require "json"
+
+class SiteStatus
+  def initialize(url, curl_output)
+    @url = url
+    @curl_lines = curl_output.split("\r\n")
+  end
+
+  def ok?
+    @curl_lines.first.include?("200 OK")
+  end
+
+  def headers
+    @curl_lines[1..-1].map { |l| l.split(": ", 2) }.sort
+  end
+
+  def as_json(*)
+    {
+      result: ok?,
+      running: false,
+      url: @url,
+      info: [[:Status, @curl_lines.first]] + headers
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class Site
+  def initialize(url)
+    raise ArgumentError "url must not be nil" unless url
+    @uri = URI.parse(url)
+  end
+
+  def latest_status
+    SiteStatus.new(@uri, http_get(@uri))
+  end
+
+  private
+
+  def http_get(uri)
+    `curl -sIk #{uri}`
+  end
+end
+
+puts Site.new(*ARGV).latest_status.to_json

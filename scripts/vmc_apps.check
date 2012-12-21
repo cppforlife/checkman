@@ -1,0 +1,66 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+
+class VmcAppsStatus
+  def initialize(app_prefix, vmc_output)
+    @apps_data = JSON.parse(vmc_output)
+    @apps_data
+      .select! { |app| app["name"].start_with?(app_prefix) }
+      .sort_by! { |app| app["name"] }
+  end
+
+  def all_100_percent?
+    @apps_data.all? do |app|
+      app["runningInstances"].to_i == app["instances"].to_i
+    end
+  end
+
+  def as_json(*)
+    {
+      result: all_100_percent?,
+      running: false,
+      url: nil,
+      info: info
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def info
+    @apps_data.map do |app|
+      [app["name"], app_details(app)]
+    end
+  end
+
+  def app_details(app)
+    resources = app["resources"]
+    [ "#{app["runningInstances"]}/#{app["instances"]}",
+      "#{app["state"]} -",
+      "#{resources["memory"]}MB / #{resources["disk"]}MB"
+    ].join(" ")
+  end
+end
+
+class VmcApps
+  def initialize(directory, app_prefix)
+    @directory = File.expand_path(directory)
+    @app_prefix = app_prefix
+  end
+
+  def latest_status
+    VmcAppsStatus.new(@app_prefix, run)
+  end
+
+  private
+
+  def run
+    Dir.chdir(@directory) { `vmc curl Get /apps` }
+  end
+end
+
+puts VmcApps.new(*ARGV).latest_status.to_json
