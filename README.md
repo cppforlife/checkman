@@ -3,6 +3,14 @@
 Checkman runs your custom script(s) periodically and then updates system tray icon status.
 It could be used to check on CI build status, see that your site is up, etc.
 
+# Installation
+
+    \curl https://raw.github.com/cppforlife/checkman/master/bin/install | bash -s
+
+Installs Checkman Mac app into /Applications. If you ever need to kill Checkman:
+
+    killall Checkman
+
 # Configuration
 
 Checkman is configured via one or more config files. To let Checkman know about a config file
