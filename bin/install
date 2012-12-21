@@ -7,7 +7,7 @@ set -e
 set -x
 
 rm -rf $TMP_DIR
-mkdir $TMP_DIR
+mkdir -p $TMP_DIR
 
 # Unpack and install local Checkman.zip if it's present in current directory
 if [ -e Checkman.zip ]; then
@@ -20,5 +20,14 @@ fi
 
 unzip Checkman.zip
 
+# Add google.com site.check for first time users.
+# Will be red since google.com redirects to www
+if [ ! -d ~/Checkman ]; then
+  mkdir -p ~/Checkman
+  echo "google.com: site.check http://google.com" > ~/Checkman/example
+fi
+
 rm -rf "$INSTALL_DIR/Checkman.app"
 cp -R Checkman.app $INSTALL_DIR
+
+open "$INSTALL_DIR/Checkman.app"
