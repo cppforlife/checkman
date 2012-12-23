@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 require "rubygems"
-require "net/http"
-require "net/https"
 require "uri"
 require "json"
 
@@ -69,17 +67,17 @@ end
 class JenkinsBuild
   def initialize(url)
     raise ArgumentError "url must not be nil" unless url
-    @uri = URI.parse(url)
+    @url = URI.parse(url)
   end
 
   def latest_status
-    JenkinsBuildStatus.new(http_get(@uri))
+    JenkinsBuildStatus.new(http_get(@url))
   end
 
   private
 
-  def http_get(uri)
-    `curl -sk #{uri}`
+  def http_get(url)
+    `curl -sk #{url}`
   end
 end
 

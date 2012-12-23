@@ -115,9 +115,9 @@
 		AE76A5D91682B82E00004A4D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
-				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
 				AE76A5DC1682B82E00004A4D /* vmc_apps.check */,
+				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 			);
 			path = scripts;
 			sourceTree = "<group>";
