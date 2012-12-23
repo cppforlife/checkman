@@ -22,7 +22,10 @@ class SiteStatus
       :result => ok?,
       :running => false,
       :url => @url,
-      :info => [[:Status, @curl_lines.first]] + headers
+      :info => [
+        [:Url, @url],
+        [:Status, @curl_lines.first]
+      ] + headers
     }
   end
 
@@ -34,17 +37,17 @@ end
 class Site
   def initialize(url)
     raise ArgumentError "url must not be nil" unless url
-    @uri = URI.parse(url)
+    @url = URI.parse(url)
   end
 
   def latest_status
-    SiteStatus.new(@uri, http_get(@uri))
+    SiteStatus.new(@url, http_get(@url))
   end
 
   private
 
-  def http_get(uri)
-    `curl -sIk #{uri}`
+  def http_get(url)
+    `curl -sIk #{url}`
   end
 end
 
