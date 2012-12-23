@@ -1,5 +1,6 @@
 #import "Checkfile.h"
 #import "CheckfileEntry.h"
+#import "NSObject+Delayed.h"
 
 @interface Checkfile ()
 @property (strong, nonatomic) NSString *resolvedFilePath;
@@ -32,16 +33,13 @@
 }
 
 - (void)trackChanges {
-    // avoid immediately populating entries to avoid 
-    // populating entries as part of CheckfileCollection delegate calls
-    [self performSelector:@selector(_startTrackingChanges) withObject:nil afterDelay:0 
-                  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
+    [self performSelectorOnNextTick:@selector(_startTrackingChanges)];
 }
 
 - (void)_startTrackingChanges {
     [self _reloadEntries];
 
-    // Track directory changes because RubyMine is doing atomic file saves (write tmp, rename)
+    // Track directory changes because RubyMine is doing atomic file saves (write tmp, remove, rename)
     // more http://timnew.github.com/blog/2012/11/15/pitfall-in-fs-dot-watch/
     [self.fsChangesNotifier startNotifying:self forFilePath:self.resolvedDirectoryPath];
     [self.fsChangesNotifier startNotifying:self forFilePath:self.resolvedFilePath];
@@ -85,7 +83,6 @@
 #pragma mark - FSChangesNotifierDelegate
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
-    [self _reloadEntries]; // nuclear!
+    [self performSelectorOnNextTick:@selector(_reloadEntries)]; // nuclear!
 }
-
 @end

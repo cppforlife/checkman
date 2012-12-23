@@ -172,5 +172,4 @@
 - (NSString *)_bundleScriptsPath {
     return [[NSBundle mainBundle] resourcePath];
 }
-
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
 		AE0200881684752A00FFED8D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AE0200871684752A00FFED8D /* README.md */; };
 		AE0C7284167D5317007DC793 /* icon-fail-running.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C7275167D5317007DC793 /* icon-fail-running.png */; };
 		AE0C7285167D5317007DC793 /* icon-undetermined-running.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C7276167D5317007DC793 /* icon-undetermined-running.png */; };
@@ -37,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Delayed.h"; sourceTree = "<group>"; };
+		96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Delayed.m"; sourceTree = "<group>"; };
 		AE0200871684752A00FFED8D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE0C7275167D5317007DC793 /* icon-fail-running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-fail-running.png"; sourceTree = "<group>"; };
 		AE0C7276167D5317007DC793 /* icon-undetermined-running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-undetermined-running.png"; sourceTree = "<group>"; };
@@ -96,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		96472D4A16880F5900D1CF46 /* Ext */ = {
+			isa = PBXGroup;
+			children = (
+				96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */,
+				96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */,
+			);
+			name = Ext;
+			sourceTree = "<group>";
+		};
 		AE0C7272167D5317007DC793 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +233,7 @@
 				AEBC15D61676D9BE005129E9 /* Models */,
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
+				96472D4A16880F5900D1CF46 /* Ext */,
 				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
 				AEF8D6A51684046300A255D4 /* Externals */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
@@ -363,6 +376,7 @@
 				AEF8D6A41684043A00A255D4 /* VDKQueue.m in Sources */,
 				AEF8D6A91684073D00A255D4 /* FSChangesNotifier.m in Sources */,
 				AEF8D6B116843BB500A255D4 /* TaggedObject.m in Sources */,
+				96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

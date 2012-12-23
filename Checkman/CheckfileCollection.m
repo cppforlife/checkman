@@ -1,5 +1,6 @@
 #import "CheckfileCollection.h"
 #import "Checkfile.h"
+#import "NSObject+Delayed.h"
 
 @interface CheckfileCollection ()
 @property (nonatomic, strong) NSString *directoryPath;
@@ -33,9 +34,7 @@
 }
 
 - (void)trackChanges {
-    // avoid immediately populating files to avoid for potential delegate calls to finish
-    [self performSelector:@selector(_startTrackingChanges) withObject:nil afterDelay:0 
-                  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
+    [self performSelectorOnNextTick:@selector(_startTrackingChanges)];
 }
 
 - (void)_startTrackingChanges {
@@ -88,6 +87,6 @@
 #pragma mark - FSChangesNotifierDelegate
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
-    [self _reloadFiles]; // nuclear!
+    [self performSelectorOnNextTick:@selector(_reloadFiles)]; // nuclear!
 }
 @end

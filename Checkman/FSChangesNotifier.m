@@ -24,13 +24,13 @@
 #pragma mark -
 
 - (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate forFilePath:(NSString *)filePath {
-    [[self delegatesForFilePath:filePath] addObject:delegate];
+    [[self _delegatesForFilePath:filePath] addObject:delegate];
     [self.watcher addPath:filePath];
 }
 
 - (void)stopNotifying:(id<FSChangesNotifierDelegate>)delegate {
     for (NSString *filePath in self.watchedFilePaths) {
-        [[self delegatesForFilePath:filePath] removeObject:delegate];
+        [[self _delegatesForFilePath:filePath] removeObject:delegate];
     }
 }
 
@@ -39,15 +39,18 @@
 - (void)VDKQueue:(VDKQueue *)queue receivedNotification:(NSString *)notificationName forPath:(NSString *)path {
     if (notificationName == VDKQueueWriteNotification) {
         NSLog(@"FSChangesNotifier - %@: %@", notificationName, path);
-        for (id<FSChangesNotifierDelegate> delegate in [self.watchedFilePaths objectForKey:path]) {
+        NSArray *delegates = [self.watchedFilePaths objectForKey:path];
+        for (id<FSChangesNotifierDelegate> delegate in delegates) {
             [delegate fsChangesNotifier:self filePathDidChange:path];
         }
+    } else {
+        NSLog(@"FSChangesNotifier - %@: %@", notificationName, path);
     }
 }
 
 #pragma mark -
 
-- (NSMutableArray *)delegatesForFilePath:(NSString *)filePath {
+- (NSMutableArray *)_delegatesForFilePath:(NSString *)filePath {
     NSMutableArray *delegates = [self.watchedFilePaths objectForKey:filePath];
     if (!delegates) {
         delegates = [self.class _mutableNonRetainingArrayWithCapacity:1];
