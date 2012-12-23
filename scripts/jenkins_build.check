@@ -49,10 +49,10 @@ class JenkinsBuildStatus
 
   def as_json(*)
     {
-      result: success?,
-      running: building?,
-      url: console_url,
-      info: [
+      :result => success?,
+      :running => building?,
+      :url => console_url,
+      :info => [
         [:Name, full_name],
         [:Duration, duration],
         [:SHA, last_commit_short_sha],

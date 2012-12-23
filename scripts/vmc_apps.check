@@ -5,8 +5,8 @@ require "json"
 class VmcAppsStatus
   def initialize(app_prefix, vmc_output)
     @apps_data = JSON.parse(vmc_output)
-    @apps_data
-      .select! { |app| app["name"].start_with?(app_prefix) }
+    @apps_data \
+      .select! { |app| app["name"].start_with?(app_prefix) } \
       .sort_by! { |app| app["name"] }
   end
 
@@ -18,10 +18,10 @@ class VmcAppsStatus
 
   def as_json(*)
     {
-      result: all_100_percent?,
-      running: false,
-      url: nil,
-      info: info
+      :result => all_100_percent?,
+      :running => false,
+      :url => nil,
+      :info => info
     }
   end
 
