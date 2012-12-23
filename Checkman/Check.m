@@ -136,6 +136,8 @@
     if (error) {
         NSString *output = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
         NSLog(@"Command '%@' (%@) did not return valid json:\nError %@\n%@", self.name, self.command, error, output);
+    } else {
+        NSLog(@"Command '%@' ran.", self.name);
     }
     [self performSelectorOnMainThread:@selector(_finishTask:) withObject:result waitUntilDone:NO];
 }
@@ -162,6 +164,8 @@
 #pragma mark -
 
 - (NSString *)_commandInDirectoryPath {
+    // Exposing bundleScripsPath in PATH env var allows
+    // included checks to be used without specifying full path.
     return [NSString stringWithFormat:@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command];
 }
 
