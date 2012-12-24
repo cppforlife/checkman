@@ -13,12 +13,11 @@
 - (id)initWithCheck:(Check *)check {
     if (self = [super init]) {
         self.check = check;
-        self.title = self.check.name;
         self.enabled = YES;
-
         self.target = self;
         self.action = @selector(_performAction);
 
+        [self _refreshName];
         [self _refreshStatusImage];
         [self.check addObserverForRunning:self];
     }
@@ -38,12 +37,19 @@
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    [self _refreshName];
     [self _refreshStatusImage];
     [self _refreshInfoSubmenu];
 }
 
+- (void)_refreshName {
+    self.title = self.check.isRunning ?
+        [NSString stringWithFormat:@"%@...", self.check.name] : self.check.name;
+}
+
 - (void)_refreshStatusImage {
-    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.check.status changing:self.check.isChanging];
+    NSString *statusImageName =
+        [Check statusImageNameForCheckStatus:self.check.status changing:self.check.isChanging];
     self.image = [NSImage imageNamed:statusImageName];
 }
 

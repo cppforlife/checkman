@@ -6,6 +6,7 @@
 @property (nonatomic, strong) NSString *command;
 @property (nonatomic, strong) NSString *directoryPath;
 
+@property (nonatomic, assign, getter = isStarted) BOOL started;
 @property (nonatomic, assign, getter = isRunning) BOOL running;
 @property (nonatomic, strong) NSDate *updatedAt;
 
@@ -22,6 +23,7 @@
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
+    started = _started,
     running = _running,
     updatedAt = _updatedAt,
     status = _status,
@@ -102,16 +104,19 @@
 #pragma mark -
 
 - (void)start {
-    [self performSelectorInBackground:@selector(_startTask) withObject:nil];
+    @synchronized(self) {
+        self.started = YES;
+        self.running = YES;
+        [self performSelectorInBackground:@selector(_runTask) withObject:nil];
+    }
 }
 
 - (void)stop {
+    self.started = NO;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
-- (void)_startTask {
-    self.running = YES;
-
+- (void)_runTask {
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/bin/bash";
     task.currentDirectoryPath = self.directoryPath;
@@ -136,10 +141,10 @@
     } else {
         NSLog(@"Command '%@' ran.", self.name);
     }
-    [self performSelectorOnMainThread:@selector(_finishTask:) withObject:result waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(_finishRunningTask:) withObject:result waitUntilDone:NO];
 }
 
-- (void)_finishTask:(NSDictionary *)result {
+- (void)_finishRunningTask:(NSDictionary *)result {
     @synchronized(self) {
         if (result) {
             self.urlValue = [result objectForKey:@"url"];
@@ -156,8 +161,11 @@
         // Unmark running after all values are updated
         self.updatedAt = [NSDate date];
         self.running = NO;
+
+        if (self.started) {
+            [self performSelectorOnNextTick:@selector(start) afterDelay:10];
+        }
     }
-    [self performSelectorOnNextTick:@selector(start) afterDelay:10];
 }
 
 #pragma mark -
