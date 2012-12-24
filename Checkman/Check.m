@@ -112,8 +112,10 @@
 }
 
 - (void)stop {
-    self.started = NO;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    @synchronized(self) {
+        self.started = NO;
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    }
 }
 
 - (void)_runTask {
@@ -158,11 +160,15 @@
             self.changing = NO;
         }
 
-        // Unmark running after all values are updated
+        // Mark as not-running after all values are updated
         self.updatedAt = [NSDate date];
         self.running = NO;
 
         if (self.started) {
+            // Checks that are started close to each other in time
+            // keep up with each other several runs; however, it's desirable
+            // for the machine to spread them out. Currently that happens given
+            // method we use to schedule the check runs.
             [self performSelectorOnNextTick:@selector(start) afterDelay:10];
         }
     }
