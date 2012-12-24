@@ -9,21 +9,22 @@ typedef enum {
 
 @interface Check : TaggedObject
 
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status running:(BOOL)running;
++ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
 
 - (id)initWithName:(NSString *)name command:(NSString *)command directoryPath:(NSString *)directoryPath;
 
-- (void)addObserverForStatusAndRunning:(id)observer;
-- (void)removeObserverForStatusAndRunning:(id)observer;
-
-- (NSString *)name;
-- (NSArray *)info;
-- (CheckStatus)status;
-
-- (NSURL *)url;
-- (void)openUrl;
+- (void)addObserverForRunning:(id)observer;
+- (void)removeObserverForRunning:(id)observer;
 
 - (void)start;
 - (void)stop;
 - (BOOL)isRunning;
+
+- (CheckStatus)status;
+- (BOOL)isChanging;
+
+- (NSString *)name;
+- (NSArray *)info;
+- (NSURL *)url;
+- (void)openUrl;
 @end

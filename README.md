@@ -40,11 +40,36 @@ If you ever need to kill Checkman:
 
 # Included scripts
 
-* `jenkins_build.check <URL>` checks specific Jenkins build status
-
 * `site.check <URL>` checks returned http response for 200 OK
 
 * `vmc_apps.check <DIR> <APP_PREFIX>` checks that all apps are running
+
+* `jenkins_build.check <URL>` checks specific Jenkins build status
+
+
+# Building custom checks
+
+Each check is expected to return following JSON:
+
+    ````
+    {
+      // Indicates whether check succeeded
+      "result": <bool>,
+      
+      // Indicates whether result is in progress of being changed
+      "changing": <bool>,
+      
+      // Url to open when check menu item is clicked
+      "url": <string|null>,
+      
+      // List of additional details to show in the submenu
+      "info": [
+        [<string>, <string>] // Key-value pairs
+      ]
+    }
+    ````
+
+Check out included `scripts/` for examples.
 
 
 # Todos

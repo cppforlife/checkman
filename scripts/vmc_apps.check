@@ -19,7 +19,7 @@ class VmcAppsStatus
   def as_json(*)
     {
       :result => all_100_percent?,
-      :running => false,
+      :changing => false,
       :url => nil,
       :info => info
     }

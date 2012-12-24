@@ -1,13 +1,16 @@
 #import "Check.h"
+#import "NSObject+Delayed.h"
 
 @interface Check ()
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *command;
 @property (nonatomic, strong) NSString *directoryPath;
 
-@property (nonatomic, assign) CheckStatus status;
 @property (nonatomic, assign, getter = isRunning) BOOL running;
 @property (nonatomic, strong) NSDate *updatedAt;
+
+@property (nonatomic, assign) CheckStatus status;
+@property (nonatomic, assign, getter = isChanging) BOOL changing;
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSArray *info;
@@ -19,9 +22,10 @@
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
-    status = _status,
     running = _running,
     updatedAt = _updatedAt,
+    status = _status,
+    changing = _changing,
     url = _url,
     info = _info;
 
@@ -33,9 +37,9 @@
     }
 }
 
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status running:(BOOL)running {
++ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing {
     NSString *imageName = [self statusImageNameForCheckStatus:status];
-    if (running) imageName = [imageName stringByAppendingString:@"-running"];
+    if (changing) imageName = [imageName stringByAppendingString:@"-changing"];
     return imageName;
 }
 
@@ -46,11 +50,25 @@
         self.name = name;
         self.command = command;
         self.directoryPath = directoryPath;
-
         self.status = CheckStatusUndetermined;
-        self.running = NO;
     }
     return self;
+}
+
+- (void)setStatusValue:(id)value {
+    if ([value isKindOfClass:[NSNumber class]]) {
+        self.status = [value boolValue] ? CheckStatusOk : CheckStatusFail;
+    } else {
+        self.status = CheckStatusUndetermined;
+    }
+}
+
+- (void)setChangingValue:(id)value {
+    if ([value isKindOfClass:[NSNumber class]]) {
+        self.changing = [value boolValue];
+    } else {
+        self.changing = NO;
+    }
 }
 
 - (void)setUrlValue:(id)value {
@@ -65,31 +83,13 @@
     self.info = [value isKindOfClass:[NSArray class]] ? value : nil;
 }
 
-- (void)setStatusValue:(id)value {
-    if ([value isKindOfClass:[NSNumber class]]) {
-        self.status = [value boolValue] ? CheckStatusOk : CheckStatusFail;
-    } else {
-        self.status = CheckStatusUndetermined;
-    }
-}
-
-- (void)setRunningValue:(id)value {
-    if ([value isKindOfClass:[NSNumber class]]) {
-        self.running = [value boolValue];
-    } else {
-        self.running = NO;
-    }
-}
-
 #pragma mark -
 
-- (void)addObserverForStatusAndRunning:(id)observer {
-    [self addObserver:observer forKeyPath:@"status" options:0 context:NULL];
+- (void)addObserverForRunning:(id)observer {
     [self addObserver:observer forKeyPath:@"running" options:0 context:NULL];
 }
 
-- (void)removeObserverForStatusAndRunning:(id)observer {
-    [self removeObserver:observer forKeyPath:@"status"];
+- (void)removeObserverForRunning:(id)observer {
     [self removeObserver:observer forKeyPath:@"running"];
 }
 
@@ -109,12 +109,9 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
-- (void)_scheduleRun {
-    [self performSelector:@selector(start) withObject:self afterDelay:10 
-                  inModes:[NSArray arrayWithObjects:NSRunLoopCommonModes, NSEventTrackingRunLoopMode, nil]];
-}
-
 - (void)_startTask {
+    self.running = YES;
+
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/bin/bash";
     task.currentDirectoryPath = self.directoryPath;
@@ -144,21 +141,23 @@
 
 - (void)_finishTask:(NSDictionary *)result {
     @synchronized(self) {
-        self.updatedAt = [NSDate date];
-
         if (result) {
             self.urlValue = [result objectForKey:@"url"];
             self.infoValue = [result objectForKey:@"info"];
             self.statusValue = [result objectForKey:@"result"];
-            self.runningValue = [result objectForKey:@"running"];
+            self.changingValue = [result objectForKey:@"changing"];
         } else {
             self.url = nil;
             self.info = nil;
             self.status = CheckStatusUndetermined;
-            self.running = NO;
+            self.changing = NO;
         }
+
+        // Unmark running after all values are updated
+        self.updatedAt = [NSDate date];
+        self.running = NO;
     }
-    [self _scheduleRun];
+    [self performSelectorOnNextTick:@selector(start) afterDelay:10];
 }
 
 #pragma mark -

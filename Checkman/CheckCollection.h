@@ -6,7 +6,7 @@
 @protocol CheckCollectionDelegate <NSObject>
 - (void)checkCollection:(CheckCollection *)checks didAddCheck:(Check *)check;
 - (void)checkCollection:(CheckCollection *)checks willRemoveCheck:(Check *)check;
-- (void)checkCollectionStatusAndRunningDidChange:(CheckCollection *)checks;
+- (void)checkCollectionStatusAndChangingDidChange:(CheckCollection *)checks;
 @end
 
 @interface CheckCollection : NSObject
@@ -21,5 +21,5 @@
 
 - (CheckStatus)status;
 - (NSString *)statusDescription;
-- (BOOL)isRunning;
+- (BOOL)isChanging;
 @end

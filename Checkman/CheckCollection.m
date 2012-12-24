@@ -4,7 +4,7 @@
 @interface CheckCollection ()
 @property (nonatomic, strong) NSMutableArray *checks;
 @property (nonatomic, assign) CheckStatus status;
-@property (nonatomic, assign, getter = isRunning) BOOL running;
+@property (nonatomic, assign, getter = isChanging) BOOL changing;
 @end
 
 @implementation CheckCollection
@@ -13,13 +13,12 @@
     delegate = _delegate,
     checks = _checks,
     status = _status,
-    running = _running;
+    changing = _changing;
 
 - (id)init {
     if (self = [super init]) {
         self.checks = [NSMutableArray array];
         self.status = CheckStatusUndetermined;
-        self.running = NO;
     }
     return self;
 }
@@ -34,18 +33,18 @@
 
 - (void)addCheck:(Check *)check {
     [self.checks addObject:check];
-    [self _updateStatusAndRunning];
+    [self _updateStatusAndChanging];
 
-    [check addObserverForStatusAndRunning:self];
+    [check addObserverForRunning:self];
     [self.delegate checkCollection:self didAddCheck:check];
 }
 
 - (void)removeCheck:(Check *)check {
     [self.delegate checkCollection:self willRemoveCheck:check];
-    [check removeObserverForStatusAndRunning:self];
+    [check removeObserverForRunning:self];
 
     [self.checks removeObject:check];
-    [self _updateStatusAndRunning];
+    [self _updateStatusAndChanging];
 }
 
 - (NSUInteger)indexOfCheck:(Check *)check {
@@ -62,13 +61,13 @@
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self _updateStatusAndRunning];
+    [self _updateStatusAndChanging];
 }
 
-- (void)_updateStatusAndRunning {
+- (void)_updateStatusAndChanging {
     self.status = [self _updateStatus];
-    self.running = [self _updateRunning];
-    [self.delegate checkCollectionStatusAndRunningDidChange:self];
+    self.changing = [self _updateChanging];
+    [self.delegate checkCollectionStatusAndChangingDidChange:self];
 }
 
 - (CheckStatus)_updateStatus {
@@ -79,9 +78,9 @@
     return self.checks.count ? CheckStatusOk : CheckStatusUndetermined;
 }
 
-- (BOOL)_updateRunning {
+- (BOOL)_updateChanging {
     for (Check *check in self.checks) {
-        if (check.isRunning) return YES;
+        if (check.isChanging) return YES;
     }
     return NO;
 }

@@ -30,7 +30,7 @@
         // Install status item into the menu bar
         self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         self.statusItem.highlightMode = YES;
-        [self _updateStatusAndRunning];
+        [self _updateStatusAndChanging];
 
         self.menu = [[NSMenu alloc] initWithTitle:@"Checks"];
         self.menu.autoenablesItems = NO;
@@ -51,11 +51,7 @@
 
     for (NSMenuItem *item in self.menu.itemArray) {
         if ([item isKindOfClass:[StatusMenuController_SectionMenuItem class]]) {
-            if (index == 0) {
-                break;
-            } else {
-                index--;
-            }
+            if (index-- == 0) break;
         }
         actualIndex++;
     }
@@ -94,12 +90,12 @@
 - (void)checkCollection:(CheckCollection *)collection didAddCheck:(Check *)check {}
 - (void)checkCollection:(CheckCollection *)collection willRemoveCheck:(Check *)check {}
 
-- (void)checkCollectionStatusAndRunningDidChange:(CheckCollection *)collection {
-    [self _updateStatusAndRunning];
+- (void)checkCollectionStatusAndChangingDidChange:(CheckCollection *)collection {
+    [self _updateStatusAndChanging];
 }
 
-- (void)_updateStatusAndRunning {
-    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.checks.status running:self.checks.isRunning];
+- (void)_updateStatusAndChanging {
+    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.checks.status changing:self.checks.isChanging];
     self.statusItem.image = [NSImage imageNamed:statusImageName];
     self.statusItem.title = self.checks.statusDescription;
 }
@@ -107,7 +103,6 @@
 
 
 @implementation StatusMenuController_SectionMenuItem
-
 + (NSMenuItem *)sectionMenuItemWithTag:(NSInteger)tag {
     NSMenuItem *item = NSMenuItem.separatorItem;
     item.tag = tag;

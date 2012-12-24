@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+
+class Test
+  def initialize(result, changing)
+    @result = ["true"].include?(result)
+    @changing = ["true"].include?(changing)
+  end
+
+  def as_json(*)
+    {
+      :result => @result,
+      :changing => @changing
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+puts Test.new(*ARGV).to_json

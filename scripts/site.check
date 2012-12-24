@@ -20,7 +20,7 @@ class SiteStatus
   def as_json(*)
     {
       :result => ok?,
-      :running => false,
+      :changing => false,
       :url => @url,
       :info => [
         [:Url, @url],

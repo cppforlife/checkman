@@ -17,47 +17,47 @@
         self.enabled = YES;
 
         self.target = self;
-        self.action = @selector(performAction);
+        self.action = @selector(_performAction);
 
-        [self refreshStatusImage];
-        [self.check addObserverForStatusAndRunning:self];
+        [self _refreshStatusImage];
+        [self.check addObserverForRunning:self];
     }
     return self;
 }
 
 - (void)dealloc {
-    [self.check removeObserverForStatusAndRunning:self];
+    [self.check removeObserverForRunning:self];
 }
 
 #pragma mark - 
 
-- (void)performAction {
+- (void)_performAction {
     [self.check openUrl];
 }
 
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self refreshStatusImage];
-    [self refreshInfoSubmenu];
+    [self _refreshStatusImage];
+    [self _refreshInfoSubmenu];
 }
 
-- (void)refreshStatusImage {
-    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.check.status running:self.check.isRunning];
+- (void)_refreshStatusImage {
+    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.check.status changing:self.check.isChanging];
     self.image = [NSImage imageNamed:statusImageName];
 }
 
-- (void)refreshInfoSubmenu {
+- (void)_refreshInfoSubmenu {
     if (self.check.info) {
         // Reuse existing submenu to avoid orphaning possibly opened menu
         self.submenu = self.submenu ? self.submenu : [[NSMenu alloc] init];
-        [self udpateMenu:self.submenu fromArray:self.check.info];
+        [self _udpateMenu:self.submenu fromArray:self.check.info];
     } else {
         self.submenu = nil;
     }
 }
 
-- (void)udpateMenu:(NSMenu *)menu fromArray:(NSArray *)array {
+- (void)_udpateMenu:(NSMenu *)menu fromArray:(NSArray *)array {
     [menu removeAllItems];
 
     for (NSArray *keyValuePair in array) {
