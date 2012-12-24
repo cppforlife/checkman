@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
+BIN_DIR=./bin
 TMP_DIR=/tmp/CheckmanInstall
 INSTALL_DIR=/Applications
 
 set -e
 set -x
+
+# Allow running out of root of the project
+if [ -d Checkman.xcodeproj ]; then
+  cd $BIN_DIR
+fi
 
 rm -rf $TMP_DIR
 mkdir -p $TMP_DIR

@@ -40,6 +40,9 @@
 /* Begin PBXFileReference section */
 		96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Delayed.h"; sourceTree = "<group>"; };
 		96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Delayed.m"; sourceTree = "<group>"; };
+		96472D4F16880F5900D1CF46 /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
+		96472D5016880F5900D1CF46 /* install */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = install; sourceTree = "<group>"; };
+		96472D5516880F5900D1CF46 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = "<group>"; };
 		AE0200871684752A00FFED8D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE0C7275167D5317007DC793 /* icon-fail-running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-fail-running.png"; sourceTree = "<group>"; };
 		AE0C7276167D5317007DC793 /* icon-undetermined-running.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-undetermined-running.png"; sourceTree = "<group>"; };
@@ -106,6 +109,16 @@
 				96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */,
 			);
 			name = Ext;
+			sourceTree = "<group>";
+		};
+		96472D4E16880F5900D1CF46 /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				96472D4F16880F5900D1CF46 /* Checkman.zip */,
+				96472D5016880F5900D1CF46 /* install */,
+				96472D5516880F5900D1CF46 /* build */,
+			);
+			path = bin;
 			sourceTree = "<group>";
 		};
 		AE0C7272167D5317007DC793 /* Images */ = {
@@ -200,6 +213,7 @@
 			children = (
 				AE0200871684752A00FFED8D /* README.md */,
 				AE76A5D91682B82E00004A4D /* scripts */,
+				96472D4E16880F5900D1CF46 /* bin */,
 				DD4F7C0E13C30F9F00825C6E /* Sources */,
 				DD4F7C2813C3123E00825C6E /* User Interface */,
 				DD4F7C0713C30F9F00825C6E /* Frameworks */,

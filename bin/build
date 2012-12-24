@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+BIN_DIR=./bin
+BUILD_DIR=./build/Release
+
+set -e
+set -x
+
+# Make sure we are running out of root of the project
+if [ -f install ]; then
+  cd ..
+fi
+
+rm -rf $BUILD_DIR
+xcodebuild -project Checkman.xcodeproj -target Checkman -configuration Release build
+
+cd $BUILD_DIR
+zip -r Checkman.zip Checkman.app
+
+cd -
+cp "$BUILD_DIR/Checkman.zip" $BIN_DIR
