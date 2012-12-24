@@ -38,10 +38,9 @@ class VmcAppsStatus
   end
 
   def app_details(app)
-    resources = app["resources"]
     [ "#{app["runningInstances"]}/#{app["instances"]}",
       "#{app["state"]} -",
-      "#{resources["memory"]}MB / #{resources["disk"]}MB"
+      "#{app["resources"]["memory"]}MB / #{app["resources"]["disk"]}MB"
     ].join(" ")
   end
 end
