@@ -1,5 +1,5 @@
 #import "ApplicationDelegate.h"
-#import "StatusMenuController.h"
+#import "MenuController.h"
 #import "CheckfileCollection.h"
 #import "CheckfileEntry.h"
 #import "Checkfile.h"
@@ -9,7 +9,7 @@
 @interface ApplicationDelegate ()
 @property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) CheckCollection *checks;
-@property (nonatomic, strong) StatusMenuController *statusMenuController;
+@property (nonatomic, strong) MenuController *menuController;
 @end
 
 @implementation ApplicationDelegate
@@ -17,7 +17,7 @@
 @synthesize
     checkfiles = _checkfiles,
     checks = _checks,
-    statusMenuController = _statusMenuController;
+    menuController = _menuController;
 
 - (void)dealloc {
     self.checkfiles.delegate = nil;
@@ -27,13 +27,13 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     self.checks = [[CheckCollection alloc] init];
-    self.statusMenuController = [[StatusMenuController alloc] initWithChecks:self.checks];
+    self.menuController = [[MenuController alloc] initWithChecks:self.checks];
     [self performSelector:@selector(_loadCheckfiles) withObject:nil afterDelay:0];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
     // Explicitly remove the icon from the menu bar
-    self.statusMenuController = nil;
+    self.menuController = nil;
     return NSTerminateNow;
 }
 
@@ -49,7 +49,7 @@
 
 - (void)checkfileCollection:(CheckfileCollection *)collection didAddCheckfile:(Checkfile *)checkfile {
     NSUInteger index = [collection indexOfCheckfile:checkfile];
-    [self.statusMenuController insertSectionWithTag:checkfile.tag atIndex:index];
+    [self.menuController insertSectionWithTag:checkfile.tag atIndex:index];
     [self _showExistingCheckfileEntries:checkfile];
 
     checkfile.delegate = self;
@@ -58,7 +58,7 @@
 
 - (void)checkfileCollection:(CheckfileCollection *)collection willRemoveCheckfile:(Checkfile *)checkfile {
     checkfile.delegate = nil;
-    [self.statusMenuController removeSectionWithTag:checkfile.tag];
+    [self.menuController removeSectionWithTag:checkfile.tag];
 }
 
 #pragma mark - CheckfileDelegate
@@ -86,7 +86,7 @@
         [check start];
     }
 
-    [self.statusMenuController
+    [self.menuController
         insertItemWithTag:entry.tag
         atIndex:[checkfile indexOfEntry:entry]
         inSectionWithTag:checkfile.tag];
@@ -99,7 +99,7 @@
 }
 
 - (void)_hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
-    [self.statusMenuController
+    [self.menuController
         removeItemWithTag:entry.tag
         inSectionWithTag:checkfile.tag];
 

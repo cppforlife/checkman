@@ -1,17 +1,17 @@
-#import "StatusMenuController.h"
+#import "MenuController.h"
 #import <objc/runtime.h>
 #import "Check.h"
 #import "CheckCollection.h"
 #import "CheckMenuItem.h"
 #import "SectionedMenu.h"
 
-@interface StatusMenuController ()
+@interface MenuController ()
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) SectionedMenu *menu;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @end
 
-@implementation StatusMenuController
+@implementation MenuController
 
 @synthesize
     checks = _checks,

@@ -1,6 +1,6 @@
 #import "CheckCollection.h"
 
-@interface StatusMenuController : NSObject <CheckCollectionDelegate>
+@interface MenuController : NSObject <CheckCollectionDelegate>
 - (id)initWithChecks:(CheckCollection *)checks;
 
 - (void)insertSectionWithTag:(NSInteger)tag atIndex:(NSUInteger)index;
