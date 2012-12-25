@@ -26,7 +26,7 @@
 }
 
 - (void)removeSectionWithTag:(NSInteger)tag {
-    NSUInteger index = [self indexOfSectionWithTag:tag];
+    NSUInteger index = [self _actualIndexOfSectionWithTag:tag];
     NSUInteger maxIndex = self.numberOfItems;
     [self removeItemAtIndex:index];
 
@@ -37,7 +37,7 @@
     }
 }
 
-- (NSUInteger)indexOfSectionWithTag:(NSInteger)tag {
+- (NSUInteger)_actualIndexOfSectionWithTag:(NSInteger)tag {
     return [self indexOfItemWithTag:tag];
 }
 
@@ -46,7 +46,7 @@
 - (void)insertItem:(NSMenuItem *)item
            atIndex:(NSUInteger)index
   inSectionWithTag:(NSInteger)sectionTag {
-    [self insertItem:item atIndex:[self indexOfSectionWithTag:sectionTag] + index + 1];
+    [self insertItem:item atIndex:[self _actualIndexOfSectionWithTag:sectionTag] + index + 1];
 }
 
 - (void)removeItemWithTag:(NSInteger)tag

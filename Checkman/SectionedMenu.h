@@ -6,7 +6,6 @@
 
 - (void)insertSectionWithTag:(NSInteger)tag atIndex:(NSUInteger)index;
 - (void)removeSectionWithTag:(NSInteger)tag;
-- (NSUInteger)indexOfSectionWithTag:(NSInteger)tag;
 
 #pragma mark - Section items
 

@@ -10,6 +10,14 @@
 		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
 		96472D5816880F5900D1CF46 /* test.check in Resources */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
+		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
+		96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
+		96EDD2F0168944D800294E32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 96EDD2EE168944D800294E32 /* InfoPlist.strings */; };
+		96EDD2F2168944D800294E32 /* SectionedMenu+InsertSectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2F1168944D800294E32 /* SectionedMenu+InsertSectionSpec.mm */; };
+		96EDD2F5168944D900294E32 /* Cedar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2F4168944D900294E32 /* Cedar.framework */; };
+		96EDD2FA168951D300294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
+		96EDD2FC16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2FB16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm */; };
+		96EDD301168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD300168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm */; };
 		AE0200881684752A00FFED8D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = AE0200871684752A00FFED8D /* README.md */; };
 		AE0C7284167D5317007DC793 /* icon-fail-changing.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C7275167D5317007DC793 /* icon-fail-changing.png */; };
 		AE0C7285167D5317007DC793 /* icon-undetermined-changing.png in Resources */ = {isa = PBXBuildFile; fileRef = AE0C7276167D5317007DC793 /* icon-undetermined-changing.png */; };
@@ -46,6 +54,18 @@
 		96472D5716880F5900D1CF46 /* test.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.check; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
 		96EDD2BD16892C4000294E32 /* SectionedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedMenu.m; sourceTree = "<group>"; };
+		96EDD2E3168944D800294E32 /* CheckmanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckmanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96EDD2E4168944D800294E32 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		96EDD2E8168944D800294E32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		96EDD2E9168944D800294E32 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		96EDD2EA168944D800294E32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		96EDD2ED168944D800294E32 /* CheckmanTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CheckmanTests-Info.plist"; sourceTree = "<group>"; };
+		96EDD2EF168944D800294E32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		96EDD2F1168944D800294E32 /* SectionedMenu+InsertSectionSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "SectionedMenu+InsertSectionSpec.mm"; sourceTree = "<group>"; };
+		96EDD2F3168944D800294E32 /* CheckmanTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CheckmanTests-Prefix.pch"; sourceTree = "<group>"; };
+		96EDD2F4168944D900294E32 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
+		96EDD2FB16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SectionedMenu+RemoveSectionSpec.mm"; sourceTree = "<group>"; };
+		96EDD300168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SectionedMenu+InsertItemSpec.mm"; sourceTree = "<group>"; };
 		AE0200871684752A00FFED8D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE0C7275167D5317007DC793 /* icon-fail-changing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-fail-changing.png"; sourceTree = "<group>"; };
 		AE0C7276167D5317007DC793 /* icon-undetermined-changing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-undetermined-changing.png"; sourceTree = "<group>"; };
@@ -92,6 +112,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		96EDD2DE168944D800294E32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */,
+				96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */,
+				96EDD2F5168944D900294E32 /* Cedar.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD4F7C0113C30F9F00825C6E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -120,6 +150,46 @@
 				96472D5516880F5900D1CF46 /* build */,
 			);
 			path = bin;
+			sourceTree = "<group>";
+		};
+		96EDD2E7168944D800294E32 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				96EDD2E8168944D800294E32 /* AppKit.framework */,
+				96EDD2E9168944D800294E32 /* CoreData.framework */,
+				96EDD2EA168944D800294E32 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		96EDD2EB168944D800294E32 /* CheckmanTests */ = {
+			isa = PBXGroup;
+			children = (
+				96EDD2FD16895AC400294E32 /* SectionedMenu */,
+				96EDD2EC168944D800294E32 /* Supporting Files */,
+			);
+			path = CheckmanTests;
+			sourceTree = "<group>";
+		};
+		96EDD2EC168944D800294E32 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96EDD2F4168944D900294E32 /* Cedar.framework */,
+				96EDD2ED168944D800294E32 /* CheckmanTests-Info.plist */,
+				96EDD2F3168944D800294E32 /* CheckmanTests-Prefix.pch */,
+				96EDD2EE168944D800294E32 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96EDD2FD16895AC400294E32 /* SectionedMenu */ = {
+			isa = PBXGroup;
+			children = (
+				96EDD2F1168944D800294E32 /* SectionedMenu+InsertSectionSpec.mm */,
+				96EDD2FB16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm */,
+				96EDD300168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm */,
+			);
+			name = SectionedMenu;
 			sourceTree = "<group>";
 		};
 		AE0C7272167D5317007DC793 /* Images */ = {
@@ -216,6 +286,7 @@
 				96472D4E16880F5900D1CF46 /* bin */,
 				DD4F7C0E13C30F9F00825C6E /* Sources */,
 				DD4F7C2813C3123E00825C6E /* User Interface */,
+				96EDD2EB168944D800294E32 /* CheckmanTests */,
 				DD4F7C0713C30F9F00825C6E /* Frameworks */,
 				DD4F7C0513C30F9F00825C6E /* Products */,
 			);
@@ -225,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				DD4F7C0413C30F9F00825C6E /* Checkman.app */,
+				96EDD2E3168944D800294E32 /* CheckmanTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,6 +308,8 @@
 				DD4F7C0C13C30F9F00825C6E /* CoreData.framework */,
 				DD4F7C0D13C30F9F00825C6E /* Foundation.framework */,
 				DD4F7C0813C30F9F00825C6E /* Cocoa.framework */,
+				96EDD2E4168944D800294E32 /* SenTestingKit.framework */,
+				96EDD2E7168944D800294E32 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -309,6 +383,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		96EDD2E2168944D800294E32 /* CheckmanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96EDD2F8168944D900294E32 /* Build configuration list for PBXNativeTarget "CheckmanTests" */;
+			buildPhases = (
+				96EDD2DD168944D800294E32 /* Sources */,
+				96EDD2DE168944D800294E32 /* Frameworks */,
+				96EDD2DF168944D800294E32 /* Resources */,
+				96EDD2E0168944D800294E32 /* ShellScript */,
+				96EDD2E1168944D800294E32 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CheckmanTests;
+			productName = CheckmanTests;
+			productReference = 96EDD2E3168944D800294E32 /* CheckmanTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		DD4F7C0313C30F9F00825C6E /* Checkman */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DD4F7C2213C30F9F00825C6E /* Build configuration list for PBXNativeTarget "Checkman" */;
@@ -347,11 +440,20 @@
 			projectRoot = "";
 			targets = (
 				DD4F7C0313C30F9F00825C6E /* Checkman */,
+				96EDD2E2168944D800294E32 /* CheckmanTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		96EDD2DF168944D800294E32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96EDD2F0168944D800294E32 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD4F7C0213C30F9F00825C6E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -373,7 +475,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		96EDD2E0168944D800294E32 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -R \"${TARGET_NAME}\"/Frameworks/Cedar.framework \"${BUILT_PRODUCTS_DIR}\"";
+		};
+		96EDD2E1168944D800294E32 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		96EDD2DD168944D800294E32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96EDD2F2168944D800294E32 /* SectionedMenu+InsertSectionSpec.mm in Sources */,
+				96EDD2FA168951D300294E32 /* SectionedMenu.m in Sources */,
+				96EDD2FC16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm in Sources */,
+				96EDD301168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DD4F7C0013C30F9F00825C6E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,6 +541,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		96EDD2EE168944D800294E32 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96EDD2EF168944D800294E32 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		DD4F7C1D13C30F9F00825C6E /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -411,6 +561,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		96EDD2F6168944D900294E32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/CheckmanTests/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CheckmanTests/CheckmanTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "CheckmanTests/CheckmanTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		96EDD2F7168944D900294E32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/CheckmanTests/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CheckmanTests/CheckmanTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "CheckmanTests/CheckmanTests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		DD4F7C2013C30F9F00825C6E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -493,6 +687,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		96EDD2F8168944D900294E32 /* Build configuration list for PBXNativeTarget "CheckmanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96EDD2F6168944D900294E32 /* Debug */,
+				96EDD2F7168944D900294E32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		DD4F7BFE13C30F9F00825C6E /* Build configuration list for PBXProject "Checkman" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

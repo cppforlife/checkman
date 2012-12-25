@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'CheckmanTests' target in the 'CheckmanTests' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <Cedar/SpecHelper.h>
+#endif
