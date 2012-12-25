@@ -17,7 +17,7 @@
         self.target = self;
         self.action = @selector(_performAction);
 
-        [self _refreshName];
+        [self _refreshNameAndToolTip];
         [self _refreshStatusImage];
         [self.check addObserverForRunning:self];
     }
@@ -37,14 +37,16 @@
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self _refreshName];
+    [self _refreshNameAndToolTip];
     [self _refreshStatusImage];
     [self _refreshInfoSubmenu];
 }
 
-- (void)_refreshName {
+- (void)_refreshNameAndToolTip {
     self.title = self.check.isRunning ?
         [NSString stringWithFormat:@"%@...", self.check.name] : self.check.name;
+    self.toolTip = self.check.url ?
+        [NSString stringWithFormat:@"Open URL: %@", self.check.url.absoluteString] : nil;
 }
 
 - (void)_refreshStatusImage {
