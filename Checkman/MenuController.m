@@ -55,11 +55,11 @@
 - (void)insertItemWithTag:(NSInteger)tag atIndex:(NSUInteger)index inSectionWithTag:(NSInteger)sectionTag {
     Check *check = [self.checks checkWithTag:tag];
 
-    NSMenuItem *menuItem = check ?
-        [[CheckMenuItem alloc] initWithCheck:check] : NSMenuItem.separatorItem;
-    menuItem.tag = tag;
+    NSMenuItem *item = NSMenuItem.separatorItem;
+    if (check) item = [[CheckMenuItem alloc] initWithCheck:check];
+    item.tag = tag;
 
-    [self.menu insertItem:menuItem atIndex:[self.menu indexOfSectionWithTag:sectionTag] + index + 1];
+    [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
 }
 
 - (void)removeItemWithTag:(NSInteger)tag inSectionWithTag:(NSInteger)sectionTag {
