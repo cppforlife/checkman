@@ -66,6 +66,7 @@
 		96EDD2F4168944D900294E32 /* Cedar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cedar.framework; path = Frameworks/Cedar.framework; sourceTree = "<group>"; };
 		96EDD2FB16895AB200294E32 /* SectionedMenu+RemoveSectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SectionedMenu+RemoveSectionSpec.mm"; sourceTree = "<group>"; };
 		96EDD300168A6B1900294E32 /* SectionedMenu+InsertItemSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SectionedMenu+InsertItemSpec.mm"; sourceTree = "<group>"; };
+		96EDD307168A6B1900294E32 /* Rakefile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
 		AE0200871684752A00FFED8D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AE0C7275167D5317007DC793 /* icon-fail-changing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-fail-changing.png"; sourceTree = "<group>"; };
 		AE0C7276167D5317007DC793 /* icon-undetermined-changing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-undetermined-changing.png"; sourceTree = "<group>"; };
@@ -282,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				AE0200871684752A00FFED8D /* README.md */,
+				96EDD307168A6B1900294E32 /* Rakefile */,
 				AE76A5D91682B82E00004A4D /* scripts */,
 				96472D4E16880F5900D1CF46 /* bin */,
 				DD4F7C0E13C30F9F00825C6E /* Sources */,
@@ -694,6 +696,7 @@
 				96EDD2F7168944D900294E32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DD4F7BFE13C30F9F00825C6E /* Build configuration list for PBXProject "Checkman" */ = {
 			isa = XCConfigurationList;
