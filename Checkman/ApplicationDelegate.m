@@ -83,7 +83,7 @@
     if (entry.isCommandEntry) {
         Check *check = [self _checkFromEntry:(id)entry checkfile:checkfile];
         [self.checks addCheck:check];
-        [check start];
+        [check startImmediately:YES];
     }
 
     [self.menuController

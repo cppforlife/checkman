@@ -6,30 +6,18 @@
 @property (nonatomic, strong) NSString *command;
 @property (nonatomic, strong) NSString *directoryPath;
 
-@property (nonatomic, assign, getter = isStarted) BOOL started;
-@property (nonatomic, assign, getter = isRunning) BOOL running;
-@property (nonatomic, strong) NSDate *updatedAt;
-
-@property (nonatomic, assign) CheckStatus status;
-@property (nonatomic, assign, getter = isChanging) BOOL changing;
-
-@property (nonatomic, strong) NSURL *url;
-@property (nonatomic, strong) NSArray *info;
+@property (nonatomic, strong) CheckRun *lastRun;
+@property (nonatomic, strong) CheckRun *currentRun;
 @end
 
 @implementation Check
 
-@synthesize 
+@synthesize
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
-    started = _started,
-    running = _running,
-    updatedAt = _updatedAt,
-    status = _status,
-    changing = _changing,
-    url = _url,
-    info = _info;
+    lastRun = _lastRun,
+    currentRun = _currentRun;
 
 + (NSString *)statusImageNameForCheckStatus:(CheckStatus)status {
     switch (status) {
@@ -52,137 +40,80 @@
         self.name = name;
         self.command = command;
         self.directoryPath = directoryPath;
-        self.status = CheckStatusUndetermined;
     }
     return self;
 }
 
-- (void)setStatusValue:(id)value {
-    if ([value isKindOfClass:[NSNumber class]]) {
-        self.status = [value boolValue] ? CheckStatusOk : CheckStatusFail;
-    } else {
-        self.status = CheckStatusUndetermined;
+- (CheckStatus)status {
+    if (self.lastRun && self.lastRun.isValid) {
+        return self.lastRun.isSuccessful ? CheckStatusOk : CheckStatusFail;
     }
+    return CheckStatusUndetermined;
 }
 
-- (void)setChangingValue:(id)value {
-    if ([value isKindOfClass:[NSNumber class]]) {
-        self.changing = [value boolValue];
-    } else {
-        self.changing = NO;
-    }
+- (BOOL)isChanging {
+    return self.lastRun.isChanging;
 }
 
-- (void)setUrlValue:(id)value {
-    if ([value isKindOfClass:[NSString class]]) {
-        self.url = [NSURL URLWithString:value];
-    } else {
-        self.url = nil;
-    }
+- (NSArray *)info {
+    return self.lastRun.info;
 }
 
-- (void)setInfoValue:(id)value {
-    self.info = [value isKindOfClass:[NSArray class]] ? value : nil;
+- (NSURL *)url {
+    return self.lastRun.url;
 }
-
-#pragma mark -
-
-- (void)addObserverForRunning:(id)observer {
-    [self addObserver:observer forKeyPath:@"running" options:0 context:NULL];
-}
-
-- (void)removeObserverForRunning:(id)observer {
-    [self removeObserver:observer forKeyPath:@"running"];
-}
-
-#pragma mark - 
 
 - (void)openUrl {
     [[NSWorkspace sharedWorkspace] openURL:self.url];
 }
 
+#pragma mark - Observing running state
+
+- (void)addObserverForRunning:(id)observer {
+    [self addObserver:observer forKeyPath:@"currentRun" options:0 context:NULL];
+}
+
+- (void)removeObserverForRunning:(id)observer {
+    [self removeObserver:observer forKeyPath:@"currentRun"];
+}
+
 #pragma mark -
 
-- (void)start {
-    @synchronized(self) {
-        self.started = YES;
-        self.running = YES;
-        [self performSelectorInBackground:@selector(_runTask) withObject:nil];
+- (void)startImmediately:(BOOL)immediately {
+    if (immediately) {
+        [self _run];
+    } else {
+        [self performSelectorOnNextTick:@selector(_run) afterDelay:10];
     }
+}
+
+- (BOOL)isRunning {
+    return self.currentRun != nil;
 }
 
 - (void)stop {
     @synchronized(self) {
-        self.started = NO;
-        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+        [self cancelPerformSelectorOnNextTick:@selector(_run)];
+        self.currentRun.delegate = nil;
+        self.currentRun = nil;
     }
 }
 
-- (void)_runTask {
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/bin/bash";
-    task.currentDirectoryPath = self.directoryPath;
-    task.arguments = [NSArray arrayWithObjects:@"-lc", self._commandInDirectoryPath, nil];
-
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    [task setStandardError:[NSPipe pipe]];
-    [task setStandardInput:[NSPipe pipe]];
-    [task launch];
-    [task waitUntilExit];
-
-    NSFileHandle *file = [pipe fileHandleForReading];
-    NSData *outputData = [file readDataToEndOfFile];
-
-    NSError *error = nil;
-    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:outputData options:0 error:&error];
-
-    if (error) {
-        NSString *output = [[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding];
-        NSLog(@"Command '%@' (%@) did not return valid json:\nError %@\n%@", self.name, self.command, error, output);
-    } else {
-        NSLog(@"Command '%@' ran.", self.name);
-    }
-    [self performSelectorOnMainThread:@selector(_finishRunningTask:) withObject:result waitUntilDone:NO];
-}
-
-- (void)_finishRunningTask:(NSDictionary *)result {
+- (void)_run {
     @synchronized(self) {
-        if (result) {
-            self.urlValue = [result objectForKey:@"url"];
-            self.infoValue = [result objectForKey:@"info"];
-            self.statusValue = [result objectForKey:@"result"];
-            self.changingValue = [result objectForKey:@"changing"];
-        } else {
-            self.url = nil;
-            self.info = nil;
-            self.status = CheckStatusUndetermined;
-            self.changing = NO;
-        }
-
-        // Mark as not-running after all values are updated
-        self.updatedAt = [NSDate date];
-        self.running = NO;
-
-        if (self.started) {
-            // Checks that are started close to each other in time
-            // keep up with each other several runs; however, it's desirable
-            // for the machine to spread them out. Currently that happens given
-            // method we use to schedule the check runs.
-            [self performSelectorOnNextTick:@selector(start) afterDelay:10];
-        }
+        NSAssert(!self.currentRun, @"Run already in progress.");
+        self.currentRun = [[CheckRun alloc] initWithCommand:self.command directoryPath:self.directoryPath];
+        self.currentRun.delegate = self;
+        [self.currentRun start];
     }
 }
 
-#pragma mark -
-
-- (NSString *)_commandInDirectoryPath {
-    // Exposing bundleScripsPath in PATH env var allows
-    // included checks to be used without specifying full path.
-    return [NSString stringWithFormat:@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command];
-}
-
-- (NSString *)_bundleScriptsPath {
-    return [[NSBundle mainBundle] resourcePath];
+- (void)checkRunDidFinish:(CheckRun *)run {
+    @synchronized(self) {
+        NSAssert(self.currentRun == run, @"Run must be current.");
+        self.lastRun = self.currentRun;
+        [self stop];
+        [self startImmediately:NO];
+    }
 }
 @end

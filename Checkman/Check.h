@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "TaggedObject.h"
+#import "CheckRun.h"
 
 typedef enum {
     CheckStatusOk = 1,
@@ -7,7 +8,7 @@ typedef enum {
     CheckStatusUndetermined = 0
 } CheckStatus;
 
-@interface Check : TaggedObject
+@interface Check : TaggedObject <CheckRunDelegate>
 
 + (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
 
@@ -16,7 +17,7 @@ typedef enum {
 - (void)addObserverForRunning:(id)observer;
 - (void)removeObserverForRunning:(id)observer;
 
-- (void)start;
+- (void)startImmediately:(BOOL)immediately;
 - (void)stop;
 - (BOOL)isRunning;
 
