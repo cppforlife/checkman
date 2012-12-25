@@ -55,8 +55,9 @@ Each check is expected to return following JSON:
     {
       // Indicates whether check succeeded
       "result": <bool>,
-      
+
       // Indicates whether result is in progress of being changed
+      // e.g. CI build is in progress
       "changing": <bool>,
       
       // Url to open when check menu item is clicked

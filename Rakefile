@@ -44,6 +44,12 @@ end
 
 task :default => [:trim_whitespace, "ocunit:logic"]
 
+[:install, :build].each do |name|
+  task name do
+    system_or_exit "./bin/#{name}"
+  end
+end
+
 desc "Trim whitespace"
 task :trim_whitespace do
   system_or_exit %Q[git status --short | awk '{if ($1 != "D" && $1 != "R") print $2}' | grep -e '.*\.[cmh]$' | xargs sed -i '' -e 's/	/    /g;s/ *$//g;']
