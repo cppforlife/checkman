@@ -50,7 +50,7 @@
 - (void)checkfileCollection:(CheckfileCollection *)collection didAddCheckfile:(Checkfile *)checkfile {
     NSUInteger index = [collection indexOfCheckfile:checkfile];
     [self.statusMenuController insertSectionWithTag:checkfile.tag atIndex:index];
-    [self showExistingCheckfileEntries:checkfile];
+    [self _showExistingCheckfileEntries:checkfile];
 
     checkfile.delegate = self;
     [checkfile trackChanges];
@@ -58,58 +58,55 @@
 
 - (void)checkfileCollection:(CheckfileCollection *)collection willRemoveCheckfile:(Checkfile *)checkfile {
     checkfile.delegate = nil;
-    [self hideCheckfileEntries:checkfile];
     [self.statusMenuController removeSectionWithTag:checkfile.tag];
 }
 
 #pragma mark - CheckfileDelegate
 
 - (void)checkfile:(Checkfile *)checkfile didAddEntry:(CheckfileEntry *)entry {
-    [self showEntry:entry fromCheckfile:checkfile];
+    [self _showEntry:entry fromCheckfile:checkfile];
 }
 
 - (void)checkfile:(Checkfile *)checkfile willRemoveEntry:(CheckfileEntry *)entry {
-    [self hideEntry:entry fromCheckfile:checkfile];
+    [self _hideEntry:entry fromCheckfile:checkfile];
 }
 
 #pragma mark - Showing/Hiding entries from the status menu
 
-- (void)showExistingCheckfileEntries:(Checkfile *)checkfile {
+- (void)_showExistingCheckfileEntries:(Checkfile *)checkfile {
     for (CheckfileEntry *entry in checkfile.entries) {
-        [self showEntry:entry fromCheckfile:checkfile];
+        [self _showEntry:entry fromCheckfile:checkfile];
     }
 }
 
-- (void)showEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
-    if ([entry isKindOfClass:[CheckfileCommandEntry class]]) {
-        CheckfileCommandEntry *e = (CheckfileCommandEntry *)entry;
-
-        Check *check = [[Check alloc] initWithName:e.name command:e.command directoryPath:checkfile.resolvedDirectoryPath];
-        check.tag = entry.tag;
-        [check start];
-
+- (void)_showEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
+    if (entry.isCommandEntry) {
+        Check *check = [self _checkFromEntry:(id)entry checkfile:checkfile];
         [self.checks addCheck:check];
+        [check start];
     }
 
-    NSInteger index = [checkfile indexOfEntry:entry];
-    [self.statusMenuController insertItemWithTag:entry.tag atIndex:index inSectionWithTag:checkfile.tag];
+    [self.statusMenuController
+        insertItemWithTag:entry.tag
+        atIndex:[checkfile indexOfEntry:entry]
+        inSectionWithTag:checkfile.tag];
 }
 
-- (void)hideCheckfileEntries:(Checkfile *)checkfile {
-    for (CheckfileEntry *entry in checkfile.entries) {
-        [self hideEntry:entry fromCheckfile:checkfile];
-    }
+- (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {
+    Check *check = [[Check alloc] initWithName:entry.name command:entry.command directoryPath:checkfile.resolvedDirectoryPath];
+    check.tag = entry.tag;
+    return check;
 }
 
-- (void)hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
-    [self.statusMenuController removeItemWithTag:entry.tag inSectionWithTag:checkfile.tag];
+- (void)_hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
+    [self.statusMenuController
+        removeItemWithTag:entry.tag
+        inSectionWithTag:checkfile.tag];
 
-    if ([entry isKindOfClass:[CheckfileCommandEntry class]]) {
+    if (entry.isCommandEntry) {
         Check *check = [self.checks checkWithTag:entry.tag];
-        [check stop];
-
         [self.checks removeCheck:check];
+        [check stop];
     }
 }
-
 @end

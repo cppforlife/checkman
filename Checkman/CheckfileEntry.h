@@ -3,6 +3,9 @@
 
 @interface CheckfileEntry : TaggedObject
 + (CheckfileEntry *)fromLine:(NSString *)line;
+
+- (BOOL)isCommandEntry;
+- (BOOL)isSeparatorEntry;
 @end
 
 
@@ -12,7 +15,6 @@
 
 
 @interface CheckfileCommandEntry : CheckfileEntry
-
 + (CheckfileCommandEntry *)fromLine:(NSString *)line;
 
 - (id)initWithName:(NSString *)name command:(NSString *)command;

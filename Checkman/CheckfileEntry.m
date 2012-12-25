@@ -7,6 +7,14 @@
     (entry = [CheckfileSeparatorEntry fromLine:line]);
     return entry;
 }
+
+- (BOOL)isCommandEntry {
+    return [self isKindOfClass:[CheckfileCommandEntry class]];
+}
+
+- (BOOL)isSeparatorEntry {
+    return [self isKindOfClass:[CheckfileSeparatorEntry class]];
+}
 @end
 
 

@@ -34,15 +34,11 @@
 - (void)addCheck:(Check *)check {
     [self.checks addObject:check];
     [self _updateStatusAndChanging];
-
     [check addObserverForRunning:self];
-    [self.delegate checkCollection:self didAddCheck:check];
 }
 
 - (void)removeCheck:(Check *)check {
-    [self.delegate checkCollection:self willRemoveCheck:check];
     [check removeObserverForRunning:self];
-
     [self.checks removeObject:check];
     [self _updateStatusAndChanging];
 }

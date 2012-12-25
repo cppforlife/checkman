@@ -4,8 +4,6 @@
 @class CheckCollection;
 
 @protocol CheckCollectionDelegate <NSObject>
-- (void)checkCollection:(CheckCollection *)checks didAddCheck:(Check *)check;
-- (void)checkCollection:(CheckCollection *)checks willRemoveCheck:(Check *)check;
 - (void)checkCollectionStatusAndChangingDidChange:(CheckCollection *)checks;
 @end
 
