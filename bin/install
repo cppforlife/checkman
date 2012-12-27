@@ -36,4 +36,5 @@ fi
 rm -rf "$INSTALL_DIR/Checkman.app"
 cp -R Checkman.app $INSTALL_DIR
 
+pgrep Checkman | xargs kill -9
 open "$INSTALL_DIR/Checkman.app"
