@@ -43,10 +43,12 @@
 }
 
 - (void)_refreshNameAndToolTip {
-    self.title = self.check.isRunning ?
-        [NSString stringWithFormat:@"%@...", self.check.name] : self.check.name;
+    static NSString *hellip = @"...", *spaces = @"   ";
+    self.title = [self.check.name stringByAppendingString:self.check.isRunning ? hellip: spaces];
+
+    static NSString *openUrl = @"Open URL: ";
     self.toolTip = self.check.url ?
-        [NSString stringWithFormat:@"Open URL: %@", self.check.url.absoluteString] : self.check.output;
+        [openUrl stringByAppendingString:self.check.url.absoluteString] : self.check.output;
 }
 
 - (void)_refreshStatusImage {
