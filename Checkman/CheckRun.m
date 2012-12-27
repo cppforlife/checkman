@@ -5,6 +5,8 @@
 @property (nonatomic, strong) NSString *directoryPath;
 
 @property (nonatomic, assign, getter = isValid) BOOL valid;
+@property (nonatomic, strong) NSString *output;
+
 @property (nonatomic, assign, getter = isSuccessful) BOOL successful;
 @property (nonatomic, assign, getter = isChanging) BOOL changing;
 
@@ -19,6 +21,7 @@
     directoryPath = _directoryPath,
     delegate = _delegate,
     valid = _valid,
+    output = _output,
     successful = _successful,
     changing = _changing,
     url = _url,
@@ -37,10 +40,13 @@
 }
 
 - (void)_runTask {
-    NSData *output = [self _getOutputByRunningTask:self._task];
-    NSDictionary *result = [self _parseJSONData:output];
+    NSData *output = nil, *error = nil;
+    [self _getOutput:&output error:&error fromTask:self._task];
 
+    NSDictionary *result = [self _parseJSONData:output];
     self.valid = (result != nil);
+    self.output = [self _stringFromOutput:output error:error];
+
     self.resultValue = [result objectForKey:@"result"];
     self.changingValue = [result objectForKey:@"changing"];
     self.urlValue = [result objectForKey:@"url"];
@@ -56,31 +62,51 @@
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/bin/bash";
     task.currentDirectoryPath = self.directoryPath;
-    task.arguments = [NSArray arrayWithObjects:@"-lc", self._commandInDirectoryPath, nil];
+
+    // 'stty: stdin isn't a terminal' is a result of using -l
+    task.arguments = [NSArray arrayWithObjects:@"-lc", self._commandWithScriptsIncludedInPath, nil];
     return task;
 }
 
-- (NSData *)_getOutputByRunningTask:(NSTask *)task {
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    [task setStandardError:[NSPipe pipe]];
-    [task setStandardInput:[NSPipe pipe]];
+- (void)_getOutput:(NSData **)output error:(NSData **)error fromTask:(NSTask *)task {
+    NSPipe *outputPipe = [NSPipe pipe];
+    task.standardOutput = outputPipe;
+
+    NSPipe *errorPipe = [NSPipe pipe];
+    task.standardError = errorPipe;
+
+#ifdef DEBUG
+    // NSTask breaks Xcode's console when bash is executed (http://cocoadev.com/wiki/NSTask)
+    task.standardInput = NSPipe.pipe;
+#endif
 
     [task launch];
     [task waitUntilExit];
 
-    return [pipe.fileHandleForReading readDataToEndOfFile];
+    *output = [outputPipe.fileHandleForReading readDataToEndOfFile];
+    *error = [errorPipe.fileHandleForReading readDataToEndOfFile];
 }
 
 - (NSDictionary *)_parseJSONData:(NSData *)data {
     NSError *error = nil;
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
 
+#ifdef DEBUG
     if (error) {
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"Command '%@' did not return valid json:\nError %@\n%@", self.command, error, string);
+    } else {
+        NSLog(@"Command '%@' finished.", self.command);
     }
+#endif
     return result;
+}
+
+- (NSString *)_stringFromOutput:(NSData *)output error:(NSData *)error {
+    NSMutableData *result = [NSMutableData data];
+    [result appendData:output];
+    [result appendData:error];
+    return [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 }
 
 #pragma mark - JSON setters
@@ -115,7 +141,7 @@
 
 #pragma mark -
 
-- (NSString *)_commandInDirectoryPath {
+- (NSString *)_commandWithScriptsIncludedInPath {
     // Exposing bundleScripsPath in PATH env var allows
     // included checks to be used without specifying full path.
     return [NSString stringWithFormat:@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command];

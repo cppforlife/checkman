@@ -4,8 +4,8 @@ require "json"
 
 class Test
   def initialize(result, changing)
-    @result = ["true"].include?(result)
-    @changing = ["true"].include?(changing)
+    @result = ["true", "1"].include?(result)
+    @changing = ["true", "1"].include?(changing)
   end
 
   def as_json(*)

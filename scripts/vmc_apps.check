@@ -47,7 +47,10 @@ end
 
 class VmcApps
   def initialize(directory, app_prefix)
+    raise ArgumentError "directory must not be nil" unless directory
     @directory = File.expand_path(directory)
+
+    raise ArgumentError "app_prefix must not be nil" unless app_prefix
     @app_prefix = app_prefix
   end
 

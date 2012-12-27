@@ -21,8 +21,8 @@ If you ever need to kill Checkman:
   Checkfile example with 3 checks (very similar to Procfile):
 
     ```
-    ci: jenkins_build.check https://ci:pwd@127.0.0.1/job/FancySite/lastBuild/api/json
-    staging-deploy: jenkins_build.check https://ci:pwd@127.0.0.1/job/FancySiteDeploy/lastBuild/api/json
+    ci: jenkins_build.check https://ci:pwd@127.0.0.1 FancySite
+    staging-deploy: jenkins_build.check https://ci:pwd@127.0.0.1 FancySiteDeploy
 
     #-
     staging-web: site.check http://fancysite.com
@@ -44,7 +44,9 @@ If you ever need to kill Checkman:
 
 * `vmc_apps.check <DIR> <APP_PREFIX>` checks that all apps are running
 
-* `jenkins_build.check <URL>` checks specific Jenkins build status
+* `jenkins_build.check <JENKINS_URL> <JOB_NAME>` checks specific Jenkins build status
+
+* `test.check <RESULT> <CHANGING>` returns predefined result/changing
 
 
 # Building custom checks

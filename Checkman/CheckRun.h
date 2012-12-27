@@ -15,6 +15,8 @@
 
 - (void)start;
 - (BOOL)isValid;
+- (NSString *)output;
+
 - (BOOL)isSuccessful;
 - (BOOL)isChanging;
 

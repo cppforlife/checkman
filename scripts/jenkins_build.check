@@ -4,8 +4,8 @@ require "uri"
 require "json"
 
 class JenkinsBuildStatus
-  def initialize(json)
-    @build_data = JSON.parse(json)
+  def initialize(hash)
+    @build_data = hash
   end
 
   def success?
@@ -64,14 +64,38 @@ class JenkinsBuildStatus
   end
 end
 
-class JenkinsBuild
-  def initialize(url)
-    raise ArgumentError "url must not be nil" unless url
-    @url = URI.parse(url)
+class JenkinsJobStatus
+  def initialize(json)
+    @job_data = JSON.parse(json)
+    @last_build_status = JenkinsBuildStatus.new(@job_data["lastBuild"])
+  end
+
+  def status?
+    %w(blue blue_anime).include?(@job_data["color"])
+  end
+
+  def as_json(*)
+    @last_build_status.as_json.tap do |json|
+      json[:result] = status?
+    end
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class JenkinsJob
+  def initialize(jenkins_url, name)
+    raise ArgumentError "jenkins_url must not be nil" unless jenkins_url
+    @jenkins_url = URI.parse(jenkins_url)
+
+    raise ArgumentError "name must not be nil" unless name
+    @name = name
   end
 
   def latest_status
-    JenkinsBuildStatus.new(http_get(@url))
+    JenkinsJobStatus.new(http_get("#{@jenkins_url}/job/#{@name}/api/json?depth=1"))
   end
 
   private
@@ -81,4 +105,4 @@ class JenkinsBuild
   end
 end
 
-puts JenkinsBuild.new(*ARGV).latest_status.to_json
+puts JenkinsJob.new(*ARGV).latest_status.to_json

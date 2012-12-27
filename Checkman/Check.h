@@ -25,6 +25,8 @@ typedef enum {
 - (BOOL)isChanging;
 
 - (NSString *)name;
+- (NSString *)output;
+
 - (NSArray *)info;
 - (NSURL *)url;
 - (void)openUrl;

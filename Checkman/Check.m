@@ -59,6 +59,10 @@
     return self.lastRun.info;
 }
 
+- (NSString *)output {
+    return self.lastRun.output;
+}
+
 - (NSURL *)url {
     return self.lastRun.url;
 }

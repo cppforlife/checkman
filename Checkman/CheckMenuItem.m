@@ -46,7 +46,7 @@
     self.title = self.check.isRunning ?
         [NSString stringWithFormat:@"%@...", self.check.name] : self.check.name;
     self.toolTip = self.check.url ?
-        [NSString stringWithFormat:@"Open URL: %@", self.check.url.absoluteString] : nil;
+        [NSString stringWithFormat:@"Open URL: %@", self.check.url.absoluteString] : self.check.output;
 }
 
 - (void)_refreshStatusImage {
