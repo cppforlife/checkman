@@ -41,8 +41,7 @@ class JenkinsBuildStatus
 
   def recent_commit_messages
     items = @build_data["changeSet"]["items"].reverse
-    header = [["-", ""], ["Recents", ""]]
-    header + items.map { |i| [" - #{i["msg"]}", i["commitId"][0..5]] }
+    items.map { |i| [" - #{i["msg"]}", i["commitId"][0..5]] }
   end
 
   def as_json(*)
@@ -53,14 +52,29 @@ class JenkinsBuildStatus
       :info => [
         [:Name, full_name],
         [:Duration, duration],
-        [:SHA, last_commit_short_sha],
-        [:Author, last_commit_author]
-      ] + recent_commit_messages
+        [:SHA, last_commit_short_sha]
+      ] + optional_info
     }
   end
 
   def to_json(*)
     JSON.dump(as_json)
+  end
+
+  private
+
+  def optional_info
+    last_commit_author_with_header + recent_commit_messages_with_header
+  end
+
+  def last_commit_author_with_header
+    author = last_commit_author
+    author ? [[:Author, last_commit_author]] : []
+  end
+
+  def recent_commit_messages_with_header
+    messages = recent_commit_messages
+    messages.any? ? [["-", ""], ["Recents", ""]] + messages : []
   end
 end
 
