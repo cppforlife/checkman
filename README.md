@@ -53,7 +53,6 @@ If you ever need to kill Checkman:
 
 Each check is expected to return following JSON:
 
-    ````
     {
       // Indicates whether check succeeded
       "result": <bool>,
@@ -70,7 +69,6 @@ Each check is expected to return following JSON:
         [<string>, <string>] // Key-value pairs
       ]
     }
-    ````
 
 Check out included `scripts/` for examples.
 
@@ -84,10 +82,9 @@ Change default 10 sec run interval for all checks:
 
 # Todos
 
-* Custom run intervals for individual checks
 * Audit CPU/memory usage
-* Indicate when check info was last updated
 * Run only single instance of the app
+* Indicate when check info was last updated
 
 
 # Thanks to
