@@ -86,7 +86,6 @@ Change default 10 sec run interval for all checks:
 
 * Custom run intervals for individual checks
 * Audit CPU/memory usage
-* Fix jenkins_build.check to show last build status while build is in progress
 * Indicate when check info was last updated
 * Run only single instance of the app
 
