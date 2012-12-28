@@ -10,6 +10,8 @@ typedef enum {
 
 @interface Check : TaggedObject <CheckRunDelegate>
 
+@property (nonatomic, assign) NSUInteger runInterval;
+
 + (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
 
 - (id)initWithName:(NSString *)name command:(NSString *)command directoryPath:(NSString *)directoryPath;

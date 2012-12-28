@@ -30,6 +30,7 @@
 		AE0C7297167D6AFA007DC793 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
 		AE0F7C3D167ACDE200513177 /* CheckfileEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0F7C3C167ACDE200513177 /* CheckfileEntry.m */; };
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
+		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
 		AE76A5DD1682B82E00004A4D /* jenkins_build.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DA1682B82E00004A4D /* jenkins_build.check */; };
 		AE76A5DE1682B82E00004A4D /* site.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DB1682B82E00004A4D /* site.check */; };
@@ -85,6 +86,8 @@
 		AE0F7C3C167ACDE200513177 /* CheckfileEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckfileEntry.m; sourceTree = "<group>"; };
 		AE1C9ABD168190EA00CFCB78 /* InfoMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoMenuItem.h; sourceTree = "<group>"; };
 		AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoMenuItem.m; sourceTree = "<group>"; };
+		AE26D777168D392B008D2498 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Settings.h; sourceTree = "<group>"; };
+		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		AE6613EF167ACB1D0031F845 /* Checkfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkfile.h; sourceTree = "<group>"; };
 		AE6613F0167ACB1D0031F845 /* Checkfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkfile.m; sourceTree = "<group>"; };
 		AE76A5DA1682B82E00004A4D /* jenkins_build.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jenkins_build.check; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				AEF8D69F1682C21600A255D4 /* Checkfile */,
 				AEF8D6AF16843BB500A255D4 /* TaggedObject.h */,
 				AEF8D6B016843BB500A255D4 /* TaggedObject.m */,
+				AE26D777168D392B008D2498 /* Settings.h */,
+				AE26D778168D392B008D2498 /* Settings.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -543,6 +548,7 @@
 				96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */,
 				96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */,
 				96EDD30B168A6B1900294E32 /* CheckRun.m in Sources */,
+				AE26D779168D392B008D2498 /* Settings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

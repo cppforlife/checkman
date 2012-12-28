@@ -75,6 +75,13 @@ Each check is expected to return following JSON:
 Check out included `scripts/` for examples.
 
 
+# Custom user settings
+
+Change default 10 sec run interval for all checks:
+
+    defaults write com.tomato.Checkman checkRunInterval -int 20
+
+
 # Todos
 
 * Custom run intervals for individual checks

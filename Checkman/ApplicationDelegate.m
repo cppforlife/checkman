@@ -1,5 +1,6 @@
 #import "ApplicationDelegate.h"
 #import "MenuController.h"
+#import "Settings.h"
 #import "CheckfileCollection.h"
 #import "CheckfileEntry.h"
 #import "Checkfile.h"
@@ -94,6 +95,7 @@
 
 - (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {
     Check *check = [[Check alloc] initWithName:entry.name command:entry.command directoryPath:checkfile.resolvedDirectoryPath];
+    check.runInterval = Settings.userSettings.checkRunInterval;
     check.tag = entry.tag;
     return check;
 }

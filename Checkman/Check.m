@@ -16,6 +16,7 @@
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
+    runInterval = _runInterval,
     lastRun = _lastRun,
     currentRun = _currentRun;
 
@@ -84,10 +85,11 @@
 #pragma mark -
 
 - (void)startImmediately:(BOOL)immediately {
+    NSAssert(self.runInterval > 0, @"Run interval must be > 0");
     if (immediately) {
         [self _run];
     } else {
-        [self performSelectorOnNextTick:@selector(_run) afterDelay:10];
+        [self performSelectorOnNextTick:@selector(_run) afterDelay:self.runInterval];
     }
 }
 
