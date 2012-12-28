@@ -19,13 +19,13 @@ beforeEach(^{
     item2 = [[NSMenuItem alloc] init];
 });
 
-void (^ensureTaggedSectionSeparatorAtIndex)(int, int) = ^(int i, int tag){
+void (^ensureTaggedSectionSeparatorAtIndex)(NSUInteger, int) = ^(NSUInteger i, int tag){
     NSMenuItem *item = [menu.itemArray objectAtIndex:i];
     item.isSeparatorItem should be_truthy;
     item.tag should equal(tag);
 };
 
-void (^ensureItemAtIndex)(int, NSMenuItem*) = ^(int i, NSMenuItem *item){
+void (^ensureItemAtIndex)(NSUInteger, NSMenuItem*) = ^(NSUInteger i, NSMenuItem *item){
     [menu.itemArray objectAtIndex:i] should be_same_instance_as(item);
 };
 

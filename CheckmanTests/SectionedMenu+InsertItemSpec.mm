@@ -17,7 +17,7 @@ beforeEach(^{
     item2 = [[NSMenuItem alloc] init];
 });
 
-void (^ensureItemAtIndex)(int, NSMenuItem*) = ^(int i, NSMenuItem *item){
+void (^ensureItemAtIndex)(NSUInteger, NSMenuItem*) = ^(NSUInteger i, NSMenuItem *item){
     [menu.itemArray objectAtIndex:i] should be_same_instance_as(item);
 };
 
