@@ -38,6 +38,9 @@ If you ever need to kill Checkman:
 
 * `#` can be used to comment. `#-` is used as a separator.
 
+* Works great with `tee` to keep check's history
+  e.g. `site: site.check http://site.com | tee -a tmp/site.log`
+
 
 # Included scripts
 
