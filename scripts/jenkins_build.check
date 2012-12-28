@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require "rubygems"
-require "uri"
 require "json"
 
 class JenkinsBuildStatus
@@ -102,7 +101,7 @@ end
 class JenkinsJob
   def initialize(jenkins_url, name)
     raise ArgumentError "jenkins_url must not be nil" unless jenkins_url
-    @jenkins_url = URI.parse(jenkins_url)
+    @jenkins_url = jenkins_url
 
     raise ArgumentError "name must not be nil" unless name
     @name = name

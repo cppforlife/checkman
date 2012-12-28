@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 require "rubygems"
 require "json"
+require "yaml"
 
 class VmcAppsStatus
-  def initialize(app_prefix, vmc_output)
-    @apps_data = JSON.parse(vmc_output)
+  def initialize(app_prefix, json)
+    @apps_data = JSON.parse(json)["apps"]
     @apps_data \
       .select! { |app| app["name"].start_with?(app_prefix) } \
       .sort_by! { |app| app["name"] }
@@ -38,17 +39,20 @@ class VmcAppsStatus
   end
 
   def app_details(app)
-    [ "#{app["runningInstances"]}/#{app["instances"]}",
+    [ "#{app["running_instances"]}/#{app["instances"]}",
       "#{app["state"]} -",
-      "#{app["resources"]["memory"]}MB / #{app["resources"]["disk"]}MB"
+      "#{app["memory"]}MB / #{app["disk_quota"]}MB"
     ].join(" ")
   end
 end
 
 class VmcApps
-  def initialize(directory, app_prefix)
-    raise ArgumentError "directory must not be nil" unless directory
-    @directory = File.expand_path(directory)
+  def initialize(cc_target_url, space_id, app_prefix)
+    raise ArgumentError "cc_target must not be nil" unless cc_target_url
+    @cc_target_url = cc_target_url
+
+    raise ArgumentError "space_id must not be nil" unless space_id
+    @space_id = space_id
 
     raise ArgumentError "app_prefix must not be nil" unless app_prefix
     @app_prefix = app_prefix
@@ -61,7 +65,16 @@ class VmcApps
   private
 
   def run
-    Dir.chdir(@directory) { `vmc curl Get /apps` }
+    `curl -sk '#{api_url}' -H 'Authorization: #{auth_token_header}'`
+  end
+
+  def api_url
+    "#{@cc_target_url}/v2/spaces/#{@space_id}/summary"
+  end
+
+  def auth_token_header
+    tokens_yml = YAML.load_file(File.expand_path("~/.vmc/tokens.yml"))
+    tokens_yml[@cc_target_url][:token]
   end
 end
 
