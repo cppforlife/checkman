@@ -86,6 +86,7 @@ Change default 10 sec run interval for all checks:
 * Audit CPU/memory usage
 * Run only single instance of the app
 * Indicate when check info was last updated
+* Find permanent status images
 
 
 # Thanks to

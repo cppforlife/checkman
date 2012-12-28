@@ -51,7 +51,7 @@
 - (void)checkfileCollection:(CheckfileCollection *)collection didAddCheckfile:(Checkfile *)checkfile {
     NSUInteger index = [collection indexOfCheckfile:checkfile];
     [self.menuController insertSectionWithTag:checkfile.tag atIndex:index];
-    [self _showExistingCheckfileEntries:checkfile];
+    [self _showCheckfileEntries:checkfile];
 
     checkfile.delegate = self;
     [checkfile trackChanges];
@@ -59,6 +59,7 @@
 
 - (void)checkfileCollection:(CheckfileCollection *)collection willRemoveCheckfile:(Checkfile *)checkfile {
     checkfile.delegate = nil;
+    [self _hideCheckfileEntries:checkfile];
     [self.menuController removeSectionWithTag:checkfile.tag];
 }
 
@@ -74,7 +75,7 @@
 
 #pragma mark - Showing/Hiding entries from the status menu
 
-- (void)_showExistingCheckfileEntries:(Checkfile *)checkfile {
+- (void)_showCheckfileEntries:(Checkfile *)checkfile {
     for (CheckfileEntry *entry in checkfile.entries) {
         [self _showEntry:entry fromCheckfile:checkfile];
     }
@@ -98,6 +99,12 @@
     check.runInterval = Settings.userSettings.checkRunInterval;
     check.tag = entry.tag;
     return check;
+}
+
+- (void)_hideCheckfileEntries:(Checkfile *)checkfile {
+    for (CheckfileEntry *entry in checkfile.entries) {
+        [self _hideEntry:entry fromCheckfile:checkfile];
+    }
 }
 
 - (void)_hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
