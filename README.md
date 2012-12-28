@@ -6,7 +6,8 @@ It could be used to check on CI build status, check site response status, etc.
 
 # Installation
 
-Install and open Checkman Mac app into `/Applications`:
+Install and open Checkman Mac app into `/Applications`
+(backslash is for [overriding possible bash alias](http://en.wikipedia.org/wiki/Alias_(command\)#Overriding_aliases)):
 
     \curl https://raw.github.com/cppforlife/checkman/master/bin/install | bash -s
 
