@@ -56,4 +56,8 @@
     }
     return self;
 }
+
+- (NSString *)description {
+    return F(@"<CheckfileCommandEntry: %p> name=%@ command='%@'", self, self.name, self.command);
+}
 @end

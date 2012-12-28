@@ -33,6 +33,10 @@
     [self.fsChangesNotifier stopNotifying:self];
 }
 
+- (NSString *)description {
+    return F(@"<CheckfileCollection: %p> directoryPath=%@", self, self.directoryPath);
+}
+
 - (void)trackChanges {
     [self performSelectorOnNextTick:@selector(_startTrackingChanges)];
 }

@@ -28,6 +28,10 @@
     [self.fsChangesNotifier stopNotifying:self];
 }
 
+- (NSString *)description {
+    return F(@"<Checkfile: %p> resolvedFilePath=%@ entries#=%d", self, self.resolvedFilePath, self.entries.count);
+}
+
 - (NSString *)resolvedDirectoryPath {
     return [self.resolvedFilePath stringByDeletingLastPathComponent];
 }

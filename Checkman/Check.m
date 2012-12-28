@@ -45,6 +45,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return F(@"<Check: %p> name=%@ command='%@' directoryPath=%@ runInterval=%ld", self, self.name, self.command, self.directoryPath, self.runInterval);
+}
+
 - (CheckStatus)status {
     if (self.lastRun && self.lastRun.isValid) {
         return self.lastRun.isSuccessful ? CheckStatusOk : CheckStatusFail;

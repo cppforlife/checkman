@@ -35,6 +35,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return F(@"<CheckRun: %p> command='%@' directoryPath=%@", self, self.command, self.directoryPath);
+}
+
 - (void)start {
     [self performSelectorInBackground:@selector(_runTask) withObject:nil];
 }
