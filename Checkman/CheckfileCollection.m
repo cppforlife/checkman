@@ -17,8 +17,7 @@
     fsChangesNotifier = _fsChangesNotifier;
 
 + (CheckfileCollection *)collectionFromHomeDirectoryPath {
-    NSString *checkmanPath = [NSString stringWithFormat:@"%@/Checkman", NSHomeDirectory()];
-    return [[self alloc] initWithDirectoryPath:checkmanPath];
+    return [[self alloc] initWithDirectoryPath:F(@"%@/Checkman", NSHomeDirectory())];
 }
 
 - (id)initWithDirectoryPath:(NSString *)directoryPath {
@@ -78,7 +77,7 @@
 
     while (fileName = [enumerator nextObject]) {
         if ([fileName isEqualToString:@".DS_Store"]) continue;
-        NSString *filePath = [NSString stringWithFormat:@"%@/%@", directoryPath, fileName];
+        NSString *filePath = F(@"%@/%@", directoryPath, fileName);
 
         BOOL isDirectory = NO;
         [NSFileManager.defaultManager fileExistsAtPath:filePath isDirectory:&isDirectory];

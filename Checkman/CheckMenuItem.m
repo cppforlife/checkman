@@ -73,8 +73,7 @@
     for (NSArray *keyValuePair in array) {
         NSString *key = [keyValuePair objectAtIndex:0];
         NSString *value = [keyValuePair objectAtIndex:1];
-        NSString *valueString = [NSString stringWithFormat:@"%@", value];
-        [menu addItem:[InfoMenuItem menuItemWithName:key value:valueString]];
+        [menu addItem:[InfoMenuItem menuItemWithName:key value:value.description]];
     }
     [menu update];
 }

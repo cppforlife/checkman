@@ -20,7 +20,7 @@
         self.value = value;
         self.enabled = NO;
 
-        NSString *title = [NSString stringWithFormat:@"%@: %@", name, value];
+        NSString *title = F(@"%@: %@", name, value);
         NSMutableAttributedString *attributedTitle = 
             [[NSMutableAttributedString alloc] initWithString:title];
         [attributedTitle 

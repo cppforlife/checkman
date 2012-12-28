@@ -87,8 +87,7 @@
 
 - (NSString *)statusDescription {
     if (self.status == CheckStatusFail || self.status == CheckStatusUndetermined) {
-        int count = [self _numberOfChecksWithStatus:self.status];
-        return [NSString stringWithFormat:@"%d", count];
+        return F(@"%d", [self _numberOfChecksWithStatus:self.status]);
     }
     return nil;
 }

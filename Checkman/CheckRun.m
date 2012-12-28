@@ -148,7 +148,7 @@
 - (NSString *)_commandWithScriptsIncludedInPath {
     // Exposing bundleScripsPath in PATH env var allows
     // included checks to be used without specifying full path.
-    return [NSString stringWithFormat:@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command];
+    return F(@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command);
 }
 
 - (NSString *)_bundleScriptsPath {
