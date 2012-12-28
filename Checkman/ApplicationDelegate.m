@@ -41,7 +41,7 @@
 #pragma mark -
 
 - (void)_loadCheckfiles {
-    self.checkfiles = [CheckfileCollection collectionFromHomeDirectoryPath];
+    self.checkfiles = [CheckfileCollection collectionFromCheckmanUserDirectoryPath];
     self.checkfiles.delegate = self;
     [self.checkfiles trackChanges];
 }

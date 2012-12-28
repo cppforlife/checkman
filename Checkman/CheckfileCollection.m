@@ -16,9 +16,27 @@
     files = _files,
     fsChangesNotifier = _fsChangesNotifier;
 
-+ (CheckfileCollection *)collectionFromHomeDirectoryPath {
-    return [[self alloc] initWithDirectoryPath:F(@"%@/Checkman", NSHomeDirectory())];
++ (CheckfileCollection *)collectionFromCheckmanUserDirectoryPath {
+    NSString *directoryPath = F(@"%@/Checkman", NSHomeDirectory());
+    [self _makeSureDirectoryPathExists:directoryPath];
+    return [[self alloc] initWithDirectoryPath:directoryPath];
 }
+
++ (void)_makeSureDirectoryPathExists:(NSString *)directoryPath {
+    NSError *error = nil;
+    [[NSFileManager defaultManager]
+        createDirectoryAtPath:directoryPath
+        withIntermediateDirectories:YES
+        attributes:nil
+        error:&error];
+
+    if (error) {
+        NSLog(@"CheckfileCollection - failed to create user directory: %@", error);
+        @throw error;
+    }
+}
+
+#pragma mark -
 
 - (id)initWithDirectoryPath:(NSString *)directoryPath {
     if (self = [super init]) {

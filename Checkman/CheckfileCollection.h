@@ -12,7 +12,7 @@
 
 @property (nonatomic, assign) id<CheckfileCollectionDelegate> delegate;
 
-+ (CheckfileCollection *)collectionFromHomeDirectoryPath;
++ (CheckfileCollection *)collectionFromCheckmanUserDirectoryPath;
 
 - (id)initWithDirectoryPath:(NSString *)directoryPath;
 
