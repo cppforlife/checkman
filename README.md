@@ -43,7 +43,7 @@ If you ever need to kill Checkman:
 
 * `site.check <URL>` checks returned http response for 200 OK
 
-* `vmc_apps.check <DIR> <APP_PREFIX>` checks that all apps are running
+* `vmc_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>` checks that all apps are running
 
 * `jenkins_build.check <JENKINS_URL> <JOB_NAME>` checks specific Jenkins build status
 
