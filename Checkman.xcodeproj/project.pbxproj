@@ -32,6 +32,7 @@
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
+		AE6EFEE8168D7CA900CC5E11 /* airbrake.check in Resources */ = {isa = PBXBuildFile; fileRef = AE6EFEE7168D7CA900CC5E11 /* airbrake.check */; };
 		AE76A5DD1682B82E00004A4D /* jenkins_build.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DA1682B82E00004A4D /* jenkins_build.check */; };
 		AE76A5DE1682B82E00004A4D /* site.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DB1682B82E00004A4D /* site.check */; };
 		AE76A5DF1682B82E00004A4D /* vmc_apps.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DC1682B82E00004A4D /* vmc_apps.check */; };
@@ -90,6 +91,7 @@
 		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		AE6613EF167ACB1D0031F845 /* Checkfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkfile.h; sourceTree = "<group>"; };
 		AE6613F0167ACB1D0031F845 /* Checkfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkfile.m; sourceTree = "<group>"; };
+		AE6EFEE7168D7CA900CC5E11 /* airbrake.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = airbrake.check; sourceTree = "<group>"; };
 		AE76A5DA1682B82E00004A4D /* jenkins_build.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jenkins_build.check; sourceTree = "<group>"; };
 		AE76A5DB1682B82E00004A4D /* site.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = site.check; sourceTree = "<group>"; };
 		AE76A5DC1682B82E00004A4D /* vmc_apps.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vmc_apps.check; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 		AE76A5D91682B82E00004A4D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
 				AE76A5DC1682B82E00004A4D /* vmc_apps.check */,
@@ -482,6 +485,7 @@
 				AE76A5DF1682B82E00004A4D /* vmc_apps.check in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,
 				96472D5816880F5900D1CF46 /* test.check in Resources */,
+				AE6EFEE8168D7CA900CC5E11 /* airbrake.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

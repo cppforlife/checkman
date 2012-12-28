@@ -1,0 +1,109 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "time"
+require "json"
+
+class AirbrakeError
+  def initialize(hash)
+    @hash = hash
+  end
+
+  def most_recent_notice_at
+    @most_recent_notice_at ||=
+      Time.parse(@hash["most_recent_notice_at"], "%Y-%m-%dT%H:%M:%S%z")
+  end
+
+  def within_last_10_min?
+    (Time.now.to_i - most_recent_notice_at.to_i) < 10 * 60
+  end
+
+  def formatted_most_recent_notice_at
+    time_ago(most_recent_notice_at)
+  end
+
+  def formatted_title
+    "#{formatted_most_recent_notice_at} [#{@hash["notices_count"]}]"
+  end
+
+  def formatted_description
+    @hash["error_message"].gsub(/[\r\n\t]/, " ")[0..100] + "..."
+  end
+
+  private
+
+  # https://gist.github.com/3808180
+  def time_ago(time)
+    case delta = (Time.now.to_i - time.to_i)
+      when 0..119 then "-1 min"
+      when 120..3599 then "-#{delta / 60} mins"
+      when 3600..86399 then "-#{(delta / 3600).round} hours"
+      else "-#{(delta / 86400).round} days"
+    end
+  end
+end
+
+class AirbrakeStatus
+  def initialize(project_url, json)
+    @project_url = project_url
+    @errors = JSON.parse(json)["groups"].map { |e| AirbrakeError.new(e) }
+  end
+
+  def any_recent_errors?
+    @errors.first && @errors.first.within_last_10_min?
+  end
+
+  def as_json(*)
+    {
+      :result => @errors.empty?,
+      :changing => any_recent_errors?,
+      :url => @project_url,
+      :info => info
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def info
+    @errors.each_with_object([]) do |error, result|
+      result.concat(error_details(error))
+    end[0..-2]
+  end
+
+  def error_details(error)
+    [ [error.formatted_title, error.formatted_description],
+      ["-", ""] ]
+  end
+end
+
+class Airbrake
+  def initialize(account, auth_token, project_id)
+    raise ArgumentError "account must not be nil" unless account
+    @account = account
+
+    raise ArgumentError "auth_token must not be nil" unless auth_token
+    @auth_token = auth_token
+
+    raise ArgumentError "project_id must not be nil" unless project_id
+    @project_id = project_id
+  end
+
+  def latest_status
+    AirbrakeStatus.new(project_url, run)
+  end
+
+  private
+
+  def project_url
+    "http://#{@account}.airbrake.io/projects/#{@project_id}"
+  end
+
+  def run
+    `curl -sk '#{project_url}/errors.json?auth_token=#{@auth_token}'`
+  end
+end
+
+puts Airbrake.new(*ARGV).latest_status.to_json

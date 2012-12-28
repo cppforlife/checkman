@@ -52,6 +52,8 @@ If you ever need to kill Checkman:
 
 * `test.check <RESULT> <CHANGING>` returns predefined result/changing
 
+* `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>` checks for recent errors
+
 
 # Building custom checks
 
