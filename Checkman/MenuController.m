@@ -31,6 +31,8 @@
         self.menu = [[SectionedMenu alloc] initWithTitle:@"Checks"];
         self.menu.autoenablesItems = NO;
         self.statusItem.menu = self.menu;
+
+        [self _addMiscMenuSection];
     }
     return self;
 }
@@ -76,5 +78,20 @@
     NSString *statusImageName = [Check statusImageNameForCheckStatus:self.checks.status changing:self.checks.isChanging];
     self.statusItem.image = [NSImage imageNamed:statusImageName];
     self.statusItem.title = self.checks.statusDescription;
+}
+
+#pragma mark - Quit menu item
+
+- (void)_addMiscMenuSection {
+    [self.menu insertSectionWithTag:-1 atIndex:0];
+    [self.menu insertItem:self._quitMenuItem atIndex:0 inSectionWithTag:-1];
+}
+
+- (NSMenuItem *)_quitMenuItem {
+    NSMenuItem *item = [[NSMenuItem alloc] init];
+    item.title = @"Quit Checkman";
+    item.target = [NSApplication sharedApplication];
+    item.action = @selector(terminate:);
+    return item;
 }
 @end
