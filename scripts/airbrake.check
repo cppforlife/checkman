@@ -46,6 +46,9 @@ class AirbrakeStatus
   def initialize(project_url, json)
     @project_url = project_url
     @errors = JSON.parse(json)["groups"].map { |e| AirbrakeError.new(e) }
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
   end
 
   def any_recent_errors?

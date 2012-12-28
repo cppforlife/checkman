@@ -99,6 +99,9 @@ class JenkinsJobStatus
       @last_successful_build_status =
         JenkinsBuildStatus.new(@job_data["lastSuccessfulBuild"])
     end
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
   end
 
   def ok?

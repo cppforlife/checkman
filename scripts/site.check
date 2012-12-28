@@ -6,6 +6,9 @@ class SiteStatus
   def initialize(url, curl_output)
     @url = url
     @curl_lines = curl_output.split("\r\n")
+
+    raise ArgumentError, "invalid curl_output: '#{curl_output}'" \
+      if @curl_lines.empty?
   end
 
   def ok?
