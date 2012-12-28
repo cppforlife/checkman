@@ -15,7 +15,7 @@
 #pragma mark - Sections
 
 - (void)insertSectionWithTag:(NSInteger)tag atIndex:(NSUInteger)index {
-    NSUInteger actualIndex = 0;
+    NSInteger actualIndex = 0;
     for (NSMenuItem *item in self.itemArray) {
         if (item.sm_isSectionSeparator && index-- == 0) break;
         actualIndex++;
@@ -26,8 +26,8 @@
 }
 
 - (void)removeSectionWithTag:(NSInteger)tag {
-    NSUInteger index = [self _actualIndexOfSectionWithTag:tag];
-    NSUInteger maxIndex = self.numberOfItems;
+    NSInteger index = [self _actualIndexOfSectionWithTag:tag];
+    NSInteger maxIndex = self.numberOfItems;
     [self removeItemAtIndex:index];
 
     // Delete items that belonged to section being removed
@@ -37,7 +37,7 @@
     }
 }
 
-- (NSUInteger)_actualIndexOfSectionWithTag:(NSInteger)tag {
+- (NSInteger)_actualIndexOfSectionWithTag:(NSInteger)tag {
     return [self indexOfItemWithTag:tag];
 }
 
@@ -46,7 +46,7 @@
 - (void)insertItem:(NSMenuItem *)item
            atIndex:(NSUInteger)index
   inSectionWithTag:(NSInteger)sectionTag {
-    [self insertItem:item atIndex:[self _actualIndexOfSectionWithTag:sectionTag] + index + 1];
+    [self insertItem:item atIndex:[self _actualIndexOfSectionWithTag:sectionTag] + (NSInteger)index + 1];
 }
 
 - (void)removeItemWithTag:(NSInteger)tag

@@ -61,6 +61,6 @@
 
 + (id)_mutableNonRetainingArrayWithCapacity:(NSUInteger)capacity {
     CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-    return (__bridge_transfer id)(CFArrayCreateMutable(0, capacity, &callbacks));
+    return (__bridge_transfer id)(CFArrayCreateMutable(0, (CFIndex)capacity, &callbacks));
 }
 @end
