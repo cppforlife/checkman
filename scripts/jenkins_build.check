@@ -7,6 +7,10 @@ class JenkinsBuildStatus
     @build_data = hash
   end
 
+  def id
+    @build_data["id"]
+  end
+
   def success?
     @build_data["result"] == "SUCCESS"
   end
@@ -21,6 +25,14 @@ class JenkinsBuildStatus
 
   def console_url
     @build_data["url"] + "console"
+  end
+
+  def started_at
+    Time.at(@build_data["timestamp"]/1000)
+  end
+
+  def formatted_started_at
+    started_at.strftime("%I:%M%p %m/%d/%Y %Z")
   end
 
   def duration
@@ -51,7 +63,8 @@ class JenkinsBuildStatus
       :info => [
         [:Name, full_name],
         [:Duration, duration],
-        [:SHA, last_commit_short_sha]
+        [:SHA, last_commit_short_sha],
+        [:Started, formatted_started_at]
       ] + optional_info
     }
   end
@@ -81,20 +94,45 @@ class JenkinsJobStatus
   def initialize(json)
     @job_data = JSON.parse(json)
     @last_build_status = JenkinsBuildStatus.new(@job_data["lastBuild"])
+
+    if @job_data["lastSuccessfulBuild"]
+      @last_successful_build_status =
+        JenkinsBuildStatus.new(@job_data["lastSuccessfulBuild"])
+    end
   end
 
-  def status?
+  def ok?
     %w(blue blue_anime).include?(@job_data["color"])
   end
 
   def as_json(*)
     @last_build_status.as_json.tap do |json|
-      json[:result] = status?
+      json[:result] = ok?
+      json[:info].concat(additional_info || [])
     end
   end
 
   def to_json(*)
     JSON.dump(as_json)
+  end
+
+  private
+
+  def additional_info
+    if @last_successful_build_status
+      return last_successful_build_info \
+        unless @last_build_status.id == @last_successful_build_status.id
+    end
+  end
+
+  def last_successful_build_info
+    status = @last_successful_build_status
+    [ ["-", ""],
+      ["Last Successful Build", ""],
+      [" - Name", status.full_name],
+      [" - Duration", status.duration],
+      [" - SHA", status.last_commit_short_sha],
+      [" - Started", status.formatted_started_at] ]
   end
 end
 
