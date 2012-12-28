@@ -31,6 +31,10 @@
 - (void)stopNotifying:(id<FSChangesNotifierDelegate>)delegate {
     for (NSString *filePath in self.watchedFilePaths) {
         [[self _delegatesForFilePath:filePath] removeObject:delegate];
+
+        if ([self _delegatesForFilePath:filePath].count == 0) {
+            [self.watcher removePath:filePath];
+        }
     }
 }
 
