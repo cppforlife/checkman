@@ -26,11 +26,16 @@ fi
 
 unzip Checkman.zip
 
-# Add google.com site.check for first time users.
-# Will be red since google.com redirects to www
+# Add example checks for first time users
 if [ ! -d ~/Checkman ]; then
   mkdir -p ~/Checkman
-  echo "google.com: site.check http://google.com" > ~/Checkman/example
+  cat > ~/Checkman/example <<CHECKS
+google.com: site.check http://www.google.com
+
+#-
+jenkins_main_trunk: jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk
+jenkins_lt_branch: jenkins_build.check https://ci.jenkins-ci.org jenkins_lts_branch
+CHECKS
 fi
 
 rm -rf "$INSTALL_DIR/Checkman.app"
