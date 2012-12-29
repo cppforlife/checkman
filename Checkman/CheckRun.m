@@ -36,7 +36,8 @@
 }
 
 - (NSString *)description {
-    return F(@"<CheckRun: %p> command='%@' directoryPath=%@", self, self.command, self.directoryPath);
+    return F(@"<CheckRun: %p> command='%@' directoryPath=%@",
+             self, self.command, self.directoryPath);
 }
 
 - (void)start {

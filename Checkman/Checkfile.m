@@ -29,7 +29,8 @@
 }
 
 - (NSString *)description {
-    return F(@"<Checkfile: %p> resolvedFilePath=%@ entries#=%d", self, self.resolvedFilePath, self.entries.count);
+    return F(@"<Checkfile: %p> resolvedFilePath=%@ entries#=%ld",
+             self, self.resolvedFilePath, self.entries.count);
 }
 
 - (NSString *)resolvedDirectoryPath {

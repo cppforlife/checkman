@@ -46,7 +46,8 @@
 }
 
 - (NSString *)description {
-    return F(@"<Check: %p> name=%@ command='%@' directoryPath=%@ runInterval=%ld", self, self.name, self.command, self.directoryPath, self.runInterval);
+    return F(@"<Check: %p> name=%@ command='%@' directoryPath=%@ runInterval=%ld",
+             self, self.name, self.command, self.directoryPath, self.runInterval);
 }
 
 - (CheckStatus)status {
@@ -117,6 +118,8 @@
         [self.currentRun start];
     }
 }
+
+#pragma mark - CheckRunDelegate
 
 - (void)checkRunDidFinish:(CheckRun *)run {
     @synchronized(self) {

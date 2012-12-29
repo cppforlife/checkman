@@ -30,7 +30,8 @@
 }
 
 - (NSString *)description {
-    return F(@"<CheckCollection: %p> status=%d changing=%d checks#=%d", self, self.status, self.isChanging, self.checks.count);
+    return F(@"<CheckCollection: %p> status=%d changing=%d checks#=%ld",
+             self, self.status, self.isChanging, self.checks.count);
 }
 
 #pragma mark -
