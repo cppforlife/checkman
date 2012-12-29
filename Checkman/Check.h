@@ -31,5 +31,4 @@ typedef enum {
 
 - (NSArray *)info;
 - (NSURL *)url;
-- (void)openUrl;
 @end

@@ -5,7 +5,7 @@
 #import "CheckMenuItem.h"
 #import "SectionedMenu.h"
 
-@interface MenuController ()
+@interface MenuController () <CheckMenuItemDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) SectionedMenu *menu;
 @property (nonatomic, strong) NSStatusItem *statusItem;
@@ -58,7 +58,11 @@
     Check *check = [self.checks checkWithTag:tag];
 
     NSMenuItem *item = NSMenuItem.separatorItem;
-    if (check) item = [[CheckMenuItem alloc] initWithCheck:check];
+    if (check) {
+        CheckMenuItem *checkItem = [[CheckMenuItem alloc] initWithCheck:check];
+        checkItem.delegate = self;
+        item = checkItem;
+    }
     item.tag = tag;
 
     [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
@@ -75,9 +79,24 @@
 }
 
 - (void)_updateStatusAndChanging {
-    NSString *statusImageName = [Check statusImageNameForCheckStatus:self.checks.status changing:self.checks.isChanging];
+    NSString *statusImageName =
+        [Check statusImageNameForCheckStatus:self.checks.status changing:self.checks.isChanging];
     self.statusItem.image = [NSImage imageNamed:statusImageName];
     self.statusItem.title = self.checks.statusDescription;
+}
+
+#pragma mark - CheckMenuItemDelegate
+
+- (void)checkMenuItemWasClicked:(CheckMenuItem *)item {
+    if (NSApplication.sharedApplication.currentEvent.modifierFlags & NSAlternateKeyMask) {
+        [self _showOutput:item.check.output];
+    } else if (item.check.url) {
+        [[NSWorkspace sharedWorkspace] openURL:item.check.url];
+    }
+}
+
+- (void)_showOutput:(NSString *)output {
+    NSLog(@"Output:\n%@", output);
 }
 
 #pragma mark - Quit menu item

@@ -73,10 +73,6 @@
     return self.lastRun.url;
 }
 
-- (void)openUrl {
-    [[NSWorkspace sharedWorkspace] openURL:self.url];
-}
-
 #pragma mark - Observing running state
 
 - (void)addObserverForRunning:(id)observer {

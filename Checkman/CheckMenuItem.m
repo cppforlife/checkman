@@ -8,7 +8,7 @@
 
 @implementation CheckMenuItem
 
-@synthesize check = _check;
+@synthesize delegate = _delegate, check = _check;
 
 - (id)initWithCheck:(Check *)check {
     if (self = [super init]) {
@@ -17,7 +17,7 @@
         self.target = self;
         self.action = @selector(_performAction);
 
-        [self _refreshNameAndToolTip];
+        [self _refreshName];
         [self _refreshStatusImage];
         [self.check addObserverForRunning:self];
     }
@@ -28,27 +28,21 @@
     [self.check removeObserverForRunning:self];
 }
 
-#pragma mark - 
-
 - (void)_performAction {
-    [self.check openUrl];
+    [self.delegate checkMenuItemWasClicked:self];
 }
 
 #pragma mark -
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self _refreshNameAndToolTip];
+    [self _refreshName];
     [self _refreshStatusImage];
     [self _refreshInfoSubmenu];
 }
 
-- (void)_refreshNameAndToolTip {
+- (void)_refreshName {
     static NSString *hellip = @"...", *spaces = @"   ";
     self.title = [self.check.name stringByAppendingString:self.check.isRunning ? hellip: spaces];
-
-    static NSString *openUrl = @"Open URL: ";
-    self.toolTip = self.check.url ?
-        [openUrl stringByAppendingString:self.check.url.absoluteString] : self.check.output;
 }
 
 - (void)_refreshStatusImage {

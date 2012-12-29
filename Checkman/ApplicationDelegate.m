@@ -8,16 +8,16 @@
 #import "Check.h"
 
 @interface ApplicationDelegate ()
-@property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) CheckCollection *checks;
+@property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) MenuController *menuController;
 @end
 
 @implementation ApplicationDelegate
 
 @synthesize
-    checkfiles = _checkfiles,
     checks = _checks,
+    checkfiles = _checkfiles,
     menuController = _menuController;
 
 - (void)dealloc {
