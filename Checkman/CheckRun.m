@@ -1,4 +1,5 @@
 #import "CheckRun.h"
+#import "NSTask+Command.h"
 
 @interface CheckRun ()
 @property (nonatomic, strong) NSString *command;
@@ -59,10 +60,7 @@
 }
 
 - (NSString *)executedCommand {
-    return F(@"cd %@; %@ \"%@\"",
-             self.task.currentDirectoryPath,
-             self.task.launchPath,
-             [self.task.arguments componentsJoinedByString:@" "]);
+    return self.task.executedCommand;
 }
 
 - (NSString *)_commandWithScriptsIncludedInPath {

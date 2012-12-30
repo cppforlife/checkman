@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */; };
 		962C6385168FE1C200CB4737 /* CheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C6384168FE1C200CB4737 /* CheckManager.m */; };
+		962CD5D6168FF65900728AD1 /* NSTask+Command.m in Sources */ = {isa = PBXBuildFile; fileRef = 962CD5D5168FF65900728AD1 /* NSTask+Command.m */; };
 		9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */; };
 		96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */; };
 		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -58,6 +59,8 @@
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
 		962C6383168FE1C200CB4737 /* CheckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckManager.h; sourceTree = "<group>"; };
 		962C6384168FE1C200CB4737 /* CheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckManager.m; sourceTree = "<group>"; };
+		962CD5D4168FF65900728AD1 /* NSTask+Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTask+Command.h"; sourceTree = "<group>"; };
+		962CD5D5168FF65900728AD1 /* NSTask+Command.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTask+Command.m"; sourceTree = "<group>"; };
 		9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingView.h; sourceTree = "<group>"; };
 		9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDebuggingView.m; sourceTree = "<group>"; };
 		9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingWindow.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 			children = (
 				96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */,
 				96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */,
+				962CD5D4168FF65900728AD1 /* NSTask+Command.h */,
+				962CD5D5168FF65900728AD1 /* NSTask+Command.m */,
 				96361582168FE28B00DE0CEB /* NSWindow+KeepOpen.h */,
 				96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */,
 			);
@@ -591,6 +596,7 @@
 				96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */,
 				962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */,
 				962C6385168FE1C200CB4737 /* CheckManager.m in Sources */,
+				962CD5D6168FF65900728AD1 /* NSTask+Command.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
