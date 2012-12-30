@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import "TaggedObject.h"
-#import "CheckRun.h"
 
 typedef enum {
     CheckStatusOk = 1,
@@ -8,16 +7,16 @@ typedef enum {
     CheckStatusUndetermined = 0
 } CheckStatus;
 
-@interface Check : TaggedObject <CheckRunDelegate>
+@interface Check : TaggedObject
 
 @property (nonatomic, assign) NSUInteger runInterval;
 
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
+- (id)initWithName:(NSString *)name
+           command:(NSString *)command
+     directoryPath:(NSString *)directoryPath;
 
-- (id)initWithName:(NSString *)name command:(NSString *)command directoryPath:(NSString *)directoryPath;
-
-- (void)addObserverForRunning:(id)observer;
-- (void)removeObserverForRunning:(id)observer;
+- (NSString *)name;
+- (NSString *)command;
 
 - (void)startImmediately:(BOOL)immediately;
 - (void)stop;
@@ -26,9 +25,21 @@ typedef enum {
 - (CheckStatus)status;
 - (BOOL)isChanging;
 
-- (NSString *)name;
-- (NSString *)output;
-
 - (NSArray *)info;
 - (NSURL *)url;
+@end
+
+@interface Check (KVO)
+- (void)addObserverForRunning:(id)observer;
+- (void)removeObserverForRunning:(id)observer;
+@end
+
+@interface Check (Image)
++ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
+@end
+
+@interface Check (Debugging)
+- (NSString *)executedCommand;
+- (NSString *)stdOut;
+- (NSString *)stdErr;
 @end

@@ -1,7 +1,11 @@
 #import "Check.h"
+#import "CheckRun.h"
 #import "NSObject+Delayed.h"
 
-@interface Check ()
+#define DelegateToLastRun(name, type) \
+    - (type)name { return self.lastRun.name; }
+
+@interface Check () <CheckRunDelegate>
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *command;
 @property (nonatomic, strong) NSString *directoryPath;
@@ -19,22 +23,6 @@
     runInterval = _runInterval,
     lastRun = _lastRun,
     currentRun = _currentRun;
-
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status {
-    switch (status) {
-        case CheckStatusOk: return @"icon-ok";
-        case CheckStatusFail: return @"icon-fail";
-        case CheckStatusUndetermined: return @"icon-undetermined";
-    }
-}
-
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing {
-    NSString *imageName = [self statusImageNameForCheckStatus:status];
-    if (changing) imageName = [imageName stringByAppendingString:@"-changing"];
-    return imageName;
-}
-
-#pragma mark -
 
 - (id)initWithName:(NSString *)name command:(NSString *)command directoryPath:(NSString *)directoryPath {
     if (self = [super init]) {
@@ -57,31 +45,9 @@
     return CheckStatusUndetermined;
 }
 
-- (BOOL)isChanging {
-    return self.lastRun.isChanging;
-}
-
-- (NSArray *)info {
-    return self.lastRun.info;
-}
-
-- (NSString *)output {
-    return self.lastRun.output;
-}
-
-- (NSURL *)url {
-    return self.lastRun.url;
-}
-
-#pragma mark - Observing running state
-
-- (void)addObserverForRunning:(id)observer {
-    [self addObserver:observer forKeyPath:@"currentRun" options:0 context:NULL];
-}
-
-- (void)removeObserverForRunning:(id)observer {
-    [self removeObserver:observer forKeyPath:@"currentRun"];
-}
+DelegateToLastRun(isChanging, BOOL);
+DelegateToLastRun(info, NSArray *);
+DelegateToLastRun(url, NSURL *);
 
 #pragma mark -
 
@@ -125,4 +91,39 @@
         [self startImmediately:NO];
     }
 }
+@end
+
+
+@implementation Check (Image)
++ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing {
+    NSString *imageName = [self _statusImageNameForCheckStatus:status];
+    if (changing) imageName = [imageName stringByAppendingString:@"-changing"];
+    return imageName;
+}
+
++ (NSString *)_statusImageNameForCheckStatus:(CheckStatus)status {
+    switch (status) {
+        case CheckStatusOk: return @"icon-ok";
+        case CheckStatusFail: return @"icon-fail";
+        case CheckStatusUndetermined: return @"icon-undetermined";
+    }
+}
+@end
+
+
+@implementation Check (KVO)
+- (void)addObserverForRunning:(id)observer {
+    [self addObserver:observer forKeyPath:@"currentRun" options:0 context:NULL];
+}
+
+- (void)removeObserverForRunning:(id)observer {
+    [self removeObserver:observer forKeyPath:@"currentRun"];
+}
+@end
+
+
+@implementation Check (Debugging)
+DelegateToLastRun(executedCommand, NSString *);
+DelegateToLastRun(stdOut, NSString *);
+DelegateToLastRun(stdErr, NSString *);
 @end

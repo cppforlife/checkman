@@ -15,11 +15,15 @@
 
 - (void)start;
 - (BOOL)isValid;
-- (NSString *)output;
-
 - (BOOL)isSuccessful;
 - (BOOL)isChanging;
 
 - (NSURL *)url;
 - (NSArray *)info;
+@end
+
+@interface CheckRun (Debugging)
+- (NSString *)executedCommand;
+- (NSString *)stdOut;
+- (NSString *)stdErr;
 @end

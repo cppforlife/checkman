@@ -4,9 +4,11 @@
 @property (nonatomic, strong) NSString *command;
 @property (nonatomic, strong) NSString *directoryPath;
 
-@property (nonatomic, assign, getter = isValid) BOOL valid;
-@property (nonatomic, strong) NSString *output;
+@property (nonatomic, strong) NSTask *task;
+@property (nonatomic, strong) NSString *stdErr;
+@property (nonatomic, strong) NSString *stdOut;
 
+@property (nonatomic, assign, getter = isValid) BOOL valid;
 @property (nonatomic, assign, getter = isSuccessful) BOOL successful;
 @property (nonatomic, assign, getter = isChanging) BOOL changing;
 
@@ -17,11 +19,13 @@
 @implementation CheckRun
 
 @synthesize
+    delegate = _delegate,
     command = _command,
     directoryPath = _directoryPath,
-    delegate = _delegate,
+    task = _task,
+    stdErr = _stdErr,
+    stdOut = _stdOut,
     valid = _valid,
-    output = _output,
     successful = _successful,
     changing = _changing,
     url = _url,
@@ -40,17 +44,51 @@
              self, self.command, self.directoryPath);
 }
 
+#pragma mark -
+
+- (NSTask *)task {
+    if (!_task) {
+        _task = [[NSTask alloc] init];
+        _task.launchPath = @"/bin/bash";
+        _task.currentDirectoryPath = self.directoryPath;
+
+        // 'stty: stdin isn't a terminal' is a result of using -l
+        _task.arguments = [NSArray arrayWithObjects:@"-lc", self._commandWithScriptsIncludedInPath, nil];
+    }
+    return _task;
+}
+
+- (NSString *)executedCommand {
+    return F(@"cd %@; %@ \"%@\"",
+             self.task.currentDirectoryPath,
+             self.task.launchPath,
+             [self.task.arguments componentsJoinedByString:@" "]);
+}
+
+- (NSString *)_commandWithScriptsIncludedInPath {
+    // Exposing bundleScripsPath in PATH env var allows
+    // included checks to be used without specifying full path.
+    return F(@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command);
+}
+
+- (NSString *)_bundleScriptsPath {
+    return [[NSBundle mainBundle] resourcePath];
+}
+
+#pragma mark -
+
 - (void)start {
     [self performSelectorInBackground:@selector(_runTask) withObject:nil];
 }
 
 - (void)_runTask {
     NSData *output = nil, *error = nil;
-    [self _getOutput:&output error:&error fromTask:self._task];
+    [self _getOutput:&output error:&error fromTask:self.task];
 
     NSDictionary *result = [self _parseJSONData:output];
     self.valid = (result != nil);
-    self.output = [self _stringFromOutput:output error:error];
+    self.stdOut = [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
+    self.stdErr = [[NSString alloc] initWithData:error encoding:NSUTF8StringEncoding];
 
     self.resultValue = [result objectForKey:@"result"];
     self.changingValue = [result objectForKey:@"changing"];
@@ -61,16 +99,6 @@
         performSelectorOnMainThread:@selector(checkRunDidFinish:)
         withObject:self
         waitUntilDone:NO];
-}
-
-- (NSTask *)_task {
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/bin/bash";
-    task.currentDirectoryPath = self.directoryPath;
-
-    // 'stty: stdin isn't a terminal' is a result of using -l
-    task.arguments = [NSArray arrayWithObjects:@"-lc", self._commandWithScriptsIncludedInPath, nil];
-    return task;
 }
 
 - (void)_getOutput:(NSData **)output error:(NSData **)error fromTask:(NSTask *)task {
@@ -107,13 +135,6 @@
     return result;
 }
 
-- (NSString *)_stringFromOutput:(NSData *)output error:(NSData *)error {
-    NSMutableData *result = [NSMutableData data];
-    [result appendData:output];
-    [result appendData:error];
-    return [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-}
-
 #pragma mark - JSON setters
 
 - (void)setResultValue:(id)value {
@@ -142,17 +163,5 @@
 
 - (void)setInfoValue:(id)value {
     self.info = [value isKindOfClass:[NSArray class]] ? value : nil;
-}
-
-#pragma mark -
-
-- (NSString *)_commandWithScriptsIncludedInPath {
-    // Exposing bundleScripsPath in PATH env var allows
-    // included checks to be used without specifying full path.
-    return F(@"PATH=$PATH:%@ %@", self._bundleScriptsPath, self.command);
-}
-
-- (NSString *)_bundleScriptsPath {
-    return [[NSBundle mainBundle] resourcePath];
 }
 @end
