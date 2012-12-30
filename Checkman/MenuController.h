@@ -1,17 +1,16 @@
-#import "CheckCollection.h"
+#import <Foundation/Foundation.h>
 
-@class MenuController;
+@class Check, MenuController;
 
 @protocol MenuControllerDelegate <NSObject>
 - (void)menuController:(MenuController *)controller showDebugOutputForCheck:(Check *)check;
 @end
 
-@interface MenuController : NSObject <CheckCollectionDelegate>
+@interface MenuController : NSObject
 
 @property (nonatomic, assign) id<MenuControllerDelegate> delegate;
 
-- (id)initWithChecks:(CheckCollection *)checks;
-- (CheckCollection *)checks;
+- (Check *)checkWithTag:(NSInteger)tag;
 
 #pragma mark - Sections
 
@@ -20,7 +19,7 @@
 
 #pragma mark - Items
 
-- (void)insertItemWithTag:(NSInteger)tag
+- (void)insertCheck:(Check *)check
     atIndex:(NSUInteger)index
     inSectionWithTag:(NSInteger)sectionTag;
 

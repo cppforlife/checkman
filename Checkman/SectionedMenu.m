@@ -72,6 +72,11 @@
     [self insertItem:item atIndex:[self _actualIndexOfSectionWithTag:sectionTag] + (NSInteger)index + 1];
 }
 
+- (NSMenuItem *)itemWithTag:(NSInteger)tag
+           inSectionWithTag:(NSInteger)sectionTag {
+    return [self itemWithTag:tag];
+}
+
 - (void)removeItemWithTag:(NSInteger)tag
          inSectionWithTag:(NSInteger)sectionTag {
     [self removeItemAtIndex:[self indexOfItemWithTag:tag]];

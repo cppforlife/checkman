@@ -5,7 +5,6 @@
 #import "CheckManager.h"
 
 @interface ApplicationDelegate () <MenuControllerDelegate>
-@property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) CheckManager *checkManager;
 @property (nonatomic, strong) MenuController *menuController;
 @end
@@ -13,7 +12,6 @@
 @implementation ApplicationDelegate
 
 @synthesize
-    checks = _checks,
     checkManager = _checkManager,
     menuController = _menuController;
 
@@ -30,9 +28,7 @@
 }
 
 - (void)_setUp {
-    self.checks = [[CheckCollection alloc] init];
-
-    self.menuController = [[MenuController alloc] initWithChecks:self.checks];
+    self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
 
     self.checkManager = [[CheckManager alloc] initWithMenuController:self.menuController];

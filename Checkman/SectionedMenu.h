@@ -13,6 +13,9 @@
            atIndex:(NSUInteger)index
   inSectionWithTag:(NSInteger)sectionTag;
 
+- (NSMenuItem *)itemWithTag:(NSInteger)tag
+           inSectionWithTag:(NSInteger)sectionTag;
+
 - (void)removeItemWithTag:(NSInteger)tag
          inSectionWithTag:(NSInteger)sectionTag;
 @end

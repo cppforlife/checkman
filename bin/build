@@ -19,3 +19,4 @@ zip -r Checkman.zip Checkman.app
 
 cd -
 cp "$BUILD_DIR/Checkman.zip" $BIN_DIR
+rm -rf $BUILD_DIR

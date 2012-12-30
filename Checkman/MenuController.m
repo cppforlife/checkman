@@ -1,12 +1,11 @@
 #import "MenuController.h"
-#import <objc/runtime.h>
-#import "Check.h"
-#import "CheckCollection.h"
-#import "CheckMenuItem.h"
 #import "SectionedMenu.h"
+#import "CheckMenuItem.h"
 #import "SeparatorMenuItem.h"
+#import "CheckCollection.h"
+#import "Check.h"
 
-@interface MenuController () <CheckMenuItemDelegate>
+@interface MenuController () <CheckCollectionDelegate, CheckMenuItemDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) SectionedMenu *menu;
 @property (nonatomic, strong) NSStatusItem *statusItem;
@@ -20,9 +19,9 @@
     menu = _menu,
     statusItem = _statusItem;
 
-- (id)initWithChecks:(CheckCollection *)checks {
+- (id)init {
     if (self = [super init]) {
-        self.checks = checks;
+        self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
 
         // Install status item into the menu bar
@@ -44,6 +43,10 @@
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 }
 
+- (Check *)checkWithTag:(NSInteger)tag {
+    return [self.checks checkWithTag:tag];
+}
+
 #pragma mark - Sections
 
 - (void)insertSectionWithTag:(NSInteger)tag atIndex:(NSUInteger)index {
@@ -56,16 +59,15 @@
 
 #pragma mark - Section items
 
-- (void)insertItemWithTag:(NSInteger)tag
+- (void)insertCheck:(Check *)check
     atIndex:(NSUInteger)index
     inSectionWithTag:(NSInteger)sectionTag {
 
-    Check *check = [self.checks checkWithTag:tag];
-    NSAssert(check, @"check must be in the collection");
-
     CheckMenuItem *item = [[CheckMenuItem alloc] initWithCheck:check];
-    item.tag = tag;
     item.delegate = self;
+    item.tag = check.tag;
+
+    [self.checks addCheck:check];
     [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
 }
 
@@ -89,6 +91,11 @@
 }
 
 - (void)removeItemWithTag:(NSInteger)tag inSectionWithTag:(NSInteger)sectionTag {
+    NSMenuItem *item = [self.menu itemWithTag:tag inSectionWithTag:sectionTag];
+    if ([item isKindOfClass:[CheckMenuItem class]]) {
+        [self.checks removeCheck:[(CheckMenuItem *)item check]];
+    }
+
     [self.menu removeItemWithTag:tag inSectionWithTag:sectionTag];
 }
 

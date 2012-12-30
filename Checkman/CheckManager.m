@@ -75,11 +75,10 @@
 
     if (entry.isCommandEntry) {
         Check *check = [self _checkFromEntry:(id)entry checkfile:checkfile];
-        [self.menuController.checks addCheck:check];
         [check startImmediately:YES];
 
         [self.menuController
-            insertItemWithTag:entry.tag
+            insertCheck:check
             atIndex:entryIndex
             inSectionWithTag:checkfile.tag];
     }
@@ -114,14 +113,12 @@
 }
 
 - (void)_hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
+    if (entry.isCommandEntry) {
+        [[self.menuController checkWithTag:entry.tag] stop];
+    }
+
     [self.menuController
         removeItemWithTag:entry.tag
         inSectionWithTag:checkfile.tag];
-
-    if (entry.isCommandEntry) {
-        Check *check = [self.menuController.checks checkWithTag:entry.tag];
-        [self.menuController.checks removeCheck:check];
-        [check stop];
-    }
 }
 @end
