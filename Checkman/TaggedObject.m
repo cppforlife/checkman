@@ -6,7 +6,7 @@
 
 + (NSInteger)_nextTag {
     static NSInteger tag = 0;
-    NSAssert(++tag != 0, @"must not be zero");
+    NSAssert(++tag != 0, @"Tag must not be zero.");
     return tag;
 }
 

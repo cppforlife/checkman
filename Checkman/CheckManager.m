@@ -95,6 +95,7 @@
             atIndex:entryIndex
             inSectionWithTag:checkfile.tag];
     }
+    else NSAssert(NO, @"Unknown entry type cannot be shown.");
 }
 
 - (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {
