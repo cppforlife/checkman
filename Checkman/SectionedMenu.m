@@ -10,7 +10,30 @@
 @end
 
 
+@interface SectionedMenu ()
+@property (nonatomic, strong) NSMenuItem *hiddenSectionItem;
+@end
+
 @implementation SectionedMenu
+@synthesize hiddenSectionItem = _hiddenSectionItem;
+
+- (id)initWithTitle:(NSString *)title {
+    if (self = [super initWithTitle:title]) {
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self
+            selector:@selector(_didChangeItems:)
+            name:NSMenuDidChangeItemNotification
+            object:self];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
+}
 
 #pragma mark - Sections
 
@@ -52,6 +75,24 @@
 - (void)removeItemWithTag:(NSInteger)tag
          inSectionWithTag:(NSInteger)sectionTag {
     [self removeItemAtIndex:[self indexOfItemWithTag:tag]];
+}
+
+#pragma mark -
+
+- (void)_didChangeItems:(NSNotification *)notification {
+    if (self.numberOfItems == 0) {
+        self.hiddenSectionItem = nil;
+        return;
+    }
+
+    NSMenuItem *firstItem = [self itemAtIndex:0];
+    if (firstItem != self.hiddenSectionItem) {
+        self.hiddenSectionItem.hidden = NO;
+        if (firstItem.sm_isSectionSeparator) {
+            firstItem.hidden = YES;
+            self.hiddenSectionItem = firstItem;
+        }
+    }
 }
 @end
 
