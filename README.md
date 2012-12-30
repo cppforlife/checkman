@@ -51,13 +51,16 @@ If you ever need to kill Checkman:
 
 * `site.check <URL>` checks returned http response for 200 OK
 
-* `vmc_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>` checks that all apps are running
+* `vmc_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>`
+   checks that all apps are running
 
-* `jenkins_build.check <JENKINS_URL> <JOB_NAME>` checks specific Jenkins build status
+* `jenkins_build.check <JENKINS_URL> <JOB_NAME>`
+  checks specific Jenkins build status
 
 * `test.check <RESULT> <CHANGING>` returns predefined result/changing
 
-* `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>` checks for recent errors
+* `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>`
+  checks for recent errors
 
 
 # Building custom checks
@@ -82,6 +85,12 @@ Each check is expected to return following JSON:
     }
 
 Check out included `scripts/` for examples.
+
+
+## Debugging
+
+Check's debugging window can be opened by `Option + click`-ing on its menu item.
+Shown command/stderr/stdout will be updated as time passes.
 
 
 # Custom user settings
