@@ -4,6 +4,7 @@
 #import "CheckCollection.h"
 #import "CheckMenuItem.h"
 #import "SectionedMenu.h"
+#import "SeparatorMenuItem.h"
 
 @interface MenuController () <CheckMenuItemDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
@@ -55,17 +56,35 @@
 
 #pragma mark - Section items
 
-- (void)insertItemWithTag:(NSInteger)tag atIndex:(NSUInteger)index inSectionWithTag:(NSInteger)sectionTag {
+- (void)insertItemWithTag:(NSInteger)tag
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag {
+
     Check *check = [self.checks checkWithTag:tag];
+    NSAssert(check, @"check must be in the collection");
 
-    NSMenuItem *item = NSMenuItem.separatorItem;
-    if (check) {
-        CheckMenuItem *checkItem = [[CheckMenuItem alloc] initWithCheck:check];
-        checkItem.delegate = self;
-        item = checkItem;
-    }
+    CheckMenuItem *item = [[CheckMenuItem alloc] initWithCheck:check];
     item.tag = tag;
+    item.delegate = self;
+    [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
+}
 
+- (void)insertSeparatorItemWithTag:(NSInteger)tag
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag {
+
+    SeparatorMenuItem *item = SeparatorMenuItem.separator;
+    item.tag = tag;
+    [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
+}
+
+- (void)insertTitledSeparatorItemWithTag:(NSInteger)tag
+    title:(NSString *)title
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag {
+
+    SeparatorMenuItem *item = [SeparatorMenuItem separatorWithTitle:title];
+    item.tag = tag;
     [self.menu insertItem:item atIndex:index inSectionWithTag:sectionTag];
 }
 

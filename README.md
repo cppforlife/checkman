@@ -22,6 +22,7 @@ If you ever need to kill Checkman:
   Checkfile example with 3 checks (very similar to Procfile):
 
     ```
+    #- CI
     ci: jenkins_build.check https://ci:pwd@127.0.0.1 FancySite
     staging-deploy: jenkins_build.check https://ci:pwd@127.0.0.1 FancySiteDeploy
 
@@ -36,7 +37,11 @@ If you ever need to kill Checkman:
 
 * Commands run relative to the containing checkfile.
 
-* `#` can be used to comment. `#-` is used as a separator.
+* `#` can be used to comment.
+
+* `#-` is used as a separator.
+
+* `#- Some title` is used as a title separator.
 
 * Works great with `tee` to keep check's history
   e.g. `site: site.check http://site.com | tee -a tmp/site.log`

@@ -4,7 +4,8 @@
 + (CheckfileEntry *)fromLine:(NSString *)line {
     CheckfileEntry *entry = nil;
     (entry = [CheckfileCommandEntry fromLine:line]) ||
-    (entry = [CheckfileSeparatorEntry fromLine:line]);
+    (entry = [CheckfileSeparatorEntry fromLine:line]) ||
+    (entry = [CheckfileTitledSeparatorEntry fromLine:line]);
     return entry;
 }
 
@@ -15,13 +16,9 @@
 - (BOOL)isSeparatorEntry {
     return [self isKindOfClass:[CheckfileSeparatorEntry class]];
 }
-@end
 
-
-@implementation CheckfileSeparatorEntry
-+ (CheckfileSeparatorEntry *)fromLine:(NSString *)line {
-    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];    
-    return [line isEqualToString:@"#-"] ? [[self alloc] init] : nil;
+- (BOOL)isTitledSeparatorEntry {
+    return [self isKindOfClass:[CheckfileTitledSeparatorEntry class]];
 }
 @end
 
@@ -32,13 +29,10 @@
 @end
 
 @implementation CheckfileCommandEntry
-
-@synthesize 
-    name = _name,
-    command = _command;
+@synthesize name = _name, command = _command;
 
 + (CheckfileCommandEntry *)fromLine:(NSString *)line {
-    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];    
+    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (line.length == 0 || [line characterAtIndex:0] == '#') return nil;
 
     NSArray *components = [line componentsSeparatedByString:@": "];
@@ -60,5 +54,46 @@
 - (NSString *)description {
     return F(@"<CheckfileCommandEntry: %p> name=%@ command='%@'",
              self, self.name, self.command);
+}
+@end
+
+
+@implementation CheckfileSeparatorEntry
++ (CheckfileSeparatorEntry *)fromLine:(NSString *)line {
+    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    return [line isEqualToString:@"#-"] ? [[self alloc] init] : nil;
+}
+@end
+
+
+@interface CheckfileTitledSeparatorEntry ()
+@property (nonatomic, strong) NSString *title;
+@end
+
+@implementation CheckfileTitledSeparatorEntry
+@synthesize title = _title;
+
++ (CheckfileTitledSeparatorEntry *)fromLine:(NSString *)line {
+    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    NSArray *components = [line componentsSeparatedByString:@"- "];
+    if (components.count != 2) return nil;
+
+    NSString *separator = [components objectAtIndex:0];
+    if (![separator isEqualToString:@"#"]) return nil;
+
+    NSString *title = [components objectAtIndex:1];
+    return title.length ? [[self alloc] initWithTitle:title] : nil;
+}
+
+- (id)initWithTitle:(NSString *)title {
+    if (self = [super init]) {
+        self.title = title;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return F(@"<CheckfileTitledSeparatorEntry: %p> title=%@", self, self.title);
 }
 @end

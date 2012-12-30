@@ -12,9 +12,25 @@
 
 - (id)initWithChecks:(CheckCollection *)checks;
 
+#pragma mark - Sections
+
 - (void)insertSectionWithTag:(NSInteger)tag atIndex:(NSUInteger)index;
 - (void)removeSectionWithTag:(NSInteger)tag;
 
-- (void)insertItemWithTag:(NSInteger)tag atIndex:(NSUInteger)index inSectionWithTag:(NSInteger)sectionTag;
+#pragma mark - Items
+
+- (void)insertItemWithTag:(NSInteger)tag
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag;
+
+- (void)insertSeparatorItemWithTag:(NSInteger)tag
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag;
+
+- (void)insertTitledSeparatorItemWithTag:(NSInteger)tag
+    title:(NSString *)title
+    atIndex:(NSUInteger)index
+    inSectionWithTag:(NSInteger)sectionTag;
+
 - (void)removeItemWithTag:(NSInteger)tag inSectionWithTag:(NSInteger)sectionTag;
 @end

@@ -90,16 +90,31 @@
 }
 
 - (void)_showEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
+    NSUInteger entryIndex = [checkfile indexOfEntry:entry];
+
     if (entry.isCommandEntry) {
         Check *check = [self _checkFromEntry:(id)entry checkfile:checkfile];
         [self.checks addCheck:check];
         [check startImmediately:YES];
-    }
 
-    [self.menuController
-        insertItemWithTag:entry.tag
-        atIndex:[checkfile indexOfEntry:entry]
-        inSectionWithTag:checkfile.tag];
+        [self.menuController
+            insertItemWithTag:entry.tag
+            atIndex:entryIndex
+            inSectionWithTag:checkfile.tag];
+    }
+    else if (entry.isSeparatorEntry) {
+        [self.menuController
+            insertSeparatorItemWithTag:entry.tag
+            atIndex:entryIndex
+            inSectionWithTag:checkfile.tag];
+    }
+    else if (entry.isTitledSeparatorEntry) {
+        [self.menuController
+            insertTitledSeparatorItemWithTag:entry.tag
+            title:[(CheckfileTitledSeparatorEntry *)entry title]
+            atIndex:entryIndex
+            inSectionWithTag:checkfile.tag];
+    }
 }
 
 - (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */; };
 		9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */; };
 		96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */; };
 		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -52,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
+		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
 		9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingView.h; sourceTree = "<group>"; };
 		9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDebuggingView.m; sourceTree = "<group>"; };
 		9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingWindow.h; sourceTree = "<group>"; };
@@ -151,6 +154,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		962C6382168FD60D00CB4737 /* MenuItems */ = {
+			isa = PBXGroup;
+			children = (
+				AE0C7292167D5391007DC793 /* CheckMenuItem.h */,
+				AE0C7293167D5391007DC793 /* CheckMenuItem.m */,
+				962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */,
+				962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */,
+				AE1C9ABD168190EA00CFCB78 /* InfoMenuItem.h */,
+				AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */,
+			);
+			name = MenuItems;
+			sourceTree = "<group>";
+		};
 		96472D4A16880F5900D1CF46 /* Ext */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,12 +414,9 @@
 		DD4F7C3913C317EC00825C6E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				962C6382168FD60D00CB4737 /* MenuItems */,
 				96EDD2BC16892C4000294E32 /* SectionedMenu.h */,
 				96EDD2BD16892C4000294E32 /* SectionedMenu.m */,
-				AE0C7292167D5391007DC793 /* CheckMenuItem.h */,
-				AE0C7293167D5391007DC793 /* CheckMenuItem.m */,
-				AE1C9ABD168190EA00CFCB78 /* InfoMenuItem.h */,
-				AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */,
 				9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */,
 				9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */,
 			);
@@ -571,6 +584,7 @@
 				9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */,
 				96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */,
 				96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */,
+				962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
