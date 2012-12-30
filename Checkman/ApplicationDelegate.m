@@ -1,5 +1,6 @@
 #import "ApplicationDelegate.h"
 #import "MenuController.h"
+#import "CheckDebuggingWindow.h"
 #import "Settings.h"
 #import "CheckfileCollection.h"
 #import "CheckfileEntry.h"
@@ -7,7 +8,7 @@
 #import "CheckCollection.h"
 #import "Check.h"
 
-@interface ApplicationDelegate ()
+@interface ApplicationDelegate () <MenuControllerDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) MenuController *menuController;
@@ -29,6 +30,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     self.checks = [[CheckCollection alloc] init];
     self.menuController = [[MenuController alloc] initWithChecks:self.checks];
+    self.menuController.delegate = self;
     [self performSelector:@selector(_loadCheckfiles) withObject:nil afterDelay:0];
 }
 
@@ -44,6 +46,12 @@
     self.checkfiles = [CheckfileCollection collectionFromCheckmanUserDirectoryPath];
     self.checkfiles.delegate = self;
     [self.checkfiles trackChanges];
+}
+
+- (void)menuController:(MenuController *)controller showDebugOutputForCheck:(Check *)check {
+    CheckDebuggingWindow *window = [[CheckDebuggingWindow alloc] initWithCheck:check];
+    [window keepOpenUntilClosed];
+    [window show];
 }
 
 #pragma mark - CheckfileCollectionDelegate

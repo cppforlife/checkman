@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */; };
+		96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */; };
+		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
 		96472D5816880F5900D1CF46 /* test.check in Resources */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
@@ -49,6 +52,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingView.h; sourceTree = "<group>"; };
+		9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDebuggingView.m; sourceTree = "<group>"; };
+		9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingWindow.h; sourceTree = "<group>"; };
+		96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDebuggingWindow.m; sourceTree = "<group>"; };
+		96361582168FE28B00DE0CEB /* NSWindow+KeepOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+KeepOpen.h"; sourceTree = "<group>"; };
+		96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+KeepOpen.m"; sourceTree = "<group>"; };
 		96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Delayed.h"; sourceTree = "<group>"; };
 		96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Delayed.m"; sourceTree = "<group>"; };
 		96472D4F16880F5900D1CF46 /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
@@ -147,6 +156,8 @@
 			children = (
 				96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */,
 				96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */,
+				96361582168FE28B00DE0CEB /* NSWindow+KeepOpen.h */,
+				96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */,
 			);
 			name = Ext;
 			sourceTree = "<group>";
@@ -361,6 +372,8 @@
 				DD4F7C1B13C30F9F00825C6E /* ApplicationDelegate.m */,
 				DD4F7C3613C317A500825C6E /* MenuController.h */,
 				DD4F7C3713C317A500825C6E /* MenuController.m */,
+				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
+				96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -391,6 +404,8 @@
 				AE0C7293167D5391007DC793 /* CheckMenuItem.m */,
 				AE1C9ABD168190EA00CFCB78 /* InfoMenuItem.h */,
 				AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */,
+				9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */,
+				9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -553,6 +568,9 @@
 				96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */,
 				96EDD30B168A6B1900294E32 /* CheckRun.m in Sources */,
 				AE26D779168D392B008D2498 /* Settings.m in Sources */,
+				9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */,
+				96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */,
+				96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

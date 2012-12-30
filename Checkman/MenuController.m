@@ -14,6 +14,7 @@
 @implementation MenuController
 
 @synthesize
+    delegate = _delegate,
     checks = _checks,
     menu = _menu,
     statusItem = _statusItem;
@@ -89,14 +90,10 @@
 
 - (void)checkMenuItemWasClicked:(CheckMenuItem *)item {
     if (NSApplication.sharedApplication.currentEvent.modifierFlags & NSAlternateKeyMask) {
-        [self _showOutput:item.check.output];
+        [self.delegate menuController:self showDebugOutputForCheck:item.check];
     } else if (item.check.url) {
         [[NSWorkspace sharedWorkspace] openURL:item.check.url];
     }
-}
-
-- (void)_showOutput:(NSString *)output {
-    NSLog(@"Output:\n%@", output);
 }
 
 #pragma mark - Quit menu item
