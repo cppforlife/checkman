@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */; };
+		962C6385168FE1C200CB4737 /* CheckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 962C6384168FE1C200CB4737 /* CheckManager.m */; };
 		9636157D168FAE9200DE0CEB /* CheckDebuggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */; };
 		96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */; };
 		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -55,6 +56,8 @@
 /* Begin PBXFileReference section */
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
+		962C6383168FE1C200CB4737 /* CheckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckManager.h; sourceTree = "<group>"; };
+		962C6384168FE1C200CB4737 /* CheckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckManager.m; sourceTree = "<group>"; };
 		9636157B168FAE9200DE0CEB /* CheckDebuggingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingView.h; sourceTree = "<group>"; };
 		9636157C168FAE9200DE0CEB /* CheckDebuggingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDebuggingView.m; sourceTree = "<group>"; };
 		9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDebuggingWindow.h; sourceTree = "<group>"; };
@@ -386,6 +389,8 @@
 			children = (
 				DD4F7C1A13C30F9F00825C6E /* ApplicationDelegate.h */,
 				DD4F7C1B13C30F9F00825C6E /* ApplicationDelegate.m */,
+				962C6383168FE1C200CB4737 /* CheckManager.h */,
+				962C6384168FE1C200CB4737 /* CheckManager.m */,
 				DD4F7C3613C317A500825C6E /* MenuController.h */,
 				DD4F7C3713C317A500825C6E /* MenuController.m */,
 				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
@@ -585,6 +590,7 @@
 				96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */,
 				96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */,
 				962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */,
+				962C6385168FE1C200CB4737 /* CheckManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

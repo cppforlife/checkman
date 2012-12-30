@@ -11,6 +11,7 @@
 @property (nonatomic, assign) id<MenuControllerDelegate> delegate;
 
 - (id)initWithChecks:(CheckCollection *)checks;
+- (CheckCollection *)checks;
 
 #pragma mark - Sections
 

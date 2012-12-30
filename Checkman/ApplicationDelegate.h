@@ -1,7 +1,5 @@
-#import "CheckfileCollection.h"
-#import "Checkfile.h"
+#import <Foundation/Foundation.h>
 
-@interface ApplicationDelegate : NSObject 
-    <NSApplicationDelegate, CheckfileCollectionDelegate, CheckfileDelegate>
+@interface ApplicationDelegate : NSObject <NSApplicationDelegate>
 
 @end
