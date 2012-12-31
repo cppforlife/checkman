@@ -7,7 +7,6 @@
 @end
 
 @implementation CheckDebuggingWindow
-
 @synthesize check = _check;
 
 - (id)initWithCheck:(Check *)check {

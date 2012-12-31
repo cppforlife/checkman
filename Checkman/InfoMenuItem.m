@@ -5,7 +5,6 @@
 @end
 
 @implementation InfoMenuItem
-
 @synthesize value = _value;
 
 + (InfoMenuItem *)menuItemWithName:(NSString *)name value:(NSString *)value {

@@ -7,7 +7,6 @@
 @end
 
 @implementation CheckMenuItem
-
 @synthesize delegate = _delegate, check = _check;
 
 - (id)initWithCheck:(Check *)check {

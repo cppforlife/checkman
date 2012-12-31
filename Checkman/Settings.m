@@ -5,7 +5,6 @@
 @end
 
 @implementation Settings
-
 @synthesize userDefaults = _userDefaults;
 
 // http://stackoverflow.com/questions/2199106/thread-safe-instantiation-of-a-singleton

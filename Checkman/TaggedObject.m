@@ -1,7 +1,6 @@
 #import "TaggedObject.h"
 
 @implementation TaggedObject
-
 @synthesize tag = _tag;
 
 + (NSInteger)_nextTag {
