@@ -1,8 +1,8 @@
 #import "ApplicationDelegate.h"
-#import "MenuController.h"
 #import "CheckDebuggingWindow.h"
-#import "CheckCollection.h"
+#import "MenuController.h"
 #import "CheckManager.h"
+#import "Settings.h"
 
 @interface ApplicationDelegate () <MenuControllerDelegate>
 @property (nonatomic, strong) CheckManager *checkManager;
@@ -14,8 +14,6 @@
 @synthesize
     checkManager = _checkManager,
     menuController = _menuController;
-
-#pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [self _announceGitSha];
@@ -32,18 +30,11 @@
     self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
 
-    self.checkManager = [[CheckManager alloc] initWithMenuController:self.menuController];
+    self.checkManager =
+        [[CheckManager alloc]
+            initWithMenuController:self.menuController
+            settings:Settings.userSettings];
     [self.checkManager loadCheckfiles];
-}
-
-#pragma mark -
-
-- (void)_announceGitSha {
-    NSLog(@"ApplicationDelegate - Git SHA: %@", self.gitSha);
-}
-
-- (NSString *)gitSha {
-    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Git SHA"];
 }
 
 #pragma mark - MenuControllerDelegate
@@ -52,5 +43,15 @@
     CheckDebuggingWindow *window = [[CheckDebuggingWindow alloc] initWithCheck:check];
     [window keepOpenUntilClosed];
     [window show];
+}
+
+#pragma mark - Git SHA
+
+- (void)_announceGitSha {
+    NSLog(@"ApplicationDelegate - Git SHA: %@", self.gitSha);
+}
+
+- (NSString *)gitSha {
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Git SHA"];
 }
 @end

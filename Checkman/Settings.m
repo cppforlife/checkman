@@ -32,7 +32,7 @@
     NSLog(@"Settings - checkRunInterval: %ld", self.checkRunInterval);
 }
 
-#pragma mark - checkRunInterval
+#pragma mark -
 
 - (NSUInteger)checkRunInterval {
     static NSString *key = @"checkRunInterval";
@@ -40,5 +40,11 @@
 
     NSNumber *value = [self.userDefaults objectForKey:key];
     return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
+}
+
+- (BOOL)isCheckWithNameDisabled:(NSString *)name
+            inCheckfileWithName:(NSString *)checkfileName {
+    static NSString *key = @"checks.%@.%@.disabled";
+    return [self.userDefaults boolForKey:F(key, checkfileName, name)];
 }
 @end

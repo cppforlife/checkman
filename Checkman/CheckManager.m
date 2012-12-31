@@ -10,23 +10,22 @@
 @interface CheckManager () <CheckfileCollectionDelegate, CheckfileDelegate>
 @property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) MenuController *menuController;
+@property (nonatomic, strong) Settings *settings;
 @end
 
 @implementation CheckManager
 
 @synthesize
     checkfiles = _checkfiles,
-    menuController = _menuController;
+    menuController = _menuController,
+    settings = _settings;
 
-- (id)initWithMenuController:(MenuController *)menuController {
+- (id)initWithMenuController:(MenuController *)menuController settings:(Settings *)settings {
     if (self = [super init]) {
         self.menuController = menuController;
+        self.settings = settings;
     }
     return self;
-}
-
-- (void)dealloc {
-    self.checkfiles.delegate = nil;
 }
 
 - (void)loadCheckfiles {
@@ -100,8 +99,13 @@
 
 - (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {
     Check *check = [[Check alloc] initWithName:entry.name command:entry.command directoryPath:checkfile.resolvedDirectoryPath];
-    check.runInterval = Settings.userSettings.checkRunInterval;
     check.tag = entry.tag;
+
+    check.runInterval = self.settings.checkRunInterval;
+    check.disabled = [self.settings
+        isCheckWithNameDisabled:check.name
+        inCheckfileWithName:checkfile.name];
+
     return check;
 }
 

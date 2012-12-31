@@ -118,9 +118,21 @@ wiki page for more tips.
 
 # Custom user settings
 
-Change default 10 sec run interval for all checks:
+Change default 10 sec run interval for all checks (where INTERVAL is integer > 0):
 
-    defaults write com.tomato.Checkman checkRunInterval -int 20
+    defaults write com.tomato.Checkman checkRunInterval -int <INTERVAL>
+
+Disable single check (where FILENAME is unresolved checkfile name):
+
+    defaults write com.tomato.Checkman checks.<FILENAME>.<CHECK_NAME>.disabled -bool YES
+
+View all current customizations:
+
+    defaults read com.tomato.Checkman
+
+Delete specific customization:
+
+    defaults delete com.tomato.Checkman <SETTING>
 
 
 # Todos

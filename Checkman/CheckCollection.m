@@ -73,6 +73,7 @@
 
 - (CheckStatus)_updateStatus {
     for (Check *check in self.checks) {
+        if (check.isDisabled) continue;
         if (check.status == CheckStatusFail) return CheckStatusFail;
         if (check.status == CheckStatusUndetermined) return CheckStatusUndetermined;
     }
@@ -96,6 +97,7 @@
 - (int)_numberOfChecksWithStatus:(CheckStatus)status {
     int count = 0;
     for (Check *check in self.checks) {
+        if (check.isDisabled) continue;
         if (check.status == status) count++;
     }
     return count;

@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-@class MenuController;
+@class MenuController, Settings;
 
 @interface CheckManager : NSObject
-- (id)initWithMenuController:(MenuController *)menuController;
+- (id)initWithMenuController:(MenuController *)menuController settings:(Settings *)settings;
 - (void)loadCheckfiles;
 @end

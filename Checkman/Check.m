@@ -21,6 +21,7 @@
     command = _command,
     directoryPath = _directoryPath,
     runInterval = _runInterval,
+    disabled = _disabled,
     lastRun = _lastRun,
     currentRun = _currentRun;
 
@@ -38,6 +39,14 @@
              self, self.name, self.command, self.directoryPath, self.runInterval);
 }
 
+- (void)setDisabled:(BOOL)disabled {
+    @synchronized(self) {
+        _disabled = disabled;
+        self.lastRun = nil;
+        [self stop];
+    }
+}
+
 - (CheckStatus)status {
     if (self.lastRun && self.lastRun.isValid) {
         return self.lastRun.isSuccessful ? CheckStatusOk : CheckStatusFail;
@@ -52,7 +61,9 @@ DelegateToLastRun(url, NSURL *);
 #pragma mark -
 
 - (void)startImmediately:(BOOL)immediately {
+    if (self.disabled) return;
     NSAssert(self.runInterval > 0, @"Run interval must be > 0");
+
     if (immediately) {
         [self _run];
     } else {

@@ -3,7 +3,9 @@
 #import "NSObject+Delayed.h"
 
 @interface Checkfile ()
+@property (strong, nonatomic) NSString *filePath;
 @property (strong, nonatomic) NSString *resolvedFilePath;
+
 @property (strong, nonatomic) NSArray *entries;
 @property (strong, nonatomic) FSChangesNotifier *fsChangesNotifier;
 @end
@@ -12,12 +14,14 @@
 
 @synthesize
     delegate = _delegate,
+    filePath = _filePath,
     resolvedFilePath = _resolvedFilePath,
     entries = _entries,
     fsChangesNotifier = _fsChangesNotifier;
 
 - (id)initWithFilePath:(NSString *)filePath fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier {
     if (self = [super init]) {
+        self.filePath = filePath;
         self.resolvedFilePath = [filePath stringByResolvingSymlinksInPath];
         self.fsChangesNotifier = fsChangesNotifier;        
     }
@@ -31,6 +35,10 @@
 - (NSString *)description {
     return F(@"<Checkfile: %p> resolvedFilePath=%@ entries#=%ld",
              self, self.resolvedFilePath, self.entries.count);
+}
+
+- (NSString *)name {
+    return [self.filePath lastPathComponent];
 }
 
 - (NSString *)resolvedDirectoryPath {

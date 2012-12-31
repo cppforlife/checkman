@@ -12,7 +12,8 @@
 - (id)initWithCheck:(Check *)check {
     if (self = [super init]) {
         self.check = check;
-        self.enabled = YES;
+        self.enabled = !self.check.isDisabled;
+
         self.target = self;
         self.action = @selector(_performAction);
 

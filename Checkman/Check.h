@@ -10,6 +10,7 @@ typedef enum {
 @interface Check : TaggedObject
 
 @property (nonatomic, assign) NSUInteger runInterval;
+@property (nonatomic, assign, getter = isDisabled) BOOL disabled;
 
 - (id)initWithName:(NSString *)name
            command:(NSString *)command

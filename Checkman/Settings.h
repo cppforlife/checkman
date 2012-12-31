@@ -5,4 +5,7 @@
 + (Settings *)userSettings;
 
 - (NSUInteger)checkRunInterval;
+
+- (BOOL)isCheckWithNameDisabled:(NSString *)name
+            inCheckfileWithName:(NSString *)checkfileName;
 @end

@@ -15,9 +15,11 @@
 
 - (id)initWithFilePath:(NSString *)filePath fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier;
 
+- (NSString *)name;
 - (NSString *)resolvedDirectoryPath;
 
 - (void)trackChanges;
+
 - (NSArray *)entries;
 - (NSUInteger)indexOfEntry:(CheckfileEntry *)entry;
 @end
