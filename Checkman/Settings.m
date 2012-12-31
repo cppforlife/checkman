@@ -1,11 +1,17 @@
 #import "Settings.h"
+#import "FSChangesNotifier.h"
 
-@interface Settings ()
+@interface Settings () <FSChangesNotifierDelegate>
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) FSChangesNotifier *fsChangesNotifier;
 @end
 
 @implementation Settings
-@synthesize userDefaults = _userDefaults;
+
+@synthesize
+    delegate = _delegate,
+    userDefaults = _userDefaults,
+    fsChangesNotifier = _fsChangesNotifier;
 
 // http://stackoverflow.com/questions/2199106/thread-safe-instantiation-of-a-singleton
 + (Settings *)userSettings {
@@ -23,8 +29,28 @@
 - (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if (self = [super init]) {
         self.userDefaults = userDefaults;
+        self.fsChangesNotifier = [[FSChangesNotifier alloc] init];
     }
     return self;
+}
+
+- (void)dealloc {
+    [self.fsChangesNotifier stopNotifying:self];
+}
+
+#pragma mark -
+
+- (void)trackChanges {
+    NSString *tildeFilePath = F(@"~/Library/Preferences/%@.plist", NSBundle.mainBundle.bundleIdentifier);
+    NSString *filePath = [tildeFilePath stringByExpandingTildeInPath];
+
+    [self.fsChangesNotifier startNotifying:self forFilePath:filePath.stringByDeletingLastPathComponent];
+    [self.fsChangesNotifier startNotifying:self forFilePath:filePath];
+}
+
+- (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
+    [self.userDefaults synchronize];
+    [self.delegate settingsDidChange:self];
 }
 
 #pragma mark - Check specific

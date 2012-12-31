@@ -17,6 +17,8 @@
 - (id)initWithDirectoryPath:(NSString *)directoryPath;
 
 - (void)trackChanges;
+- (void)reloadFiles;
+
 - (NSArray *)files;
 - (NSUInteger)indexOfCheckfile:(Checkfile *)checkfile;
 @end

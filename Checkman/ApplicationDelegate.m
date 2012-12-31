@@ -1,19 +1,21 @@
 #import "ApplicationDelegate.h"
 #import "CheckDebuggingWindow.h"
-#import "MenuController.h"
 #import "CheckManager.h"
+#import "MenuController.h"
 #import "Settings.h"
 
-@interface ApplicationDelegate () <MenuControllerDelegate>
+@interface ApplicationDelegate () <MenuControllerDelegate, SettingsDelegate>
 @property (nonatomic, strong) CheckManager *checkManager;
 @property (nonatomic, strong) MenuController *menuController;
+@property (nonatomic, strong) Settings *settings;
 @end
 
 @implementation ApplicationDelegate
 
 @synthesize
     checkManager = _checkManager,
-    menuController = _menuController;
+    menuController = _menuController,
+    settings = _settings;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [self _announceGitSha];
@@ -30,10 +32,14 @@
     self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
 
+    self.settings = Settings.userSettings;
+    self.settings.delegate = self;
+    [self.settings trackChanges];
+
     self.checkManager =
         [[CheckManager alloc]
             initWithMenuController:self.menuController
-            settings:Settings.userSettings];
+            settings:self.settings];
     [self.checkManager loadCheckfiles];
 }
 
@@ -43,6 +49,12 @@
     CheckDebuggingWindow *window = [[CheckDebuggingWindow alloc] initWithCheck:check];
     [window keepOpenUntilClosed];
     [window show];
+}
+
+#pragma mark - SettingsDelegate
+
+- (void)settingsDidChange:(Settings *)settings {
+    [self.checkManager reloadCheckfiles];
 }
 
 #pragma mark - Git SHA

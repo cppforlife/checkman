@@ -34,6 +34,11 @@
     [self.checkfiles trackChanges];
 }
 
+- (void)reloadCheckfiles {
+    NSAssert(self.checkfiles, @"Checkfiles must first be loaded");
+    [self.checkfiles reloadFiles];
+}
+
 #pragma mark - CheckfileCollectionDelegate
 
 - (void)checkfileCollection:(CheckfileCollection *)collection didAddCheckfile:(Checkfile *)checkfile {

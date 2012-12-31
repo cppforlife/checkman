@@ -59,7 +59,7 @@
 }
 
 - (void)_startTrackingChanges {
-    [self _reloadFiles];
+    [self reloadFiles];
     [self.fsChangesNotifier startNotifying:self forFilePath:self.directoryPath];
 }
 
@@ -67,10 +67,12 @@
     return [self.files indexOfObject:checkfile];
 }
 
-- (void)_reloadFiles {
+- (void)reloadFiles {
+    NSLog(@"CheckfileCollection - reloading: %@", self.directoryPath);
     for (Checkfile *checkfile in self.files) {
         [self.delegate checkfileCollection:self willRemoveCheckfile:checkfile];
     }
+
     self.files = self._loadFiles;
     for (Checkfile *checkfile in self.files) {
         [self.delegate checkfileCollection:self didAddCheckfile:checkfile];
@@ -108,6 +110,6 @@
 #pragma mark - FSChangesNotifierDelegate
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
-    [self performSelectorOnNextTick:@selector(_reloadFiles)]; // nuclear!
+    [self performSelectorOnNextTick:@selector(reloadFiles)]; // nuclear!
 }
 @end

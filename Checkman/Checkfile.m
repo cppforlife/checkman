@@ -63,9 +63,11 @@
 }
 
 - (void)_reloadEntries {
+    NSLog(@"Checkfile - reloading: %@", self.resolvedFilePath);
     for (CheckfileEntry *entry in self.entries) {
         [self.delegate checkfile:self willRemoveEntry:entry];
     }
+
     self.entries = self._loadEntries;
     for (CheckfileEntry *entry in self.entries) {
         [self.delegate checkfile:self didAddEntry:entry];
