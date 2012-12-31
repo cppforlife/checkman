@@ -29,7 +29,7 @@
 - (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if (self = [super init]) {
         self.userDefaults = userDefaults;
-        self.fsChangesNotifier = [[FSChangesNotifier alloc] init];
+        self.fsChangesNotifier = [FSChangesNotifier sharedNotifier];
     }
     return self;
 }

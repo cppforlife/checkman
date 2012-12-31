@@ -17,7 +17,7 @@
     fsChangesNotifier = _fsChangesNotifier;
 
 + (CheckfileCollection *)collectionFromCheckmanUserDirectoryPath {
-    NSString *directoryPath = F(@"%@/Checkman", NSHomeDirectory());
+    NSString *directoryPath = [@"~/Checkman" stringByExpandingTildeInPath];
     [self _makeSureDirectoryPathExists:directoryPath];
     return [[self alloc] initWithDirectoryPath:directoryPath];
 }
@@ -41,7 +41,7 @@
 - (id)initWithDirectoryPath:(NSString *)directoryPath {
     if (self = [super init]) {
         self.directoryPath = directoryPath;
-        self.fsChangesNotifier = [[FSChangesNotifier alloc] init];
+        self.fsChangesNotifier = [FSChangesNotifier sharedNotifier];
     }
     return self;
 }

@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "VDKQueue.h"
 
 @class FSChangesNotifier;
 
@@ -7,7 +6,9 @@
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath;
 @end
 
-@interface FSChangesNotifier : NSObject <VDKQueueDelegate>
+@interface FSChangesNotifier : NSObject
+
++ (FSChangesNotifier *)sharedNotifier;
 
 // Track directory changes because RubyMine is doing atomic file saves (write tmp, remove, rename)
 // more http://timnew.github.com/blog/2012/11/15/pitfall-in-fs-dot-watch/

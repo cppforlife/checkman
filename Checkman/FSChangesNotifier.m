@@ -1,7 +1,7 @@
 #import "FSChangesNotifier.h"
 #import "VDKQueue.h"
 
-@interface FSChangesNotifier ()
+@interface FSChangesNotifier () <VDKQueueDelegate>
 @property (nonatomic, strong) NSMutableDictionary *watchedFilePaths;
 @property (nonatomic, strong) VDKQueue *watcher;
 @end
@@ -11,6 +11,17 @@
 @synthesize 
     watchedFilePaths = _watchedFilePaths,
     watcher = _watcher;
+
++ (FSChangesNotifier *)sharedNotifier {
+    static FSChangesNotifier *notifier = nil;
+    static dispatch_once_t pred;
+
+    dispatch_once(&pred, ^{
+        notifier = [FSChangesNotifier alloc];
+        notifier = [notifier init];
+    });
+    return notifier;
+}
 
 - (id)init {
     if (self = [super init]) {
