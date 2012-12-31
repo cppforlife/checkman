@@ -3,6 +3,7 @@
 
 @interface Settings () <FSChangesNotifierDelegate>
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong) NSDictionary *currentValues;
 @property (nonatomic, strong) FSChangesNotifier *fsChangesNotifier;
 @end
 
@@ -11,6 +12,7 @@
 @synthesize
     delegate = _delegate,
     userDefaults = _userDefaults,
+    currentValues = _currentValues,
     fsChangesNotifier = _fsChangesNotifier;
 
 // http://stackoverflow.com/questions/2199106/thread-safe-instantiation-of-a-singleton
@@ -29,6 +31,7 @@
 - (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if (self = [super init]) {
         self.userDefaults = userDefaults;
+        self.currentValues = self._loadCurrentValues;
         self.fsChangesNotifier = [FSChangesNotifier sharedNotifier];
     }
     return self;
@@ -46,9 +49,18 @@
     [self.fsChangesNotifier startNotifying:self forFilePathInDirectory:filePath];
 }
 
+- (NSDictionary *)_loadCurrentValues {
+    return [self.userDefaults persistentDomainForName:NSBundle.mainBundle.bundleIdentifier];
+}
+
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
     [self.userDefaults synchronize];
-    [self.delegate settingsDidChange:self];
+
+    NSDictionary *newCurrentValues = self._loadCurrentValues;
+    if (![self.currentValues isEqual:newCurrentValues]) {
+        self.currentValues = newCurrentValues;
+        [self.delegate settingsDidChange:self];
+    }
 }
 
 #pragma mark - Check specific
