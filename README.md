@@ -92,7 +92,9 @@ Check out included `scripts/` for examples.
 ## Debugging
 
 Check's debugging window can be opened by `Option + click`-ing on its menu item.
-Shown command/stderr/stdout will be updated as time passes.
+Shown command/stderr/stdout will be updated as time passes. Refer to
+[Debugging Tips](https://github.com/cppforlife/checkman/wiki/Debugging-Tips)
+wiki page for more tips.
 
 
 # Custom user settings
