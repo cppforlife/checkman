@@ -22,7 +22,13 @@
         [[NSNotificationCenter defaultCenter]
             addObserver:self
             selector:@selector(_didChangeItems:)
-            name:NSMenuDidChangeItemNotification
+            name:NSMenuDidAddItemNotification
+            object:self];
+
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self
+            selector:@selector(_didChangeItems:)
+            name:NSMenuDidRemoveItemNotification
             object:self];
     }
     return self;
