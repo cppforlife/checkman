@@ -22,12 +22,6 @@
     [self performSelector:@selector(_setUp) withObject:nil afterDelay:0];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-    // Explicitly remove the icon from the menu bar
-    self.menuController = nil;
-    return NSTerminateNow;
-}
-
 - (void)_setUp {
     self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
