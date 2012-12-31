@@ -23,7 +23,16 @@
 
 #pragma mark -
 
-- (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate forFilePath:(NSString *)filePath {
+- (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate
+    forFilePathInDirectory:(NSString *)filePath {
+
+    [self startNotifying:delegate forFilePath:filePath];
+    [self startNotifying:delegate forFilePath:filePath.stringByDeletingLastPathComponent];
+}
+
+- (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate
+    forFilePath:(NSString *)filePath {
+
     [[self _delegatesForFilePath:filePath] addObject:delegate];
     [self.watcher addPath:filePath];
 }

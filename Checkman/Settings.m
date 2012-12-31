@@ -43,9 +43,7 @@
 - (void)trackChanges {
     NSString *tildeFilePath = F(@"~/Library/Preferences/%@.plist", NSBundle.mainBundle.bundleIdentifier);
     NSString *filePath = [tildeFilePath stringByExpandingTildeInPath];
-
-    [self.fsChangesNotifier startNotifying:self forFilePath:filePath.stringByDeletingLastPathComponent];
-    [self.fsChangesNotifier startNotifying:self forFilePath:filePath];
+    [self.fsChangesNotifier startNotifying:self forFilePathInDirectory:filePath];
 }
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
