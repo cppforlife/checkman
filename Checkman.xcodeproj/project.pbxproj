@@ -462,7 +462,7 @@
 				DD4F7C0013C30F9F00825C6E /* Sources */,
 				DD4F7C0113C30F9F00825C6E /* Frameworks */,
 				DD4F7C0213C30F9F00825C6E /* Resources */,
-				962CD5D81691141B00728AD1 /* ShellScript */,
+				962CD5D81691141B00728AD1 /* Update Git SHA in Info.plist */,
 			);
 			buildRules = (
 			);
@@ -531,13 +531,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		962CD5D81691141B00728AD1 /* ShellScript */ = {
+		962CD5D81691141B00728AD1 /* Update Git SHA in Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Update Git SHA in Info.plist";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
