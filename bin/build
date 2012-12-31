@@ -12,6 +12,11 @@ if [ -f install ]; then
   cd ..
 fi
 
+if ! git diff-index --quiet HEAD; then
+  echo "Changes must be committed before release"
+  exit 1
+fi
+
 rm -rf $BUILD_DIR
 xcodebuild -project Checkman.xcodeproj -target Checkman -configuration $RELEASE_CONF build
 
