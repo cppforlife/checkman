@@ -4,8 +4,11 @@
 
 + (Settings *)userSettings;
 
-- (NSUInteger)checkRunInterval;
+#pragma mark - Check specific
+
+- (NSUInteger)runIntervalForCheckWithName:(NSString *)name
+    inCheckfileWithName:(NSString *)checkfileName;
 
 - (BOOL)isCheckWithNameDisabled:(NSString *)name
-            inCheckfileWithName:(NSString *)checkfileName;
+    inCheckfileWithName:(NSString *)checkfileName;
 @end

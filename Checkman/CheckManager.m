@@ -101,7 +101,9 @@
     Check *check = [[Check alloc] initWithName:entry.name command:entry.command directoryPath:checkfile.resolvedDirectoryPath];
     check.tag = entry.tag;
 
-    check.runInterval = self.settings.checkRunInterval;
+    check.runInterval = [self.settings
+        runIntervalForCheckWithName:check.name
+        inCheckfileWithName:checkfile.name];
     check.disabled = [self.settings
         isCheckWithNameDisabled:check.name
         inCheckfileWithName:checkfile.name];

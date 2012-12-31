@@ -23,28 +23,33 @@
 - (id)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if (self = [super init]) {
         self.userDefaults = userDefaults;
-        [self _announce];
     }
     return self;
 }
 
-- (void)_announce {
-    NSLog(@"Settings - checkRunInterval: %ld", self.checkRunInterval);
-}
+#pragma mark - Check specific
 
-#pragma mark -
+- (NSUInteger)runIntervalForCheckWithName:(NSString *)name
+                      inCheckfileWithName:(NSString *)checkfileName {
+    static NSString *key = @"checks.%@.%@.runInterval";
 
-- (NSUInteger)checkRunInterval {
-    static NSString *key = @"checkRunInterval";
-    static NSUInteger defaultValue = 10;
-
-    NSNumber *value = [self.userDefaults objectForKey:key];
-    return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
+    NSInteger runInterval = [self.userDefaults integerForKey:F(key, checkfileName, name)];
+    return runInterval > 0 ? (NSUInteger)runInterval : self._checkRunInterval;
 }
 
 - (BOOL)isCheckWithNameDisabled:(NSString *)name
             inCheckfileWithName:(NSString *)checkfileName {
     static NSString *key = @"checks.%@.%@.disabled";
     return [self.userDefaults boolForKey:F(key, checkfileName, name)];
+}
+
+#pragma mark -
+
+- (NSUInteger)_checkRunInterval {
+    static NSString *key = @"checkRunInterval";
+    static NSUInteger defaultValue = 10;
+
+    NSNumber *value = [self.userDefaults objectForKey:key];
+    return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
 }
 @end
