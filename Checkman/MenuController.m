@@ -1,4 +1,5 @@
 #import "MenuController.h"
+#import "ApplicationDelegate.h"
 #import "SectionedMenu.h"
 #import "CheckMenuItem.h"
 #import "SeparatorMenuItem.h"
@@ -131,7 +132,7 @@
 
 - (NSMenuItem *)_quitMenuItem {
     NSMenuItem *item = [[NSMenuItem alloc] init];
-    item.title = @"Quit Checkman";
+    item.title = F(@"Quit Checkman (v. %@)", [[NSApp delegate] gitSha]);
     item.target = [NSApplication sharedApplication];
     item.action = @selector(terminate:);
     return item;

@@ -18,6 +18,7 @@
 #pragma mark - NSApplicationDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [self _announceGitSha];
     [self performSelector:@selector(_setUp) withObject:nil afterDelay:0];
 }
 
@@ -33,6 +34,16 @@
 
     self.checkManager = [[CheckManager alloc] initWithMenuController:self.menuController];
     [self.checkManager loadCheckfiles];
+}
+
+#pragma mark -
+
+- (void)_announceGitSha {
+    NSLog(@"ApplicationDelegate - Git SHA: %@", self.gitSha);
+}
+
+- (NSString *)gitSha {
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Git SHA"];
 }
 
 #pragma mark - MenuControllerDelegate

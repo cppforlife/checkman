@@ -462,6 +462,7 @@
 				DD4F7C0013C30F9F00825C6E /* Sources */,
 				DD4F7C0113C30F9F00825C6E /* Frameworks */,
 				DD4F7C0213C30F9F00825C6E /* Resources */,
+				962CD5D81691141B00728AD1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -530,6 +531,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		962CD5D81691141B00728AD1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env perl -wpi -0777";
+			shellScript = "#!/usr/bin/env perl -wpi -0777\n# http://www.justatheory.com/computers/programming/cocoa/git-build-number-in-xcode.html\n\nBEGIN {\n    @ARGV = (\"$ENV{BUILT_PRODUCTS_DIR}/$ENV{INFOPLIST_PATH}\");\n    ($sha1 = `git rev-parse --short HEAD`) =~ s/\\s+$//;\n}\n\ns{GIT_SHA_PLACEHOLDER}{$sha1};";
+		};
 		96EDD2E0168944D800294E32 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -694,6 +708,7 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = XML;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -721,6 +736,7 @@
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_OUTPUT_FORMAT = XML;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
 			};

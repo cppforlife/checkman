@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>Git SHA</key>
+	<string>GIT_SHA_PLACEHOLDER</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
