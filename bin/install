@@ -7,12 +7,18 @@ INSTALL_DIR=/Applications
 set -e
 set -x
 
+function sudoable() { # $1=command
+  if $1 2>&1 | grep --quiet "Permission denied"; then
+    sudo -k $1
+  fi
+}
+
 # Allow running out of root of the project
 if [ -d Checkman.xcodeproj ]; then
   cd $BIN_DIR
 fi
 
-rm -rf $TMP_DIR
+sudoable "rm -rf $TMP_DIR"
 mkdir -p $TMP_DIR
 
 # Unpack and install local Checkman.zip if it's present in current directory
@@ -35,12 +41,12 @@ google.com: site.check http://www.google.com
 #-
 #- jenkins-ci.org builds
 jenkins_main_trunk: jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk
-jenkins_lt_branch: jenkins_build.check https://ci.jenkins-ci.org jenkins_lts_branch
+jenkins_lts_branch: jenkins_build.check https://ci.jenkins-ci.org jenkins_lts_branch
 CHECKS
 fi
 
-rm -rf "$INSTALL_DIR/Checkman.app"
-cp -R Checkman.app $INSTALL_DIR
+sudoable "rm -rf $INSTALL_DIR/Checkman.app"
+sudoable "cp -R Checkman.app $INSTALL_DIR"
 
 pgrep Checkman | xargs kill -9
 open "$INSTALL_DIR/Checkman.app"
