@@ -94,7 +94,7 @@
     NSDirectoryEnumerator *enumerator = [NSFileManager.defaultManager enumeratorAtPath:directoryPath];
 
     while (fileName = [enumerator nextObject]) {
-        if ([fileName isEqualToString:@".DS_Store"]) continue;
+        if ([fileName characterAtIndex:0] == '.') continue;
         NSString *filePath = F(@"%@/%@", directoryPath, fileName);
 
         BOOL isDirectory = NO;

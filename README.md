@@ -35,6 +35,8 @@ If you ever need to kill Checkman:
 * Symlinks are resolved. Suggested approach is to have Checkfile with project
   specific checks in project directories and then symlink from `~/Checkman` directory.
 
+* Hidden config files (prefixed with `.`) are skipped.
+
 * Config files are reloaded when changes are saved.
 
 * Commands run relative to the containing checkfile.
