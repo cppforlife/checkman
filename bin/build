@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 BIN_DIR=./bin
-BUILD_DIR=./build/Release
+BUILD_DIR=./build
+RELEASE_CONF=Release
 
 set -e
 set -x
@@ -12,11 +13,9 @@ if [ -f install ]; then
 fi
 
 rm -rf $BUILD_DIR
-xcodebuild -project Checkman.xcodeproj -target Checkman -configuration Release build
+xcodebuild -project Checkman.xcodeproj -target Checkman -configuration $RELEASE_CONF build
 
-cd $BUILD_DIR
-zip -r Checkman.zip Checkman.app
+(cd "$BUILD_DIR/$RELEASE_CONF"; zip -r "Checkman.zip" Checkman.app)
+cp "$BUILD_DIR/$RELEASE_CONF/Checkman.zip" $BIN_DIR
 
-cd -
-cp "$BUILD_DIR/Checkman.zip" $BIN_DIR
 rm -rf $BUILD_DIR
