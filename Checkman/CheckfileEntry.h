@@ -10,6 +10,7 @@
 @end
 
 @interface CheckfileCommandEntry : CheckfileEntry
+// e.g. 'command-name: bash command'
 + (CheckfileCommandEntry *)fromLine:(NSString *)line;
 
 - (id)initWithName:(NSString *)name command:(NSString *)command;
@@ -18,10 +19,12 @@
 @end
 
 @interface CheckfileSeparatorEntry : CheckfileEntry
+// e.g. '#-'
 + (CheckfileSeparatorEntry *)fromLine:(NSString *)line;
 @end
 
 @interface CheckfileTitledSeparatorEntry : CheckfileEntry
+// e.g. '#- title for a separator'
 + (CheckfileTitledSeparatorEntry *)fromLine:(NSString *)line;
 
 - (id)initWithTitle:(NSString *)title;

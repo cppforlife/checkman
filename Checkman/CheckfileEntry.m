@@ -76,11 +76,11 @@
 + (CheckfileTitledSeparatorEntry *)fromLine:(NSString *)line {
     line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-    NSArray *components = [line componentsSeparatedByString:@"- "];
+    NSArray *components = [line componentsSeparatedByString:@"#- "];
     if (components.count != 2) return nil;
 
     NSString *separator = [components objectAtIndex:0];
-    if (![separator isEqualToString:@"#"]) return nil;
+    if (separator.length != 0) return nil;
 
     NSString *title = [components objectAtIndex:1];
     return title.length ? [[self alloc] initWithTitle:title] : nil;
