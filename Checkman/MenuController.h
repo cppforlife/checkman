@@ -3,7 +3,8 @@
 @class Check, MenuController;
 
 @protocol MenuControllerDelegate <NSObject>
-- (void)menuController:(MenuController *)controller showDebugOutputForCheck:(Check *)check;
+- (void)menuController:(MenuController *)controller
+    showDebugOutputForCheck:(Check *)check;
 @end
 
 @interface MenuController : NSObject

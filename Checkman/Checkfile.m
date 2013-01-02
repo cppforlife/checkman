@@ -1,8 +1,9 @@
 #import "Checkfile.h"
 #import "CheckfileEntry.h"
 #import "NSObject+Delayed.h"
+#import "FSChangesNotifier.h"
 
-@interface Checkfile ()
+@interface Checkfile () <FSChangesNotifierDelegate>
 @property (strong, nonatomic) NSString *filePath;
 @property (strong, nonatomic) NSString *resolvedFilePath;
 

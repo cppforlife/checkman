@@ -1,5 +1,4 @@
 #import "CheckCollection.h"
-#import "Check.h"
 
 @interface CheckCollection ()
 @property (nonatomic, strong) NSMutableArray *checks;

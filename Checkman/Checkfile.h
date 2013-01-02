@@ -1,19 +1,19 @@
 #import <Foundation/Foundation.h>
 #import "TaggedObject.h"
-#import "FSChangesNotifier.h"
 
-@class Checkfile, CheckfileEntry;
+@class Checkfile, CheckfileEntry, FSChangesNotifier;
 
 @protocol CheckfileDelegate <NSObject>
 - (void)checkfile:(Checkfile *)checkfile didAddEntry:(CheckfileEntry *)entry;
 - (void)checkfile:(Checkfile *)checkfile willRemoveEntry:(CheckfileEntry *)entry;
 @end
 
-@interface Checkfile : TaggedObject <FSChangesNotifierDelegate>
+@interface Checkfile : TaggedObject
 
 @property (nonatomic, assign) id<CheckfileDelegate> delegate;
 
-- (id)initWithFilePath:(NSString *)filePath fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier;
+- (id)initWithFilePath:(NSString *)filePath
+     fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier;
 
 - (NSString *)name;
 - (NSString *)resolvedDirectoryPath;

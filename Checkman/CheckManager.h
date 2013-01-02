@@ -3,7 +3,10 @@
 @class MenuController, Settings;
 
 @interface CheckManager : NSObject
-- (id)initWithMenuController:(MenuController *)menuController settings:(Settings *)settings;
+
+- (id)initWithMenuController:(MenuController *)menuController
+                    settings:(Settings *)settings;
+
 - (void)loadCheckfiles;
 - (void)reloadCheckfiles;
 @end

@@ -3,7 +3,8 @@
 @class FSChangesNotifier;
 
 @protocol FSChangesNotifierDelegate <NSObject>
-- (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath;
+- (void)fsChangesNotifier:(FSChangesNotifier *)notifier
+        filePathDidChange:(NSString *)filePath;
 @end
 
 @interface FSChangesNotifier : NSObject

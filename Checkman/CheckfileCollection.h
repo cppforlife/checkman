@@ -1,14 +1,16 @@
 #import <Foundation/Foundation.h>
-#import "FSChangesNotifier.h"
 
 @class CheckfileCollection, Checkfile;
 
 @protocol CheckfileCollectionDelegate <NSObject>
-- (void)checkfileCollection:(CheckfileCollection *)collection didAddCheckfile:(Checkfile *)checkfile;
-- (void)checkfileCollection:(CheckfileCollection *)collection willRemoveCheckfile:(Checkfile *)checkfile;
+- (void)checkfileCollection:(CheckfileCollection *)collection
+            didAddCheckfile:(Checkfile *)checkfile;
+
+- (void)checkfileCollection:(CheckfileCollection *)collection
+        willRemoveCheckfile:(Checkfile *)checkfile;
 @end
 
-@interface CheckfileCollection : NSObject <FSChangesNotifierDelegate>
+@interface CheckfileCollection : NSObject
 
 @property (nonatomic, assign) id<CheckfileCollectionDelegate> delegate;
 

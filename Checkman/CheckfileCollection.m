@@ -1,8 +1,9 @@
 #import "CheckfileCollection.h"
 #import "Checkfile.h"
 #import "NSObject+Delayed.h"
+#import "FSChangesNotifier.h"
 
-@interface CheckfileCollection ()
+@interface CheckfileCollection () <FSChangesNotifierDelegate>
 @property (nonatomic, strong) NSString *directoryPath;
 @property (nonatomic, strong) NSMutableArray *files;
 @property (strong, nonatomic) FSChangesNotifier *fsChangesNotifier;
