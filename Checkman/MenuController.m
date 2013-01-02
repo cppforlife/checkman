@@ -117,10 +117,15 @@
 #pragma mark - CheckMenuItemDelegate
 
 - (void)checkMenuItemWasClicked:(CheckMenuItem *)item {
-    if (NSApplication.sharedApplication.currentEvent.modifierFlags & NSAlternateKeyMask) {
+    NSUInteger pressedKeys = [NSApp currentEvent].modifierFlags;
+
+    if (pressedKeys & NSAlternateKeyMask) {
         [self.delegate menuController:self showDebugOutputForCheck:item.check];
+    } else if (pressedKeys & NSControlKeyMask) {
+        [item.check stop];
+        [item.check startImmediately:YES];
     } else if (item.check.url) {
-        [[NSWorkspace sharedWorkspace] openURL:item.check.url];
+        [NSWorkspace.sharedWorkspace openURL:item.check.url];
     }
 }
 
