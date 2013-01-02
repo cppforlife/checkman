@@ -68,8 +68,9 @@ If you ever need to kill Checkman:
   checks specific Jenkins build status
   e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
 
-* `test.check <RESULT> <CHANGING>` returns predefined result/changing
-  e.g. `test.check true true`
+* `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result
+  (options: url, info, fail, changing, slow, error)
+  e.g. `test.check fail slow`
 
 * `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>`
   checks for recent errors

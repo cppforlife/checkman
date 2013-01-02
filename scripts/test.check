@@ -2,16 +2,39 @@
 require "rubygems"
 require "json"
 
+# Simple testing fixture
+#             ok: test.check
+#            url: test.check url
+#           info: test.check info
+#    ok-changing: test.check changing
+#           fail: test.check fail
+#  fail-changing: test.check fail changing
+#           slow: test.check slow
+#          error: test.check error
+
 class Test
-  def initialize(result, changing)
-    @result = ["true", "1"].include?(result)
-    @changing = ["true", "1"].include?(changing)
+  def initialize(*tests)
+    @tests = tests
+  end
+
+  def has?(option, &block)
+    if @tests.include?(option.to_s)
+      block ? block.call : true
+    end
+  end
+
+  def ok?
+    !has?(:fail)
   end
 
   def as_json(*)
+    has?(:slow) { sleep 10 }
+    has?(:error) { raise }
     {
-      :result => @result,
-      :changing => @changing
+      :result => ok?,
+      :changing => has?(:changing),
+      :url => has?(:url) { "http://www.google.com" },
+      :info => has?(:info) { [["Key", "value"]] }
     }
   end
 
