@@ -18,6 +18,8 @@
 - (Check *)checkWithTag:(NSInteger)tag;
 
 - (CheckStatus)status;
-- (NSString *)statusDescription;
 - (BOOL)isChanging;
+
+- (NSString *)statusDescription;
+- (NSString *)extendedStatusDescription;
 @end

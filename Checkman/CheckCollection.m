@@ -86,18 +86,36 @@
     return NO;
 }
 
+#pragma mark -
+
 - (NSString *)statusDescription {
     if (self.status == CheckStatusFail || self.status == CheckStatusUndetermined) {
-        return F(@"%d", [self _numberOfChecksWithStatus:self.status]);
+        return F(@"%ld", [self _numberOfChecksWithStatus:self.status]);
     }
     return nil;
 }
 
-- (int)_numberOfChecksWithStatus:(CheckStatus)status {
-    int count = 0;
+- (NSString *)extendedStatusDescription {
+    return F(@"%ld Ok\n%ld Failed\n%ld Undetermined\n%ld Disabled",
+        [self _numberOfChecksWithStatus:CheckStatusOk],
+        [self _numberOfChecksWithStatus:CheckStatusFail],
+        [self _numberOfChecksWithStatus:CheckStatusUndetermined],
+        self._numberOfDisabledChecks);
+}
+
+- (NSUInteger)_numberOfChecksWithStatus:(CheckStatus)status {
+    NSUInteger count = 0;
     for (Check *check in self.checks) {
         if (check.isDisabled) continue;
         if (check.status == status) count++;
+    }
+    return count;
+}
+
+- (NSUInteger)_numberOfDisabledChecks {
+    NSUInteger count = 0;
+    for (Check *check in self.checks) {
+        if (check.isDisabled) count++;
     }
     return count;
 }

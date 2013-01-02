@@ -111,6 +111,7 @@
         [Check statusImageNameForCheckStatus:self.checks.status changing:self.checks.isChanging];
     self.statusItem.image = [NSImage imageNamed:statusImageName];
     self.statusItem.title = self.checks.statusDescription;
+    self.statusItem.toolTip = self.checks.extendedStatusDescription;
 }
 
 #pragma mark - CheckMenuItemDelegate
