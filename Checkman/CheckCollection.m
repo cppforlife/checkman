@@ -26,6 +26,9 @@
     for (Check *check in self.checks) {
         [self removeCheck:check];
     }
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
 }
 
 - (NSString *)description {
@@ -71,12 +74,20 @@
 }
 
 - (CheckStatus)_updateStatus {
+    if (self.checks.count == 0)
+        return CheckStatusUndetermined;
+
+    BOOL hasFailed = NO;
+
     for (Check *check in self.checks) {
-        if (check.isDisabled) continue;
-        if (check.status == CheckStatusFail) return CheckStatusFail;
-        if (check.status == CheckStatusUndetermined) return CheckStatusUndetermined;
+        if (check.isDisabled)
+            continue;
+        if (check.status == CheckStatusFail)
+            hasFailed = YES;
+        if (check.status == CheckStatusUndetermined)
+            return CheckStatusUndetermined;
     }
-    return self.checks.count ? CheckStatusOk : CheckStatusUndetermined;
+    return hasFailed ? CheckStatusFail : CheckStatusOk;
 }
 
 - (BOOL)_updateChanging {

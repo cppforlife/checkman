@@ -6,3 +6,5 @@
     #import <Cocoa/Cocoa.h>
     #import <Cedar/SpecHelper.h>
 #endif
+
+#define F(f, ...) [NSString stringWithFormat:f, ##__VA_ARGS__]
