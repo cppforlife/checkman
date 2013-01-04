@@ -15,7 +15,7 @@ class VmcAppsStatus
 
   def all_100_percent?
     @apps_data.all? do |app|
-      app["runningInstances"].to_i == app["instances"].to_i
+      app["running_instances"].to_i == app["instances"].to_i
     end
   end
 
