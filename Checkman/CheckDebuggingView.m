@@ -81,7 +81,7 @@
         [NSDictionary dictionaryWithObjectsAndKeys:
             NSColor.lightGrayColor, NSForegroundColorAttributeName, nil];
     return [[NSAttributedString alloc]
-                initWithString:F(@"%@%@", message, message.length ? @"\n\n" : @"")
+                initWithString:F(@"%@%@", message, message.length ? @"\n" : @"")
                 attributes:attributes];
 }
 
