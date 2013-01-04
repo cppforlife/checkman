@@ -6,10 +6,12 @@
 @property (nonatomic, strong) NSString *directoryPath;
 
 @property (nonatomic, strong) NSTask *task;
-@property (nonatomic, strong) NSString *stdErr;
-@property (nonatomic, strong) NSString *stdOut;
+@property (nonatomic, strong) NSData *stdErrData;
+@property (nonatomic, strong) NSData *stdOutData;
 
+@property (nonatomic, assign, getter = isComplete) BOOL complete;
 @property (nonatomic, assign, getter = isValid) BOOL valid;
+
 @property (nonatomic, assign, getter = isSuccessful) BOOL successful;
 @property (nonatomic, assign, getter = isChanging) BOOL changing;
 
@@ -24,8 +26,9 @@
     command = _command,
     directoryPath = _directoryPath,
     task = _task,
-    stdErr = _stdErr,
-    stdOut = _stdOut,
+    stdErrData = _stdErrData,
+    stdOutData = _stdOutData,
+    complete = _complete,
     valid = _valid,
     successful = _successful,
     changing = _changing,
@@ -38,6 +41,10 @@
         self.directoryPath = directoryPath;
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (NSString *)description {
@@ -59,10 +66,6 @@
     return _task;
 }
 
-- (NSString *)executedCommand {
-    return self.task.executedCommand;
-}
-
 - (NSString *)_commandWithScriptsIncludedInPath {
     // Exposing bundleScripsPath in PATH env var allows
     // included checks to be used without specifying full path.
@@ -80,13 +83,77 @@
 }
 
 - (void)_runTask {
-    NSData *output = nil, *error = nil;
-    [self _getOutput:&output error:&error fromTask:self.task];
+    NSLog(@"CheckRun - started: (%p) '%@'", self, self.command);
+    self.task.standardOutput = [NSPipe pipe];
+    self.task.standardError = [NSPipe pipe];
 
-    NSDictionary *result = [self _parseJSONData:output];
+#ifdef DEBUG
+    // NSTask breaks Xcode's console when bash is executed (http://cocoadev.com/wiki/NSTask)
+    self.task.standardInput = NSPipe.pipe;
+#endif
+
+    [self _readToEndOfFileInBackground:
+            [self.task.standardOutput fileHandleForReading]
+        selector:@selector(_receiveStdOutData:)];
+
+    [self _readToEndOfFileInBackground:
+            [self.task.standardError fileHandleForReading]
+        selector:@selector(_receiveStdErrData:)];
+
+    [self _waitForTaskTermination];
+
+    [self.task launch];
+
+    // - start thread's run loop to receive stdout/stderr end-of-file notifications
+    // - use CFRunLoopRun() since NSRunLoop-run cannot be stopped (http://cocoadev.com/wiki/RunLoop)
+    // - run inside own autorelease pool to stop leaking
+    @autoreleasepool {
+        CFRunLoopRun();
+    }
+}
+
+- (void)_readToEndOfFileInBackground:(NSFileHandle *)fileHandle selector:(SEL)selector {
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:selector
+        name:NSFileHandleReadToEndOfFileCompletionNotification
+        object:fileHandle];
+
+    [fileHandle readToEndOfFileInBackgroundAndNotify];
+}
+
+- (void)_waitForTaskTermination {
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(_tryCompletingTask)
+        name:NSTaskDidTerminateNotification
+        object:self.task];
+}
+
+- (void)_receiveStdOutData:(NSNotification *)notification {
+    self.stdOutData = [notification.userInfo objectForKey:NSFileHandleNotificationDataItem];
+    [self _tryCompletingTask];
+}
+
+- (void)_receiveStdErrData:(NSNotification *)notification {
+    self.stdErrData = [notification.userInfo objectForKey:NSFileHandleNotificationDataItem];
+    [self _tryCompletingTask];
+}
+
+- (void)_tryCompletingTask {
+    if (!self.isComplete && !self.task.isRunning) {
+        if (self.stdOutData && self.stdErrData) {
+            [self _completeTask];
+            CFRunLoopStop(CFRunLoopGetCurrent());
+        }
+    }
+}
+
+- (void)_completeTask {
+    self.complete = YES;
+
+    NSDictionary *result = [self _parseJSONData:self.stdOutData];
     self.valid = (result != nil);
-    self.stdOut = [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
-    self.stdErr = [[NSString alloc] initWithData:error encoding:NSUTF8StringEncoding];
 
     self.resultValue = [result objectForKey:@"result"];
     self.changingValue = [result objectForKey:@"changing"];
@@ -99,25 +166,6 @@
         waitUntilDone:NO];
 }
 
-- (void)_getOutput:(NSData **)output error:(NSData **)error fromTask:(NSTask *)task {
-    NSPipe *outputPipe = [NSPipe pipe];
-    task.standardOutput = outputPipe;
-
-    NSPipe *errorPipe = [NSPipe pipe];
-    task.standardError = errorPipe;
-
-#ifdef DEBUG
-    // NSTask breaks Xcode's console when bash is executed (http://cocoadev.com/wiki/NSTask)
-    task.standardInput = NSPipe.pipe;
-#endif
-
-    [task launch];
-    [task waitUntilExit];
-
-    *output = [outputPipe.fileHandleForReading readDataToEndOfFile];
-    *error = [errorPipe.fileHandleForReading readDataToEndOfFile];
-}
-
 - (NSDictionary *)_parseJSONData:(NSData *)data {
     NSError *error = nil;
     NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -125,9 +173,9 @@
 #ifdef DEBUG
     if (error) {
         NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"Command '%@' did not return valid json:\nError %@\n%@", self.command, error, string);
+        NSLog(@"CheckRun - invalid json: (%p) '%@'\nError: %@\n%@", self, self.command, error, string);
     } else {
-        NSLog(@"Command '%@' finished.", self.command);
+        NSLog(@"CheckRun - finished: (%p) '%@'", self, self.command);
     }
 #endif
     return result;
@@ -161,5 +209,21 @@
 
 - (void)setInfoValue:(id)value {
     self.info = [value isKindOfClass:[NSArray class]] ? value : nil;
+}
+@end
+
+
+@implementation CheckRun (Debugging)
+
+- (NSString *)executedCommand {
+    return self.task.executedCommand;
+}
+
+- (NSString *)stdOut {
+    return [[NSString alloc] initWithData:self.stdOutData encoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)stdErr {
+    return [[NSString alloc] initWithData:self.stdErrData encoding:NSUTF8StringEncoding];
 }
 @end

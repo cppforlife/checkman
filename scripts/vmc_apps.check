@@ -67,7 +67,8 @@ class VmcApps
   private
 
   def run
-    `curl -sk '#{api_url}' -H 'Authorization: #{auth_token_header}'`
+    curl = "curl -sk '#{api_url}' -H 'Authorization: #{auth_token_header}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 
   def api_url

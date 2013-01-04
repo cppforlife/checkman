@@ -155,7 +155,8 @@ class JenkinsJob
   private
 
   def http_get(url)
-    `curl -sk #{url}`
+    curl = "curl -sk #{url}"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
 
