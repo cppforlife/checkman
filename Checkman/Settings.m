@@ -55,8 +55,11 @@
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
     [self.userDefaults synchronize];
-
     NSDictionary *newCurrentValues = self._loadCurrentValues;
+
+    // Watch out [nil isEqual:nil] returns nil!
+    if (!self.currentValues && !newCurrentValues) return;
+
     if (![self.currentValues isEqual:newCurrentValues]) {
         self.currentValues = newCurrentValues;
         [self.delegate settingsDidChange:self];
