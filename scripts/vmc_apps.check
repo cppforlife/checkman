@@ -6,6 +6,8 @@ require "yaml"
 class VmcAppsStatus
   def initialize(app_prefix, json)
     @apps_data = JSON.parse(json)["apps"]
+    raise ArgumentError, "No apps in space: '#{json}'" unless @apps_data
+
     @apps_data \
       .select! { |app| app["name"].start_with?(app_prefix) } \
       .sort_by! { |app| app["name"] }
