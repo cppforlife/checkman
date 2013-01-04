@@ -45,9 +45,14 @@
 
 - (NSAttributedString *)_latestCheckInfo {
     NSMutableAttributedString *result = [[NSMutableAttributedString alloc] init];
-    [result appendAttributedString:[self _commandString:self.check.executedCommand]];
-    [result appendAttributedString:[self _stdOutString:self.check.stdOut]];
-    [result appendAttributedString:[self _stdErrString:self.check.stdErr]];
+
+    if (self.check.executedCommand) {
+        [result appendAttributedString:[self _commandString:self.check.executedCommand]];
+        [result appendAttributedString:[self _stdOutString:self.check.stdOut]];
+        [result appendAttributedString:[self _stdErrString:self.check.stdErr]];
+    } else {
+        [result appendAttributedString:[self _messageString:@"Did not finish running yet."]];
+    }
     return result;
 }
 
@@ -70,6 +75,16 @@
                 initWithString:F(@"%@%@", stdErr, stdErr.length ? @"\n" : @"")
                 attributes:attributes];
 }
+
+- (NSAttributedString *)_messageString:(NSString *)message {
+    NSDictionary *attributes =
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            NSColor.lightGrayColor, NSForegroundColorAttributeName, nil];
+    return [[NSAttributedString alloc]
+                initWithString:F(@"%@%@", message, message.length ? @"\n\n" : @"")
+                attributes:attributes];
+}
+
 
 #pragma mark -
 
