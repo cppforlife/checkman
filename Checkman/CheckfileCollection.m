@@ -110,7 +110,8 @@
 
 #pragma mark - FSChangesNotifierDelegate
 
-- (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
+- (void)fsChangesNotifier:(FSChangesNotifier *)notifier
+        filePathDidChange:(NSString *)filePath {
     [self performSelectorOnNextTick:@selector(reloadFiles)]; // nuclear!
 }
 @end

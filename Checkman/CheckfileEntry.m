@@ -9,6 +9,11 @@
     return entry;
 }
 
++ (NSString *)_trimString:(NSString *)string {
+    return [string stringByTrimmingCharactersInSet:
+                [NSCharacterSet whitespaceCharacterSet]];
+}
+
 - (BOOL)isCommandEntry {
     return [self isKindOfClass:[CheckfileCommandEntry class]];
 }
@@ -32,7 +37,7 @@
 @synthesize name = _name, command = _command;
 
 + (CheckfileCommandEntry *)fromLine:(NSString *)line {
-    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    line = [self _trimString:line];
     if (line.length == 0 || [line characterAtIndex:0] == '#') return nil;
 
     NSArray *components = [line componentsSeparatedByString:@": "];
@@ -60,8 +65,8 @@
 
 @implementation CheckfileSeparatorEntry
 + (CheckfileSeparatorEntry *)fromLine:(NSString *)line {
-    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    return [line isEqualToString:@"#-"] ? [[self alloc] init] : nil;
+    BOOL isComment = [[self _trimString:line] isEqualToString:@"#-"];
+    return isComment ? [[self alloc] init] : nil;
 }
 @end
 
@@ -74,7 +79,7 @@
 @synthesize title = _title;
 
 + (CheckfileTitledSeparatorEntry *)fromLine:(NSString *)line {
-    line = [line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    line = [self _trimString:line];
 
     NSArray *components = [line componentsSeparatedByString:@"#- "];
     if (components.count != 2) return nil;

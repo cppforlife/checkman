@@ -25,7 +25,10 @@
     lastRun = _lastRun,
     currentRun = _currentRun;
 
-- (id)initWithName:(NSString *)name command:(NSString *)command directoryPath:(NSString *)directoryPath {
+- (id)initWithName:(NSString *)name
+           command:(NSString *)command
+     directoryPath:(NSString *)directoryPath {
+
     if (self = [super init]) {
         self.name = name;
         self.command = command;

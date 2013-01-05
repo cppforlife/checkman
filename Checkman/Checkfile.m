@@ -20,7 +20,8 @@
     entries = _entries,
     fsChangesNotifier = _fsChangesNotifier;
 
-- (id)initWithFilePath:(NSString *)filePath fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier {
+- (id)initWithFilePath:(NSString *)filePath
+     fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier {
     if (self = [super init]) {
         self.filePath = filePath;
         self.resolvedFilePath = [filePath stringByResolvingSymlinksInPath];
@@ -94,7 +95,8 @@
 
 #pragma mark - FSChangesNotifierDelegate
 
-- (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
+- (void)fsChangesNotifier:(FSChangesNotifier *)notifier
+        filePathDidChange:(NSString *)filePath {
     [self performSelectorOnNextTick:@selector(_reloadEntries)]; // nuclear!
 }
 @end
