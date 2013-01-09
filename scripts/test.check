@@ -11,6 +11,7 @@ require "json"
 #  fail-changing: test.check fail changing
 #           slow: test.check slow
 #          error: test.check error
+#       flapping: test.check flapping
 
 class Test
   def initialize(*tests)
@@ -24,7 +25,11 @@ class Test
   end
 
   def ok?
-    !has?(:fail)
+    if has?(:flapping)
+      (Time.now.sec / 6) < 3
+    else
+      !has?(:fail)
+    end
   end
 
   def as_json(*)
