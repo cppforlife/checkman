@@ -7,6 +7,14 @@ typedef enum {
     CheckStatusUndetermined = 0
 } CheckStatus;
 
+@class Check;
+
+@protocol CheckDelegate <NSObject>
+- (void)checkDidChangeStatus:(NSNotification *)notification;
+- (void)checkDidChangeChanging:(NSNotification *)notification;
+- (void)checkDidChangeRunning:(NSNotification *)notification;
+@end
+
 @interface Check : TaggedObject
 
 @property (nonatomic, assign) NSUInteger runInterval;
@@ -30,9 +38,9 @@ typedef enum {
 - (NSURL *)url;
 @end
 
-@interface Check (KVO)
-- (void)addObserverForRunning:(id)observer;
-- (void)removeObserverForRunning:(id)observer;
+@interface Check (Observers)
+- (void)addObserver:(id<CheckDelegate>)observer;
+- (void)removeObserver:(id<CheckDelegate>)observer;
 @end
 
 @interface Check (Image)

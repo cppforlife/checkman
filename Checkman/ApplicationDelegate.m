@@ -2,11 +2,13 @@
 #import "CheckDebuggingWindow.h"
 #import "CheckManager.h"
 #import "MenuController.h"
+#import "NotificationsController.h"
 #import "Settings.h"
 
 @interface ApplicationDelegate () <MenuControllerDelegate, SettingsDelegate>
 @property (nonatomic, strong) CheckManager *checkManager;
 @property (nonatomic, strong) MenuController *menuController;
+@property (nonatomic, strong) NotificationsController *notificationsController;
 @property (nonatomic, strong) Settings *settings;
 @end
 
@@ -15,6 +17,7 @@
 @synthesize
     checkManager = _checkManager,
     menuController = _menuController,
+    notificationsController = _notificationsController,
     settings = _settings;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -26,6 +29,8 @@
     self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
 
+    self.notificationsController = [[NotificationsController alloc] init];
+
     self.settings = Settings.userSettings;
     self.settings.delegate = self;
     [self.settings trackChanges];
@@ -33,7 +38,9 @@
     self.checkManager =
         [[CheckManager alloc]
             initWithMenuController:self.menuController
+            notificationsController:self.notificationsController
             settings:self.settings];
+
     [self.checkManager loadCheckfiles];
 }
 

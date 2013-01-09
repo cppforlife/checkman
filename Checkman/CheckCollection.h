@@ -4,7 +4,15 @@
 @class CheckCollection;
 
 @protocol CheckCollectionDelegate <NSObject>
-- (void)checkCollectionStatusAndChangingDidChange:(CheckCollection *)checks;
+- (void)checkCollection:(CheckCollection *)collection
+    didUpdateStatusFromCheck:(Check *)check;
+
+- (void)checkCollection:(CheckCollection *)collection
+    didUpdateChangingFromCheck:(Check *)check;
+
+@optional
+- (void)checkCollection:(CheckCollection *)collection
+    checkDidChangeStatus:(Check *)check;
 @end
 
 @interface CheckCollection : NSObject

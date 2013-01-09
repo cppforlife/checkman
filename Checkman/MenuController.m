@@ -102,7 +102,13 @@
 
 #pragma mark - CheckCollectionDelegate
 
-- (void)checkCollectionStatusAndChangingDidChange:(CheckCollection *)collection {
+- (void)checkCollection:(CheckCollection *)collection
+        didUpdateStatusFromCheck:(Check *)check {
+    [self _updateStatusAndChanging];
+}
+
+- (void)checkCollection:(CheckCollection *)collection
+        didUpdateChangingFromCheck:(Check *)check {
     [self _updateStatusAndChanging];
 }
 

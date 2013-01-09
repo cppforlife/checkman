@@ -1,6 +1,6 @@
 #import "CheckCollection.h"
 
-@interface CheckCollection ()
+@interface CheckCollection () <CheckDelegate>
 @property (nonatomic, strong) NSMutableArray *checks;
 @property (nonatomic, assign) CheckStatus status;
 @property (nonatomic, assign, getter = isChanging) BOOL changing;
@@ -41,11 +41,11 @@
 - (void)addCheck:(Check *)check {
     [self.checks addObject:check];
     [self _updateStatusAndChanging];
-    [check addObserverForRunning:self];
+    [check addObserver:self];
 }
 
 - (void)removeCheck:(Check *)check {
-    [check removeObserverForRunning:self];
+    [check removeObserver:self];
     [self.checks removeObject:check];
     [self _updateStatusAndChanging];
 }
@@ -61,19 +61,36 @@
     return nil;
 }
 
+#pragma mark - CheckDelegate
+
+- (void)checkDidChangeStatus:(NSNotification *)notification {
+    Check *check = (Check *)notification.object;
+
+    self.status = [self _aggregateStatus];
+    [self.delegate checkCollection:self didUpdateStatusFromCheck:check];
+
+    // Proxy individual check status changes for conveniece
+    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeStatus:)]) {
+        [self.delegate checkCollection:self checkDidChangeStatus:check];
+    }
+}
+
+- (void)checkDidChangeChanging:(NSNotification *)notification {
+    self.changing = [self _aggregateChanging];
+    [self.delegate checkCollection:self
+        didUpdateChangingFromCheck:(Check *)notification.object];
+}
+
+- (void)checkDidChangeRunning:(NSNotification *)notification {}
+
 #pragma mark -
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self _updateStatusAndChanging];
-}
-
 - (void)_updateStatusAndChanging {
-    self.status = [self _updateStatus];
-    self.changing = [self _updateChanging];
-    [self.delegate checkCollectionStatusAndChangingDidChange:self];
+    [self checkDidChangeStatus:nil];
+    [self checkDidChangeChanging:nil];
 }
 
-- (CheckStatus)_updateStatus {
+- (CheckStatus)_aggregateStatus {
     if (self.checks.count == 0)
         return CheckStatusUndetermined;
 
@@ -90,7 +107,7 @@
     return hasFailed ? CheckStatusFail : CheckStatusOk;
 }
 
-- (BOOL)_updateChanging {
+- (BOOL)_aggregateChanging {
     for (Check *check in self.checks) {
         if (check.isChanging) return YES;
     }

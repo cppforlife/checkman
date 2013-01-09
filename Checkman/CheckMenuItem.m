@@ -2,7 +2,7 @@
 #import "InfoMenuItem.h"
 #import "Check.h"
 
-@interface CheckMenuItem ()
+@interface CheckMenuItem () <CheckDelegate>
 @property (nonatomic, strong) Check *check;
 @end
 
@@ -19,26 +19,31 @@
 
         [self _refreshName];
         [self _refreshStatusImage];
-        [self.check addObserverForRunning:self];
+        [self _refreshInfoSubmenu];
+        [self.check addObserver:self];
     }
     return self;
 }
 
 - (void)dealloc {
-    [self.check removeObserverForRunning:self];
+    [self.check removeObserver:self];
 }
 
 - (void)_performAction {
     [self.delegate checkMenuItemWasClicked:self];
 }
 
-#pragma mark -
+#pragma mark - CheckDelegate
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)checkDidChangeStatus:(NSNotification *)notification { [self _refreshStatusImage]; }
+- (void)checkDidChangeChanging:(NSNotification *)notification { [self _refreshStatusImage]; }
+
+- (void)checkDidChangeRunning:(NSNotification *)notification {
     [self _refreshName];
-    [self _refreshStatusImage];
     [self _refreshInfoSubmenu];
 }
+
+#pragma mark -
 
 - (void)_refreshName {
     static NSString *hellip = @"...", *spaces = @"   ";

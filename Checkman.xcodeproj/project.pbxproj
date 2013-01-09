@@ -21,6 +21,7 @@
 		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
 		96472D5816880F5900D1CF46 /* test.check in Resources */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
+		96534308169B7361006E1536 /* NotificationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534307169B7361006E1536 /* NotificationsController.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
 		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
 		96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -80,6 +81,8 @@
 		96472D5016880F5900D1CF46 /* install */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = install; sourceTree = "<group>"; };
 		96472D5516880F5900D1CF46 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = "<group>"; };
 		96472D5716880F5900D1CF46 /* test.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.check; sourceTree = "<group>"; };
+		96534306169B7361006E1536 /* NotificationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsController.h; sourceTree = "<group>"; };
+		96534307169B7361006E1536 /* NotificationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsController.m; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
 		96EDD2BD16892C4000294E32 /* SectionedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedMenu.m; sourceTree = "<group>"; };
 		96EDD2E3168944D800294E32 /* CheckmanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckmanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -406,6 +409,8 @@
 				962C6384168FE1C200CB4737 /* CheckManager.m */,
 				DD4F7C3613C317A500825C6E /* MenuController.h */,
 				DD4F7C3713C317A500825C6E /* MenuController.m */,
+				96534306169B7361006E1536 /* NotificationsController.h */,
+				96534307169B7361006E1536 /* NotificationsController.m */,
 				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
 				96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */,
 			);
@@ -626,6 +631,7 @@
 				962C6380168FCFCD00CB4737 /* SeparatorMenuItem.m in Sources */,
 				962C6385168FE1C200CB4737 /* CheckManager.m in Sources */,
 				962CD5D6168FF65900728AD1 /* NSTask+Command.m in Sources */,
+				96534308169B7361006E1536 /* NotificationsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

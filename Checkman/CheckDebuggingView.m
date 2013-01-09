@@ -1,7 +1,7 @@
 #import "CheckDebuggingView.h"
 #import "Check.h"
 
-@interface CheckDebuggingView ()
+@interface CheckDebuggingView () <CheckDelegate>
 @property (nonatomic, strong) Check *check;
 @property (nonatomic, strong) NSScrollView *scrollView;
 @property (nonatomic, strong) NSTextView *outputTextView;
@@ -22,20 +22,27 @@
         [self addSubview:self.scrollView];
 
         [self _appendLatestCheckInfo];
-        [self.check addObserverForRunning:self];
+        [self.check addObserver:self];
     }
     return self;
 }
 
 - (void)dealloc {
-    [self.check removeObserverForRunning:self];
+    [self.check removeObserver:self];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+#pragma mark - CheckDelegate
+
+- (void)checkDidChangeStatus:(NSNotification *)notification {}
+- (void)checkDidChangeChanging:(NSNotification *)notification {}
+
+- (void)checkDidChangeRunning:(NSNotification *)notification {
     if (!self.check.isRunning) {
         [self _appendLatestCheckInfo];
     }
 }
+
+#pragma mark -
 
 - (void)_appendLatestCheckInfo {
     [self.outputTextView.textStorage appendAttributedString:self._latestCheckInfo];
@@ -84,7 +91,6 @@
                 initWithString:F(@"%@%@", message, message.length ? @"\n" : @"")
                 attributes:attributes];
 }
-
 
 #pragma mark -
 
