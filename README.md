@@ -83,7 +83,7 @@ variable when running check commands.
 
 # Building custom check scripts
 
-Each check is expected to return following JSON:
+Each check is expected to output following JSON to `stdout`:
 
     {
       // [Required]
@@ -106,7 +106,7 @@ Each check is expected to return following JSON:
       ]
     }
 
-Check out included `scripts/` for examples.
+You can print anything to `stderr`. Check out included `scripts/` for examples.
 
 
 ## Debugging
@@ -121,7 +121,7 @@ Check out included `scripts/` for examples.
 
 # Notifications
 
-Notification are sent when status of a check changes. By default Checkman
+Notifications are sent when status of a check changes. By default Checkman
 will first try to send notifications to Growl and then to OS X Notification Center.
 
 
