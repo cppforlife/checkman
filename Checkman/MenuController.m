@@ -124,15 +124,7 @@
 
 - (void)checkMenuItemWasClicked:(CheckMenuItem *)item {
     NSUInteger pressedKeys = [NSApp currentEvent].modifierFlags;
-
-    if (pressedKeys & NSAlternateKeyMask) {
-        [self.delegate menuController:self showDebugOutputForCheck:item.check];
-    } else if (pressedKeys & NSControlKeyMask) {
-        [item.check stop];
-        [item.check startImmediately:YES];
-    } else if (item.check.url) {
-        [NSWorkspace.sharedWorkspace openURL:item.check.url];
-    }
+    [self.delegate menuController:self didActOnCheck:item.check flags:pressedKeys];
 }
 
 #pragma mark - Quit menu item

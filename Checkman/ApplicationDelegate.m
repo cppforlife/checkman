@@ -4,8 +4,10 @@
 #import "MenuController.h"
 #import "NotificationsController.h"
 #import "Settings.h"
+#import "Check.h"
 
-@interface ApplicationDelegate () <MenuControllerDelegate, SettingsDelegate>
+@interface ApplicationDelegate ()
+    <SettingsDelegate, MenuControllerDelegate, NotificationsControllerDelegate>
 @property (nonatomic, strong) CheckManager *checkManager;
 @property (nonatomic, strong) MenuController *menuController;
 @property (nonatomic, strong) NotificationsController *notificationsController;
@@ -45,6 +47,7 @@
 
 - (void)_setUpNotifications {
     self.notificationsController = [[NotificationsController alloc] init];
+    self.notificationsController.delegate = self;
     [self _configureNotificationsController];
 }
 
@@ -64,19 +67,40 @@
     [self.checkManager loadCheckfiles];
 }
 
-#pragma mark - MenuControllerDelegate
-
-- (void)menuController:(MenuController *)controller showDebugOutputForCheck:(Check *)check {
-    CheckDebuggingWindow *window = [[CheckDebuggingWindow alloc] initWithCheck:check];
-    [window keepOpenUntilClosed];
-    [window show];
-}
-
 #pragma mark - SettingsDelegate
 
 - (void)settingsDidChange:(Settings *)settings {
     [self.checkManager reloadCheckfiles];
     [self _configureNotificationsController];
+}
+
+#pragma mark - Acting on check
+
+- (void)menuController:(MenuController *)controller
+        didActOnCheck:(Check *)check flags:(NSUInteger)flags {
+    if (flags & NSAlternateKeyMask) {
+        [self _showDebuggingWindow:check];
+    } else if (flags & NSControlKeyMask) {
+        [check stop];
+        [check startImmediately:YES];
+    } else [self _actOnCheck:check];
+}
+
+- (void)notificationsController:(NotificationsController *)controller
+        didActOnCheck:(Check *)check {
+    [self _actOnCheck:check];
+}
+
+- (void)_showDebuggingWindow:(Check *)check {
+    CheckDebuggingWindow *window = [[CheckDebuggingWindow alloc] initWithCheck:check];
+    [window keepOpenUntilClosed];
+    [window show];
+}
+
+- (void)_actOnCheck:(Check *)check {
+    if (check.url) {
+        [NSWorkspace.sharedWorkspace openURL:check.url];
+    }
 }
 
 #pragma mark - Git SHA

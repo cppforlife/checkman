@@ -7,7 +7,9 @@
 @end
 
 @implementation GrowlNotifier
-@synthesize canShowNotification = _canShowNotification;
+@synthesize
+    delegate = _delegate,
+    canShowNotification = _canShowNotification;
 
 - (id)init {
     if (self = [super init]) {
@@ -29,7 +31,8 @@
         notifyWithTitle:check.name
         description:check.statusNotificationText
         notificationName:[self _growlNotificationForStatus:check.status]
-        iconData:nil priority:0 isSticky:NO clickContext:nil];
+        iconData:nil priority:0 isSticky:NO
+        clickContext:check.tagAsNumber];
 }
 
 #pragma mark - Potential notifications
@@ -65,5 +68,10 @@ static NSString
             GROWL_NOTIFICATIONS_ALL, GROWL_NOTIFICATIONS_DEFAULT,
             self._growlNotifications.allKeys, GROWL_NOTIFICATIONS_ALL,
             self._growlNotifications, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES, nil];
+}
+
+- (void)growlNotificationWasClicked:(id)clickContext {
+    NSNumber *checkTag = (NSNumber *)clickContext;
+    [self.delegate growlNotifier:self didClickOnCheckWithTag:checkTag.integerValue];
 }
 @end

@@ -16,6 +16,10 @@
     return self;
 }
 
+- (NSNumber *)tagAsNumber {
+    return [NSNumber numberWithInteger:self.tag];
+}
+
 - (BOOL)isEqual:(id)object {
     if ([object respondsToSelector:@selector(tag)] && [object tag]) {
         return self.tag == [object tag];

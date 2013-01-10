@@ -4,13 +4,16 @@
 #import "CheckCollection.h"
 #import "Check.h"
 
-@interface NotificationsController () <CheckCollectionDelegate>
+@interface NotificationsController ()
+    <CheckCollectionDelegate, GrowlNotifierDelegate>
 @property (nonatomic, strong) GrowlNotifier *growl;
 @property (nonatomic, strong) CheckCollection *checks;
 @end
 
 @implementation NotificationsController
+
 @synthesize
+    delegate = _delegate,
     allowGrowl = _allowGrowl,
     allowNotificationCenter = _allowNotificationCenter,
     growl = _growl,
@@ -18,9 +21,11 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.growl = [[GrowlNotifier alloc] init];
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
+
+        self.growl = [[GrowlNotifier alloc] init];
+        self.growl.delegate = self;
     }
     return self;
 }
@@ -56,6 +61,14 @@
     } else if (self.allowNotificationCenter && self._canShowCenterNotification) {
         [self _showCenterNotificationForCheck:check];
     } else NSLog(@"NotificationsController - swallowed notification");
+}
+
+#pragma mark - GrowlNotifierDelegate
+
+- (void)growlNotifier:(GrowlNotifier *)notifier
+        didClickOnCheckWithTag:(NSInteger)tag {
+    Check *check = [self.checks checkWithTag:tag];
+    [self.delegate notificationsController:self didActOnCheck:check];
 }
 
 #pragma mark - OS X Notification Center

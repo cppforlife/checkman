@@ -4,7 +4,8 @@
 
 @protocol MenuControllerDelegate <NSObject>
 - (void)menuController:(MenuController *)controller
-    showDebugOutputForCheck:(Check *)check;
+    didActOnCheck:(Check *)check
+    flags:(NSUInteger)flags;
 @end
 
 @interface MenuController : NSObject
