@@ -64,7 +64,13 @@
 #pragma mark - CheckDelegate
 
 - (void)checkDidChangeStatus:(NSNotification *)notification {
-    [self _updateStatusFromCheck:(Check *)notification.object];
+    Check *check = (Check *)notification.object;
+    [self _updateStatusFromCheck:check];
+
+    // Delegate individual check status changes for conveniece
+    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeStatus:)]) {
+        [self.delegate checkCollection:self checkDidChangeStatus:check];
+    }
 }
 
 - (void)checkDidChangeChanging:(NSNotification *)notification {
@@ -83,11 +89,6 @@
 - (void)_updateStatusFromCheck:(Check *)check {
     self.status = [self _aggregateStatus];
     [self.delegate checkCollection:self didUpdateStatusFromCheck:check];
-
-    // Delegate individual check status changes for conveniece
-    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeStatus:)]) {
-        [self.delegate checkCollection:self checkDidChangeStatus:check];
-    }
 }
 
 - (void)_updateChangingFromCheck:(Check *)check {

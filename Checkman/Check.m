@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) CheckRun *lastRun;
 @property (nonatomic, strong) CheckRun *currentRun;
+@property (nonatomic, assign, getter = isAfterFirstRun) BOOL afterFirstRun;
 @end
 
 @implementation Check
@@ -29,7 +30,8 @@
     runInterval = _runInterval,
     disabled = _disabled,
     lastRun = _lastRun,
-    currentRun = _currentRun;
+    currentRun = _currentRun,
+    afterFirstRun = _afterFirstRun;
 
 - (id)initWithName:(NSString *)name
            command:(NSString *)command
@@ -61,6 +63,7 @@
         CheckStatus oldStatus = self.status;
         BOOL oldChanging = self.isChanging;
 
+        self.afterFirstRun = (_lastRun == nil);
         _lastRun = lastRun;
 
         if (oldStatus != self.status) {

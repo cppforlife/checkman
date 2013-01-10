@@ -39,7 +39,9 @@
 
 - (void)checkCollection:(CheckCollection *)collection
         checkDidChangeStatus:(Check *)check {
-    [self _showNotificationForCheck:check];
+    if (!check.isAfterFirstRun) {
+        [self _showNotificationForCheck:check];
+    }
 }
 
 #pragma mark -

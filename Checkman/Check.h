@@ -30,6 +30,7 @@ typedef enum {
 - (void)startImmediately:(BOOL)immediately;
 - (void)stop;
 - (BOOL)isRunning;
+- (BOOL)isAfterFirstRun;
 
 - (CheckStatus)status;
 - (BOOL)isChanging;
