@@ -22,6 +22,9 @@
 		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
 		96472D5816880F5900D1CF46 /* test.check in Resources */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
 		96534308169B7361006E1536 /* NotificationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534307169B7361006E1536 /* NotificationsController.m */; };
+		96534322169E26E2006E1536 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
+		96534324169E2EFF006E1536 /* Growl.framework in Copy Growl Framework */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
+		96534327169E3A8B006E1536 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534326169E3A8B006E1536 /* GrowlNotifier.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
 		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
 		96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -61,6 +64,20 @@
 		DD4F7C3813C317A500825C6E /* MenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C3713C317A500825C6E /* MenuController.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		96534323169E2ED3006E1536 /* Copy Growl Framework */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				96534324169E2EFF006E1536 /* Growl.framework in Copy Growl Framework */,
+			);
+			name = "Copy Growl Framework";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckCollectionSpec.mm; sourceTree = "<group>"; };
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
@@ -83,6 +100,9 @@
 		96472D5716880F5900D1CF46 /* test.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.check; sourceTree = "<group>"; };
 		96534306169B7361006E1536 /* NotificationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsController.h; sourceTree = "<group>"; };
 		96534307169B7361006E1536 /* NotificationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsController.m; sourceTree = "<group>"; };
+		9653431F169E26C7006E1536 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		96534325169E3A8B006E1536 /* GrowlNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlNotifier.h; sourceTree = "<group>"; };
+		96534326169E3A8B006E1536 /* GrowlNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotifier.m; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
 		96EDD2BD16892C4000294E32 /* SectionedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedMenu.m; sourceTree = "<group>"; };
 		96EDD2E3168944D800294E32 /* CheckmanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckmanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */,
+				96534322169E26E2006E1536 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +225,16 @@
 				96472D5516880F5900D1CF46 /* build */,
 			);
 			path = bin;
+			sourceTree = "<group>";
+		};
+		96534329169E3C5A006E1536 /* Growl */ = {
+			isa = PBXGroup;
+			children = (
+				96534325169E3A8B006E1536 /* GrowlNotifier.h */,
+				96534326169E3A8B006E1536 /* GrowlNotifier.m */,
+				9653431F169E26C7006E1536 /* Growl.framework */,
+			);
+			name = Growl;
 			sourceTree = "<group>";
 		};
 		96EDD2E7168944D800294E32 /* Other Frameworks */ = {
@@ -382,6 +413,7 @@
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
 				96472D4A16880F5900D1CF46 /* Ext */,
+				96534329169E3C5A006E1536 /* Growl */,
 				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
 				AEF8D6A51684046300A255D4 /* Externals */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
@@ -475,6 +507,7 @@
 				DD4F7C0013C30F9F00825C6E /* Sources */,
 				DD4F7C0113C30F9F00825C6E /* Frameworks */,
 				DD4F7C0213C30F9F00825C6E /* Resources */,
+				96534323169E2ED3006E1536 /* Copy Growl Framework */,
 				962CD5D81691141B00728AD1 /* Update Git SHA in Info.plist */,
 			);
 			buildRules = (
@@ -632,6 +665,7 @@
 				962C6385168FE1C200CB4737 /* CheckManager.m in Sources */,
 				962CD5D6168FF65900728AD1 /* NSTask+Command.m in Sources */,
 				96534308169B7361006E1536 /* NotificationsController.m in Sources */,
+				96534327169E3A8B006E1536 /* GrowlNotifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,6 +802,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Checkman\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Checkman/Checkman-Prefix.pch";
 				INFOPLIST_FILE = "Checkman/Checkman-Info.plist";
@@ -785,6 +823,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Checkman\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Checkman/Checkman-Prefix.pch";
 				INFOPLIST_FILE = "Checkman/Checkman-Info.plist";

@@ -140,23 +140,6 @@ DelegateToLastRun(url, NSURL *);
 @end
 
 
-@implementation Check (Image)
-+ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing {
-    NSString *imageName = [self _statusImageNameForCheckStatus:status];
-    if (changing) imageName = [imageName stringByAppendingString:@"-changing"];
-    return imageName;
-}
-
-+ (NSString *)_statusImageNameForCheckStatus:(CheckStatus)status {
-    switch (status) {
-        case CheckStatusOk: return @"icon-ok";
-        case CheckStatusFail: return @"icon-fail";
-        case CheckStatusUndetermined: return @"icon-undetermined";
-    }
-}
-@end
-
-
 @implementation Check (Observers_Private)
 static NSString *CheckDidChangeStatus = @"CheckDidChangeStatus";
 static NSString *CheckDidChangeChanging = @"CheckDidChangeChanging";
@@ -199,6 +182,34 @@ static NSString *CheckDidChangeRunning = @"CheckDidChangeRunning";
         removeObserver:observer name:CheckDidChangeChanging object:self];
     [NSNotificationCenter.defaultCenter
         removeObserver:observer name:CheckDidChangeRunning object:self];
+}
+@end
+
+
+@implementation Check (Image)
++ (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing {
+    NSString *imageName = [self _statusImageNameForCheckStatus:status];
+    if (changing) imageName = [imageName stringByAppendingString:@"-changing"];
+    return imageName;
+}
+
++ (NSString *)_statusImageNameForCheckStatus:(CheckStatus)status {
+    switch (status) {
+        case CheckStatusOk: return @"icon-ok";
+        case CheckStatusFail: return @"icon-fail";
+        case CheckStatusUndetermined: return @"icon-undetermined";
+    }
+}
+@end
+
+
+@implementation Check (Notification)
+- (NSString *)statusNotificationText {
+    switch (self.status) {
+        case CheckStatusOk: return @"Now OK";
+        case CheckStatusFail: return @"Now FAILED";
+        case CheckStatusUndetermined: return @"Now ?";
+    }
 }
 @end
 

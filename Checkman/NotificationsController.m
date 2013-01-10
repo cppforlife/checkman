@@ -1,16 +1,20 @@
 #import "NotificationsController.h"
+#import <objc/runtime.h>
+#import "GrowlNotifier.h"
 #import "CheckCollection.h"
 #import "Check.h"
 
 @interface NotificationsController () <CheckCollectionDelegate>
+@property (nonatomic, strong) GrowlNotifier *growl;
 @property (nonatomic, strong) CheckCollection *checks;
 @end
 
 @implementation NotificationsController
-@synthesize checks = _checks;
+@synthesize growl = _growl, checks = _checks;
 
 - (id)init {
     if (self = [super init]) {
+        self.growl = [[GrowlNotifier alloc] init];
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
     }
@@ -38,27 +42,31 @@
     [self _showNotificationForCheck:check];
 }
 
-#pragma mark - Send notification
+#pragma mark -
 
 - (void)_showNotificationForCheck:(Check *)check {
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    notification.title = check.name;
-    notification.informativeText = [self _textForStatus:check.status];
-    notification.deliveryDate = [NSDate dateWithTimeIntervalSinceNow:1];
-    [self _sendNotification:notification];
+    if (self.growl.canShowNotification) {
+        [self.growl showNotificationForCheck:check];
+    } else if (self._canShowUserNotification) {
+        [self _showUserNotificationForCheck:check];
+    } else NSLog(@"NotificationsController - cannot send notification");
 }
 
-- (void)_sendNotification:(NSUserNotification *)notification {
-    NSLog(@"NotificationsController - send: %@ '%@'",
-          notification.title, notification.informativeText);
-    [NSUserNotificationCenter.defaultUserNotificationCenter scheduleNotification:notification];
+#pragma mark - Send built-in NSUserNotification
+
+- (BOOL)_canShowUserNotification {
+    return objc_getClass("NSUserNotification") == NULL;
 }
 
-- (NSString *)_textForStatus:(CheckStatus)status {
-    switch (status) {
-        case CheckStatusOk: return @"Now OK";
-        case CheckStatusFail: return @"Now FAILED";
-        case CheckStatusUndetermined: return @"Now ?";
-    }
+- (void)_showUserNotificationForCheck:(Check *)check {
+    NSLog(@"NotificationsController - user notification: %@", check.name);
+
+    id notification = [[NSClassFromString(@"NSUserNotification") alloc] init];
+    [notification setTitle:check.name];
+    [notification setInformativeText:check.statusNotificationText];
+    [notification setDeliveryDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+
+    id notificationCenter = NSClassFromString(@"NSUserNotificationCenter");
+    [[notificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
 }
 @end

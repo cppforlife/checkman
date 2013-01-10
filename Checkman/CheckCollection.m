@@ -40,14 +40,14 @@
 
 - (void)addCheck:(Check *)check {
     [self.checks addObject:check];
-    [self _updateStatusAndChanging];
+    [self _updateStatusAndChangingFromCheck:check];
     [check addObserver:self];
 }
 
 - (void)removeCheck:(Check *)check {
     [check removeObserver:self];
     [self.checks removeObject:check];
-    [self _updateStatusAndChanging];
+    [self _updateStatusAndChangingFromCheck:check];
 }
 
 - (NSUInteger)indexOfCheck:(Check *)check {
@@ -64,30 +64,35 @@
 #pragma mark - CheckDelegate
 
 - (void)checkDidChangeStatus:(NSNotification *)notification {
-    Check *check = (Check *)notification.object;
-
-    self.status = [self _aggregateStatus];
-    [self.delegate checkCollection:self didUpdateStatusFromCheck:check];
-
-    // Proxy individual check status changes for conveniece
-    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeStatus:)]) {
-        [self.delegate checkCollection:self checkDidChangeStatus:check];
-    }
+    [self _updateStatusFromCheck:(Check *)notification.object];
 }
 
 - (void)checkDidChangeChanging:(NSNotification *)notification {
-    self.changing = [self _aggregateChanging];
-    [self.delegate checkCollection:self
-        didUpdateChangingFromCheck:(Check *)notification.object];
+    [self _updateChangingFromCheck:(Check *)notification.object];
 }
 
 - (void)checkDidChangeRunning:(NSNotification *)notification {}
 
 #pragma mark -
 
-- (void)_updateStatusAndChanging {
-    [self checkDidChangeStatus:nil];
-    [self checkDidChangeChanging:nil];
+- (void)_updateStatusAndChangingFromCheck:(Check *)check {
+    [self _updateStatusFromCheck:check];
+    [self _updateChangingFromCheck:check];
+}
+
+- (void)_updateStatusFromCheck:(Check *)check {
+    self.status = [self _aggregateStatus];
+    [self.delegate checkCollection:self didUpdateStatusFromCheck:check];
+
+    // Delegate individual check status changes for conveniece
+    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeStatus:)]) {
+        [self.delegate checkCollection:self checkDidChangeStatus:check];
+    }
+}
+
+- (void)_updateChangingFromCheck:(Check *)check {
+    self.changing = [self _aggregateChanging];
+    [self.delegate checkCollection:self didUpdateChangingFromCheck:check];
 }
 
 - (CheckStatus)_aggregateStatus {

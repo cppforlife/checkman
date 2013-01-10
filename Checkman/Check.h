@@ -2,9 +2,9 @@
 #import "TaggedObject.h"
 
 typedef enum {
-    CheckStatusOk = 1,
-    CheckStatusFail = 2,
-    CheckStatusUndetermined = 0
+    CheckStatusOk = 99,
+    CheckStatusFail = 98,
+    CheckStatusUndetermined = 97
 } CheckStatus;
 
 @class Check;
@@ -45,6 +45,10 @@ typedef enum {
 
 @interface Check (Image)
 + (NSString *)statusImageNameForCheckStatus:(CheckStatus)status changing:(BOOL)changing;
+@end
+
+@interface Check (Notification)
+- (NSString *)statusNotificationText;
 @end
 
 @interface Check (Debugging)
