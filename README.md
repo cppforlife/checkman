@@ -168,3 +168,4 @@ Note: CHECKFILE is checkfile name before symlinks are resolved.
 
 * Doc Ritezel
 * Aram Price
+* James Bayer
