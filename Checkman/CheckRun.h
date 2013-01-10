@@ -15,9 +15,9 @@
 
 - (void)start;
 - (BOOL)isValid;
+
 - (BOOL)isSuccessful;
 - (BOOL)isChanging;
-
 - (NSURL *)url;
 - (NSArray *)info;
 @end
