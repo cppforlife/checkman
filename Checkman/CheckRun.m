@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)dealloc {
+    self.task.delegate = nil;
+}
+
 - (NSString *)description {
     return F(@"<CheckRun: %p> command='%@'", self, self.task.executedCommand);
 }

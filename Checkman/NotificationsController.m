@@ -4,6 +4,14 @@
 #import "CheckCollection.h"
 #import "Check.h"
 
+// Make compiler happy
+@interface NotificationsController (FakeNSUserNotification)
++ (id)defaultUserNotificationCenter;
+- (void)setDeliveryDate:(NSDate *)date;
+- (void)scheduleNotification:(id)notification;
+@end
+
+
 @interface NotificationsController ()
     <CheckCollectionDelegate, GrowlNotifierDelegate>
 @property (nonatomic, strong) GrowlNotifier *growl;

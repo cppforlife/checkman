@@ -32,6 +32,10 @@
     return self;
 }
 
+- (void)dealloc {
+    self.watcher.delegate = nil;
+}
+
 #pragma mark -
 
 - (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate
