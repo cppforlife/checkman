@@ -10,7 +10,11 @@
 @end
 
 @implementation NotificationsController
-@synthesize growl = _growl, checks = _checks;
+@synthesize
+    allowGrowl = _allowGrowl,
+    allowNotificationCenter = _allowNotificationCenter,
+    growl = _growl,
+    checks = _checks;
 
 - (id)init {
     if (self = [super init]) {
@@ -47,20 +51,20 @@
 #pragma mark -
 
 - (void)_showNotificationForCheck:(Check *)check {
-    if (self.growl.canShowNotification) {
+    if (self.allowGrowl && self.growl.canShowNotification) {
         [self.growl showNotificationForCheck:check];
-    } else if (self._canShowUserNotification) {
-        [self _showUserNotificationForCheck:check];
-    } else NSLog(@"NotificationsController - cannot send notification");
+    } else if (self.allowNotificationCenter && self._canShowCenterNotification) {
+        [self _showCenterNotificationForCheck:check];
+    } else NSLog(@"NotificationsController - swallowed notification");
 }
 
-#pragma mark - Send built-in NSUserNotification
+#pragma mark - OS X Notification Center
 
-- (BOOL)_canShowUserNotification {
-    return objc_getClass("NSUserNotification") == NULL;
+- (BOOL)_canShowCenterNotification {
+    return objc_getClass("NSUserNotification") != nil;
 }
 
-- (void)_showUserNotificationForCheck:(Check *)check {
+- (void)_showCenterNotificationForCheck:(Check *)check {
     NSLog(@"NotificationsController - user notification: %@", check.name);
 
     id notification = [[NSClassFromString(@"NSUserNotification") alloc] init];

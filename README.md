@@ -119,6 +119,12 @@ Check out included `scripts/` for examples.
 * `Control + click` check menu item - restart check run.
 
 
+# Notifications
+
+Notification are sent when status of a check changes. By default Checkman
+will first try to send notifications to Growl and then to OS X Notification Center.
+
+
 # Custom user settings
 
 Change run interval for all/single check(s) (where INTERVAL is integer > 0):
@@ -129,6 +135,14 @@ Change run interval for all/single check(s) (where INTERVAL is integer > 0):
 Disable single check:
 
     defaults write com.tomato.Checkman checks.<CHECKFILE>.<CHECK>.disabled -bool YES
+
+Disable Growl notifications support:
+
+    defaults write com.tomato.Checkman notifications.growl.disabled -bool YES
+
+Disable OS X Notification Center support:
+
+    defaults write com.tomato.Checkman notifications.center.disabled -bool YES
 
 View all current customizations:
 

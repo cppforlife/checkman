@@ -26,21 +26,41 @@
 }
 
 - (void)_setUp {
-    self.menuController = [[MenuController alloc] init];
-    self.menuController.delegate = self;
+    [self _setUpSettings];
+    [self _setUpMenu];
+    [self _setUpNotifications];
+    [self _setUpCheckManager];
+}
 
-    self.notificationsController = [[NotificationsController alloc] init];
-
+- (void)_setUpSettings {
     self.settings = Settings.userSettings;
     self.settings.delegate = self;
     [self.settings trackChanges];
+}
 
+- (void)_setUpMenu {
+    self.menuController = [[MenuController alloc] init];
+    self.menuController.delegate = self;
+}
+
+- (void)_setUpNotifications {
+    self.notificationsController = [[NotificationsController alloc] init];
+    [self _configureNotificationsController];
+}
+
+- (void)_configureNotificationsController {
+    self.notificationsController.allowGrowl =
+        self.settings.allowGrowlNotifications;
+    self.notificationsController.allowNotificationCenter =
+        self.settings.allowNotificationCenterNotifications;
+}
+
+- (void)_setUpCheckManager {
     self.checkManager =
         [[CheckManager alloc]
             initWithMenuController:self.menuController
             notificationsController:self.notificationsController
             settings:self.settings];
-
     [self.checkManager loadCheckfiles];
 }
 
@@ -56,6 +76,7 @@
 
 - (void)settingsDidChange:(Settings *)settings {
     [self.checkManager reloadCheckfiles];
+    [self _configureNotificationsController];
 }
 
 #pragma mark - Git SHA

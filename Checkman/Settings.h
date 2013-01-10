@@ -21,4 +21,9 @@
 
 - (BOOL)isCheckWithNameDisabled:(NSString *)name
     inCheckfileWithName:(NSString *)checkfileName;
+
+#pragma mark - Notifications
+
+- (BOOL)allowGrowlNotifications;
+- (BOOL)allowNotificationCenterNotifications;
 @end

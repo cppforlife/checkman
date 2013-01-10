@@ -91,4 +91,14 @@
     NSNumber *value = [self.userDefaults objectForKey:key];
     return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
 }
+
+#pragma mark - Notifications
+
+- (BOOL)allowGrowlNotifications {
+    return ![self.userDefaults boolForKey:@"notifications.growl.disabled"];
+}
+
+- (BOOL)allowNotificationCenterNotifications {
+    return ![self.userDefaults boolForKey:@"notifications.center.disabled"];
+}
 @end
