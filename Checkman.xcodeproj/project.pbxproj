@@ -226,14 +226,14 @@
 			path = bin;
 			sourceTree = "<group>";
 		};
-		96534329169E3C5A006E1536 /* Growl */ = {
+		96534329169E3C5A006E1536 /* GrowlNotifier */ = {
 			isa = PBXGroup;
 			children = (
 				96534325169E3A8B006E1536 /* GrowlNotifier.h */,
 				96534326169E3A8B006E1536 /* GrowlNotifier.m */,
 				9653431F169E26C7006E1536 /* Growl.framework */,
 			);
-			name = Growl;
+			name = GrowlNotifier;
 			sourceTree = "<group>";
 		};
 		9697A2E8169E6A1300ED7544 /* AsyncTask */ = {
@@ -360,19 +360,12 @@
 			name = VDKQueue;
 			sourceTree = "<group>";
 		};
-		AEF8D6A51684046300A255D4 /* Externals */ = {
-			isa = PBXGroup;
-			children = (
-				AEF8D6A11684042800A255D4 /* VDKQueue */,
-			);
-			name = Externals;
-			sourceTree = "<group>";
-		};
 		AEF8D6A61684071A00A255D4 /* FSChangesNotifier */ = {
 			isa = PBXGroup;
 			children = (
 				AEF8D6A71684073D00A255D4 /* FSChangesNotifier.h */,
 				AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */,
+				AEF8D6A11684042800A255D4 /* VDKQueue */,
 			);
 			name = FSChangesNotifier;
 			sourceTree = "<group>";
@@ -421,10 +414,9 @@
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
 				96472D4A16880F5900D1CF46 /* Ext */,
-				96534329169E3C5A006E1536 /* Growl */,
 				9697A2E8169E6A1300ED7544 /* AsyncTask */,
+				96534329169E3C5A006E1536 /* GrowlNotifier */,
 				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
-				AEF8D6A51684046300A255D4 /* Externals */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
 			);
 			name = Sources;
