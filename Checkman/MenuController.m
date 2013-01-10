@@ -40,7 +40,6 @@
 }
 
 - (void)dealloc {
-    self.checks.delegate = nil;
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
 }
 
