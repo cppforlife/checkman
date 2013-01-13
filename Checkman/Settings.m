@@ -94,6 +94,10 @@
 
 #pragma mark - Notifications
 
+- (BOOL)allowCustomNotifications {
+    return ![self.userDefaults boolForKey:@"notifications.custom.disabled"];
+}
+
 - (BOOL)allowGrowlNotifications {
     return ![self.userDefaults boolForKey:@"notifications.growl.disabled"];
 }

@@ -50,6 +50,7 @@ typedef enum {
 
 @interface Check (Notification)
 - (NSString *)statusNotificationText;
+- (NSColor *)statusNotificationColor;
 @end
 
 @interface Check (Debugging)

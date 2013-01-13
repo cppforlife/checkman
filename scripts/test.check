@@ -26,7 +26,11 @@ class Test
 
   def ok?
     if has?(:flapping)
-      (Time.now.sec / 6) < 3
+      case Time.now.sec / 6
+        when 0..3 then true
+        when 3..6 then false
+        else raise
+      end
     else
       !has?(:fail)
     end

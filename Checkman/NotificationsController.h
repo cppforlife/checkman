@@ -10,6 +10,7 @@
 @interface NotificationsController : NSObject
 
 @property (nonatomic, assign) id<NotificationsControllerDelegate> delegate;
+@property (nonatomic, assign) BOOL allowCustom;
 @property (nonatomic, assign) BOOL allowGrowl;
 @property (nonatomic, assign) BOOL allowNotificationCenter;
 

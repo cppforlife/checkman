@@ -24,6 +24,7 @@
 
 #pragma mark - Notifications
 
+- (BOOL)allowCustomNotifications;
 - (BOOL)allowGrowlNotifications;
 - (BOOL)allowNotificationCenterNotifications;
 @end

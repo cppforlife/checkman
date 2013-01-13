@@ -26,6 +26,10 @@
 		96534327169E3A8B006E1536 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534326169E3A8B006E1536 /* GrowlNotifier.m */; };
 		9697A2EC169E6A3400ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
 		9697A2ED169E74E900ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
+		9697A2F016A0C85300ED7544 /* NotificationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EF16A0C85300ED7544 /* NotificationPanel.m */; };
+		9697A2F316A0C93400ED7544 /* NotificationPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2F216A0C93400ED7544 /* NotificationPanelView.m */; };
+		9697A30016A218B900ED7544 /* CustomNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2FF16A218B900ED7544 /* CustomNotifier.m */; };
+		9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A30616A23DCD00ED7544 /* CustomNotification.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
 		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
 		96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -104,6 +108,14 @@
 		96534326169E3A8B006E1536 /* GrowlNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotifier.m; sourceTree = "<group>"; };
 		9697A2EA169E6A3400ED7544 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		9697A2EB169E6A3400ED7544 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
+		9697A2EE16A0C85200ED7544 /* NotificationPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationPanel.h; sourceTree = "<group>"; };
+		9697A2EF16A0C85300ED7544 /* NotificationPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationPanel.m; sourceTree = "<group>"; };
+		9697A2F116A0C93400ED7544 /* NotificationPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationPanelView.h; sourceTree = "<group>"; };
+		9697A2F216A0C93400ED7544 /* NotificationPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationPanelView.m; sourceTree = "<group>"; };
+		9697A2FE16A218B900ED7544 /* CustomNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNotifier.h; sourceTree = "<group>"; };
+		9697A2FF16A218B900ED7544 /* CustomNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNotifier.m; sourceTree = "<group>"; };
+		9697A30516A23DCD00ED7544 /* CustomNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNotification.h; sourceTree = "<group>"; };
+		9697A30616A23DCD00ED7544 /* CustomNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNotification.m; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
 		96EDD2BD16892C4000294E32 /* SectionedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedMenu.m; sourceTree = "<group>"; };
 		96EDD2E3168944D800294E32 /* CheckmanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckmanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +255,45 @@
 				9697A2EB169E6A3400ED7544 /* AsyncTask.m */,
 			);
 			name = AsyncTask;
+			sourceTree = "<group>";
+		};
+		9697A30116A23D1E00ED7544 /* CustomNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				9697A30416A23DB600ED7544 /* Models */,
+				9697A30316A23D6C00ED7544 /* Controllers */,
+				9697A30216A23D5B00ED7544 /* Views */,
+			);
+			name = CustomNotifier;
+			sourceTree = "<group>";
+		};
+		9697A30216A23D5B00ED7544 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9697A2EE16A0C85200ED7544 /* NotificationPanel.h */,
+				9697A2EF16A0C85300ED7544 /* NotificationPanel.m */,
+				9697A2F116A0C93400ED7544 /* NotificationPanelView.h */,
+				9697A2F216A0C93400ED7544 /* NotificationPanelView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		9697A30316A23D6C00ED7544 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9697A2FE16A218B900ED7544 /* CustomNotifier.h */,
+				9697A2FF16A218B900ED7544 /* CustomNotifier.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		9697A30416A23DB600ED7544 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9697A30516A23DCD00ED7544 /* CustomNotification.h */,
+				9697A30616A23DCD00ED7544 /* CustomNotification.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		96EDD2E7168944D800294E32 /* Other Frameworks */ = {
@@ -415,6 +466,7 @@
 				DD4F7C3913C317EC00825C6E /* Views */,
 				96472D4A16880F5900D1CF46 /* Ext */,
 				9697A2E8169E6A1300ED7544 /* AsyncTask */,
+				9697A30116A23D1E00ED7544 /* CustomNotifier */,
 				96534329169E3C5A006E1536 /* GrowlNotifier */,
 				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
@@ -668,6 +720,10 @@
 				96534308169B7361006E1536 /* NotificationsController.m in Sources */,
 				96534327169E3A8B006E1536 /* GrowlNotifier.m in Sources */,
 				9697A2EC169E6A3400ED7544 /* AsyncTask.m in Sources */,
+				9697A2F016A0C85300ED7544 /* NotificationPanel.m in Sources */,
+				9697A2F316A0C93400ED7544 /* NotificationPanelView.m in Sources */,
+				9697A30016A218B900ED7544 /* CustomNotifier.m in Sources */,
+				9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

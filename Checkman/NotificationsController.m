@@ -1,5 +1,7 @@
 #import "NotificationsController.h"
 #import <objc/runtime.h>
+#import "CustomNotifier.h"
+#import "CustomNotification.h"
 #import "GrowlNotifier.h"
 #import "CheckCollection.h"
 #import "Check.h"
@@ -14,6 +16,7 @@
 
 @interface NotificationsController ()
     <CheckCollectionDelegate, GrowlNotifierDelegate>
+@property (nonatomic, strong) CustomNotifier *custom;
 @property (nonatomic, strong) GrowlNotifier *growl;
 @property (nonatomic, strong) CheckCollection *checks;
 @end
@@ -22,18 +25,21 @@
 
 @synthesize
     delegate = _delegate,
+    allowCustom = _allowCustom,
     allowGrowl = _allowGrowl,
     allowNotificationCenter = _allowNotificationCenter,
+    custom = _custom,
     growl = _growl,
     checks = _checks;
 
 - (id)init {
     if (self = [super init]) {
-        self.checks = [[CheckCollection alloc] init];
-        self.checks.delegate = self;
-
+        self.custom = [[CustomNotifier alloc] init];
         self.growl = [[GrowlNotifier alloc] init];
         self.growl.delegate = self;
+
+        self.checks = [[CheckCollection alloc] init];
+        self.checks.delegate = self;
     }
     return self;
 }
@@ -64,11 +70,23 @@
 #pragma mark -
 
 - (void)_showNotificationForCheck:(Check *)check {
-    if (self.allowGrowl && self.growl.canShowNotification) {
+    if (self.allowCustom) {
+        [self _showCustomNotificationForCheck:check];
+    } else if (self.allowGrowl && self.growl.canShowNotification) {
         [self.growl showNotificationForCheck:check];
     } else if (self.allowNotificationCenter && self._canShowCenterNotification) {
         [self _showCenterNotificationForCheck:check];
     } else NSLog(@"NotificationsController - swallowed notification");
+}
+
+#pragma mark - Custom notifications
+
+- (void)_showCustomNotificationForCheck:(Check *)check {
+    CustomNotification *notification = [[CustomNotification alloc] init];
+    notification.name = check.name;
+    notification.status = check.statusNotificationText;
+    notification.color = check.statusNotificationColor;
+    [self.custom showNotification:notification];
 }
 
 #pragma mark - GrowlNotifierDelegate

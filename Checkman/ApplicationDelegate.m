@@ -52,6 +52,8 @@
 }
 
 - (void)_configureNotificationsController {
+    self.notificationsController.allowCustom =
+        self.settings.allowCustomNotifications;
     self.notificationsController.allowGrowl =
         self.settings.allowGrowlNotifications;
     self.notificationsController.allowNotificationCenter =

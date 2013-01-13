@@ -209,9 +209,17 @@ static NSString *CheckDidChangeRunning = @"CheckDidChangeRunning";
 @implementation Check (Notification)
 - (NSString *)statusNotificationText {
     switch (self.status) {
-        case CheckStatusOk: return @"Now OK";
-        case CheckStatusFail: return @"Now FAILED";
-        case CheckStatusUndetermined: return @"Now ?";
+        case CheckStatusOk: return @"OK";
+        case CheckStatusFail: return @"FAILED";
+        case CheckStatusUndetermined: return @"UNDETERMINED";
+    }
+}
+
+- (NSColor *)statusNotificationColor {
+    switch (self.status) {
+        case CheckStatusOk: return [NSColor colorWithDeviceRed:58.0/255 green:130.0/255 blue:7.0/255 alpha:1];
+        case CheckStatusFail: return [NSColor colorWithDeviceRed:202.0/255 green:26.0/255 blue:22.0/255 alpha:1];
+        case CheckStatusUndetermined: return NSColor.darkGrayColor;
     }
 }
 @end
