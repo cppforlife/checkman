@@ -1,16 +1,18 @@
 #import <Foundation/Foundation.h>
 
-@class Check, GrowlNotifier;
+@class GrowlNotification, GrowlNotifier;
 
 @protocol GrowlNotifierDelegate <NSObject>
 - (void)growlNotifier:(GrowlNotifier *)notifier
-    didClickOnCheckWithTag:(NSInteger)tag;
+    didClickOnNotificationWithTag:(NSInteger)tag;
 @end
 
 @interface GrowlNotifier : NSObject
 
 @property (nonatomic, assign) id<GrowlNotifierDelegate> delegate;
 
+- (id)initWithNotificationTypes:(NSDictionary *)notificationTypes;
+
 - (BOOL)canShowNotification;
-- (void)showNotificationForCheck:(Check *)check;
+- (void)showNotification:(GrowlNotification *)notification;
 @end

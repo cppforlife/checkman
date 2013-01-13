@@ -3,6 +3,7 @@
 #import "CustomNotifier.h"
 #import "CustomNotification.h"
 #import "GrowlNotifier.h"
+#import "GrowlNotification.h"
 #import "CheckCollection.h"
 #import "Check.h"
 
@@ -35,13 +36,16 @@
 - (id)init {
     if (self = [super init]) {
         self.custom = [[CustomNotifier alloc] init];
-        self.growl = [[GrowlNotifier alloc] init];
         self.growl.delegate = self;
-
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
     }
     return self;
+}
+
+- (void)dealloc {
+    self.growl.delegate = nil;
+    self.checks.delegate = nil;
 }
 
 - (void)addCheck:(Check *)check {
@@ -73,7 +77,7 @@
     if (self.allowCustom) {
         [self _showCustomNotificationForCheck:check];
     } else if (self.allowGrowl && self.growl.canShowNotification) {
-        [self.growl showNotificationForCheck:check];
+        [self _showGrowlNotificationForCheck:check];
     } else if (self.allowNotificationCenter && self._canShowCenterNotification) {
         [self _showCenterNotificationForCheck:check];
     } else NSLog(@"NotificationsController - swallowed notification");
@@ -89,10 +93,39 @@
     [self.custom showNotification:notification];
 }
 
-#pragma mark - GrowlNotifierDelegate
+#pragma mark - Growl notifications
+
+- (GrowlNotifier *)growlNotifier {
+    if (!_growl) {
+        NSDictionary *notificationTypes =
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"Check OK", @"CheckStatusOk",
+                 @"Check FAILED", @"CheckStatusFail",
+                 @"Check UNDETERMINED", @"CheckStatusUndetermined", nil];
+        _growl = [[GrowlNotifier alloc] initWithNotificationTypes:notificationTypes];
+    }
+    return _growl;
+}
+
+- (void)_showGrowlNotificationForCheck:(Check *)check {
+    GrowlNotification *notification = [[GrowlNotification alloc] init];
+    notification.name = check.statusNotificationName;
+    notification.status = check.statusNotificationText;
+    notification.type = [self _growlNotificationTypeForCheck:check];
+    notification.tag = check.tag;
+    [self.growl showNotification:notification];
+}
+
+- (NSString *)_growlNotificationTypeForCheck:(Check *)check {
+    switch (check.status) {
+        case CheckStatusOk: return @"CheckStatusOk";
+        case CheckStatusFail: return @"CheckStatusFail";
+        case CheckStatusUndetermined: return @"CheckStatusUndetermined";
+    }
+}
 
 - (void)growlNotifier:(GrowlNotifier *)notifier
-        didClickOnCheckWithTag:(NSInteger)tag {
+        didClickOnNotificationWithTag:(NSInteger)tag {
     Check *check = [self.checks checkWithTag:tag];
     [self.delegate notificationsController:self didActOnCheck:check];
 }

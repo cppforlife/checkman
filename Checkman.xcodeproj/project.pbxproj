@@ -30,6 +30,7 @@
 		9697A2F316A0C93400ED7544 /* NotificationPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2F216A0C93400ED7544 /* NotificationPanelView.m */; };
 		9697A30016A218B900ED7544 /* CustomNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2FF16A218B900ED7544 /* CustomNotifier.m */; };
 		9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A30616A23DCD00ED7544 /* CustomNotification.m */; };
+		9697A30A16A379F800ED7544 /* GrowlNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A30916A379F800ED7544 /* GrowlNotification.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
 		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
 		96EDD2E6168944D800294E32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -116,6 +117,8 @@
 		9697A2FF16A218B900ED7544 /* CustomNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNotifier.m; sourceTree = "<group>"; };
 		9697A30516A23DCD00ED7544 /* CustomNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNotification.h; sourceTree = "<group>"; };
 		9697A30616A23DCD00ED7544 /* CustomNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNotification.m; sourceTree = "<group>"; };
+		9697A30816A379F800ED7544 /* GrowlNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlNotification.h; sourceTree = "<group>"; };
+		9697A30916A379F800ED7544 /* GrowlNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotification.m; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
 		96EDD2BD16892C4000294E32 /* SectionedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionedMenu.m; sourceTree = "<group>"; };
 		96EDD2E3168944D800294E32 /* CheckmanTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CheckmanTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +246,8 @@
 			children = (
 				96534325169E3A8B006E1536 /* GrowlNotifier.h */,
 				96534326169E3A8B006E1536 /* GrowlNotifier.m */,
+				9697A30816A379F800ED7544 /* GrowlNotification.h */,
+				9697A30916A379F800ED7544 /* GrowlNotification.m */,
 				9653431F169E26C7006E1536 /* Growl.framework */,
 			);
 			name = GrowlNotifier;
@@ -724,6 +729,7 @@
 				9697A2F316A0C93400ED7544 /* NotificationPanelView.m in Sources */,
 				9697A30016A218B900ED7544 /* CustomNotifier.m in Sources */,
 				9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */,
+				9697A30A16A379F800ED7544 /* GrowlNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
