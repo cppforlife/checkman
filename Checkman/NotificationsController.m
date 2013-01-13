@@ -14,12 +14,23 @@
 - (void)scheduleNotification:(id)notification;
 @end
 
-
-@interface NotificationsController ()
-    <CheckCollectionDelegate, GrowlNotifierDelegate>
+@interface NotificationsController () <CheckCollectionDelegate>
 @property (nonatomic, strong) CustomNotifier *custom;
 @property (nonatomic, strong) GrowlNotifier *growl;
 @property (nonatomic, strong) CheckCollection *checks;
+@end
+
+@interface NotificationsController (Custom)
+- (void)_showCustomNotificationForCheck:(Check *)check;
+@end
+
+@interface NotificationsController (Growl) <GrowlNotifierDelegate>
+- (void)_showGrowlNotificationForCheck:(Check *)check;
+@end
+
+@interface NotificationsController (Center)
+- (BOOL)_canShowCenterNotification;
+- (void)_showCenterNotificationForCheck:(Check *)check;
 @end
 
 @implementation NotificationsController
@@ -36,7 +47,6 @@
 - (id)init {
     if (self = [super init]) {
         self.custom = [[CustomNotifier alloc] init];
-        self.growl.delegate = self;
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
     }
@@ -82,9 +92,10 @@
         [self _showCenterNotificationForCheck:check];
     } else NSLog(@"NotificationsController - swallowed notification");
 }
+@end
 
-#pragma mark - Custom notifications
 
+@implementation NotificationsController (Custom)
 - (void)_showCustomNotificationForCheck:(Check *)check {
     CustomNotification *notification = [[CustomNotification alloc] init];
     notification.name = check.statusNotificationName;
@@ -92,9 +103,10 @@
     notification.color = check.statusNotificationColor;
     [self.custom showNotification:notification];
 }
+@end
 
-#pragma mark - Growl notifications
 
+@implementation NotificationsController (Growl)
 - (GrowlNotifier *)growlNotifier {
     if (!_growl) {
         NSDictionary *notificationTypes =
@@ -103,6 +115,7 @@
                  @"Check FAILED", @"CheckStatusFail",
                  @"Check UNDETERMINED", @"CheckStatusUndetermined", nil];
         _growl = [[GrowlNotifier alloc] initWithNotificationTypes:notificationTypes];
+        _growl.delegate = self;
     }
     return _growl;
 }
@@ -129,9 +142,10 @@
     Check *check = [self.checks checkWithTag:tag];
     [self.delegate notificationsController:self didActOnCheck:check];
 }
+@end
 
-#pragma mark - OS X Notification Center
 
+@implementation NotificationsController (Center)
 - (BOOL)_canShowCenterNotification {
     return objc_getClass("NSUserNotification") != nil;
 }
