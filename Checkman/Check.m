@@ -27,6 +27,7 @@
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
+    contextName = _contextName,
     runInterval = _runInterval,
     disabled = _disabled,
     lastRun = _lastRun,
@@ -207,6 +208,10 @@ static NSString *CheckDidChangeRunning = @"CheckDidChangeRunning";
 
 
 @implementation Check (Notification)
+- (NSString *)statusNotificationName {
+    return F(@"%@'s %@", self.contextName, self.name);
+}
+
 - (NSString *)statusNotificationText {
     switch (self.status) {
         case CheckStatusOk: return @"OK";

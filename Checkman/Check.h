@@ -17,6 +17,7 @@ typedef enum {
 
 @interface Check : TaggedObject
 
+@property (nonatomic, strong) NSString *contextName;
 @property (nonatomic, assign) NSUInteger runInterval;
 @property (nonatomic, assign, getter = isDisabled) BOOL disabled;
 
@@ -49,6 +50,7 @@ typedef enum {
 @end
 
 @interface Check (Notification)
+- (NSString *)statusNotificationName;
 - (NSString *)statusNotificationText;
 - (NSColor *)statusNotificationColor;
 @end

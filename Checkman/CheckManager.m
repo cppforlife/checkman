@@ -111,9 +111,14 @@
 }
 
 - (Check *)_checkFromEntry:(CheckfileCommandEntry *)entry checkfile:(Checkfile *)checkfile {
-    Check *check = [[Check alloc] initWithName:entry.name command:entry.command directoryPath:checkfile.resolvedDirectoryPath];
+    Check *check =
+        [[Check alloc]
+            initWithName:entry.name
+            command:entry.command
+            directoryPath:checkfile.resolvedDirectoryPath];
     check.tag = entry.tag;
 
+    check.contextName = checkfile.name;
     check.runInterval = [self.settings
         runIntervalForCheckWithName:check.name
         inCheckfileWithName:checkfile.name];

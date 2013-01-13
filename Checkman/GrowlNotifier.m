@@ -25,10 +25,10 @@
 }
 
 - (void)showNotificationForCheck:(Check *)check {
-    NSLog(@"GrowlNotifier - show: %@", check.name);
+    NSLog(@"GrowlNotifier - show: %@", check.statusNotificationName);
 
     [GrowlApplicationBridge
-        notifyWithTitle:check.name
+        notifyWithTitle:check.statusNotificationName
         description:check.statusNotificationText
         notificationName:[self _growlNotificationForStatus:check.status]
         iconData:nil priority:0 isSticky:NO

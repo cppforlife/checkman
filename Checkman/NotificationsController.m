@@ -83,7 +83,7 @@
 
 - (void)_showCustomNotificationForCheck:(Check *)check {
     CustomNotification *notification = [[CustomNotification alloc] init];
-    notification.name = check.name;
+    notification.name = check.statusNotificationName;
     notification.status = check.statusNotificationText;
     notification.color = check.statusNotificationColor;
     [self.custom showNotification:notification];
@@ -104,10 +104,10 @@
 }
 
 - (void)_showCenterNotificationForCheck:(Check *)check {
-    NSLog(@"NotificationsController - user notification: %@", check.name);
+    NSLog(@"NotificationsController - user notification: %@", check.statusNotificationName);
 
     id notification = [[NSClassFromString(@"NSUserNotification") alloc] init];
-    [notification setTitle:check.name];
+    [notification setTitle:check.statusNotificationName];
     [notification setInformativeText:check.statusNotificationText];
     [notification setDeliveryDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 
