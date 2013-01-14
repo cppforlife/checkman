@@ -145,9 +145,10 @@ DelegateToLastRun(url, NSURL *);
 
 
 @implementation Check (Observers_Private)
-static NSString *CheckDidChangeStatus = @"CheckDidChangeStatus";
-static NSString *CheckDidChangeChanging = @"CheckDidChangeChanging";
-static NSString *CheckDidChangeRunning = @"CheckDidChangeRunning";
+static NSString
+    *CheckDidChangeStatus = @"CheckDidChangeStatus",
+    *CheckDidChangeChanging = @"CheckDidChangeChanging",
+    *CheckDidChangeRunning = @"CheckDidChangeRunning";
 
 - (void)_didChangeStatus {
     [NSNotificationCenter.defaultCenter

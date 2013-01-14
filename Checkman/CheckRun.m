@@ -33,6 +33,9 @@
 
 - (void)dealloc {
     self.task.delegate = nil;
+#if !__has_feature(objc_arc)
+    [super dealloc];
+#endif
 }
 
 - (NSString *)description {
