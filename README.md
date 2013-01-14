@@ -122,7 +122,8 @@ You can print anything to `stderr`. Check out included `scripts/` for examples.
 # Notifications
 
 Notifications are sent when status of a check changes. By default Checkman
-will first try to send notifications to Growl and then to OS X Notification Center.
+will try to use custom notifications then Growl and finally
+OS X Notification Center.
 
 
 # Custom user settings
@@ -136,12 +137,10 @@ Disable single check:
 
     defaults write com.tomato.Checkman checks.<CHECKFILE>.<CHECK>.disabled -bool YES
 
-Disable Growl notifications support:
+Disable notification transports:
 
+    defaults write com.tomato.Checkman notifications.custom.disabled -bool YES
     defaults write com.tomato.Checkman notifications.growl.disabled -bool YES
-
-Disable OS X Notification Center support:
-
     defaults write com.tomato.Checkman notifications.center.disabled -bool YES
 
 View all current customizations:
