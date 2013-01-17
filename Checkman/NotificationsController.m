@@ -86,11 +86,13 @@
 - (void)_showNotificationForCheck:(Check *)check {
     if (self.allowCustom) {
         [self _showCustomNotificationForCheck:check];
-    } else if (self.allowGrowl && self.growl.canShowNotification) {
+    }
+    if (self.allowGrowl && self.growl.canShowNotification) {
         [self _showGrowlNotificationForCheck:check];
-    } else if (self.allowNotificationCenter && self._canShowCenterNotification) {
+    }
+    if (self.allowNotificationCenter && self._canShowCenterNotification) {
         [self _showCenterNotificationForCheck:check];
-    } else NSLog(@"NotificationsController - swallowed notification");
+    }
 }
 @end
 
