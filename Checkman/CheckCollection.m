@@ -153,4 +153,11 @@
     }
     return count;
 }
+
+#pragma mark - NSFastEnumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state
+        objects:(id __unsafe_unretained [])buffer count:(NSUInteger)length {
+    return [self.checks countByEnumeratingWithState:state objects:buffer count:length];
+}
 @end

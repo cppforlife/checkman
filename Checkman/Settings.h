@@ -22,6 +22,10 @@
 - (BOOL)isCheckWithNameDisabled:(NSString *)name
     inCheckfileWithName:(NSString *)checkfileName;
 
+#pragma mark - Stickies
+
+- (BOOL)allowStickies;
+
 #pragma mark - Notifications
 
 - (BOOL)allowCustomNotifications;

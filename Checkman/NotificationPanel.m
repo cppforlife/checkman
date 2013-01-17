@@ -23,6 +23,7 @@
             [[NotificationPanelView alloc] initWithNotification:notification];
         self.minSize = view.frame.size;
         self.contentView = view;
+        [self useOptimizedDrawing:YES];
 
         self.excludedFromWindowsMenu = NO;
         self.hidesOnDeactivate = NO;

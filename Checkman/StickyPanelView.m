@@ -1,20 +1,20 @@
-#import "NotificationPanelView.h"
-#import "CustomNotification.h"
+#import "StickyPanelView.h"
+#import "Sticky.h"
 
-@interface NotificationPanelView ()
-@property (nonatomic, strong) CustomNotification *notification;
+@interface StickyPanelView ()
+@property (nonatomic, strong) Sticky *sticky;
 @property (nonatomic, strong) NSTextView *statusText;
 @end
 
-@implementation NotificationPanelView
+@implementation StickyPanelView
 
 @synthesize
-    notification = _notification,
+    sticky = _sticky,
     statusText = _statusText;
 
-- (id)initWithNotification:(CustomNotification *)notification {
+- (id)initWithSticky:(Sticky *)sticky {
     if (self = [super init]) {
-        self.notification = notification;
+        self.sticky = sticky;
         self.frame = self.statusText.frame;
         [self addSubview:self.statusText];
     }
@@ -24,16 +24,16 @@
 - (void)drawRect:(NSRect)rect {
     NSBezierPath *path =
         [NSBezierPath bezierPathWithRoundedRect:self.frame xRadius:10 yRadius:10];
-    [self.notification.color set];
+    [self.sticky.color set];
     [path fill];
 }
 
 - (NSTextView *)statusText {
     if (!_statusText) {
         _statusText = self._buildTextView;
-        _statusText.font = [NSFont systemFontOfSize:20];
-        _statusText.string = F(@"%@ %@", self.notification.name, self.notification.status);
-        _statusText.textContainerInset = NSMakeSize(10, 10);
+        _statusText.font = [NSFont systemFontOfSize:10];
+        _statusText.string = F(@"%@ %@", self.sticky.name, self.sticky.status);
+        _statusText.textContainerInset = NSMakeSize(5, 5);
         [self _sizeTextView:_statusText];
     }
     return _statusText;

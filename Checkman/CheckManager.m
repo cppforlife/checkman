@@ -1,7 +1,9 @@
 #import "CheckManager.h"
 #import "MenuController.h"
+#import "StickiesController.h"
 #import "NotificationsController.h"
 #import "Settings.h"
+
 #import "CheckfileCollection.h"
 #import "Checkfile.h"
 #import "CheckfileEntry.h"
@@ -11,6 +13,7 @@
 @interface CheckManager () <CheckfileCollectionDelegate, CheckfileDelegate>
 @property (nonatomic, strong) CheckfileCollection *checkfiles;
 @property (nonatomic, strong) MenuController *menuController;
+@property (nonatomic, strong) StickiesController *stickiesController;
 @property (nonatomic, strong) NotificationsController *notificationsController;
 @property (nonatomic, strong) Settings *settings;
 @end
@@ -20,14 +23,17 @@
 @synthesize
     checkfiles = _checkfiles,
     menuController = _menuController,
+    stickiesController = _stickiesController,
     notificationsController = _notificationsController,
     settings = _settings;
 
 - (id)initWithMenuController:(MenuController *)menuController
+          stickiesController:(StickiesController *)stickiesController
      notificationsController:(NotificationsController *)notificationsController
                     settings:(Settings *)settings {
     if (self = [super init]) {
         self.menuController = menuController;
+        self.stickiesController = stickiesController;
         self.notificationsController = notificationsController;
         self.settings = settings;
     }
@@ -92,6 +98,7 @@
             atIndex:entryIndex
             inSectionWithTag:checkfile.tag];
 
+        [self.stickiesController addCheck:check];
         [self.notificationsController addCheck:check];
     }
     else if (entry.isSeparatorEntry) {
@@ -140,6 +147,7 @@
 - (void)_hideEntry:(CheckfileEntry *)entry fromCheckfile:(Checkfile *)checkfile {
     if (entry.isCommandEntry) {
         Check *check = [self.menuController checkWithTag:entry.tag];
+        [self.stickiesController removeCheck:check];
         [self.notificationsController removeCheck:check];
         [check stop];
     }

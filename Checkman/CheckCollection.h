@@ -15,7 +15,7 @@
     checkDidChangeStatus:(Check *)check;
 @end
 
-@interface CheckCollection : NSObject
+@interface CheckCollection : NSObject <NSFastEnumeration>
 
 @property (nonatomic, assign) id<CheckCollectionDelegate> delegate;
 

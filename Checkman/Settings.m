@@ -92,6 +92,12 @@
     return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
 }
 
+#pragma mark - Stickies
+
+- (BOOL)allowStickies {
+    return ![self.userDefaults boolForKey:@"stickies.disabled"];
+}
+
 #pragma mark - Notifications
 
 - (BOOL)allowCustomNotifications {

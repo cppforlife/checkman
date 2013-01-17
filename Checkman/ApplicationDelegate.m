@@ -3,6 +3,7 @@
 #import "CheckManager.h"
 #import "MenuController.h"
 #import "NotificationsController.h"
+#import "StickiesController.h"
 #import "Settings.h"
 #import "Check.h"
 
@@ -10,6 +11,7 @@
     <SettingsDelegate, MenuControllerDelegate, NotificationsControllerDelegate>
 @property (nonatomic, strong) CheckManager *checkManager;
 @property (nonatomic, strong) MenuController *menuController;
+@property (nonatomic, strong) StickiesController *stickiesController;
 @property (nonatomic, strong) NotificationsController *notificationsController;
 @property (nonatomic, strong) Settings *settings;
 @end
@@ -19,6 +21,7 @@
 @synthesize
     checkManager = _checkManager,
     menuController = _menuController,
+    stickiesController = _stickiesController,
     notificationsController = _notificationsController,
     settings = _settings;
 
@@ -30,6 +33,7 @@
 - (void)_setUp {
     [self _setUpSettings];
     [self _setUpMenu];
+    [self _setUpStickies];
     [self _setUpNotifications];
     [self _setUpCheckManager];
 }
@@ -43,6 +47,15 @@
 - (void)_setUpMenu {
     self.menuController = [[MenuController alloc] init];
     self.menuController.delegate = self;
+}
+
+- (void)_setUpStickies {
+    self.stickiesController = [[StickiesController alloc] init];
+    [self _configureStickiesController];
+}
+
+- (void)_configureStickiesController {
+    self.stickiesController.allow = self.settings.allowStickies;
 }
 
 - (void)_setUpNotifications {
@@ -64,6 +77,7 @@
     self.checkManager =
         [[CheckManager alloc]
             initWithMenuController:self.menuController
+            stickiesController:self.stickiesController
             notificationsController:self.notificationsController
             settings:self.settings];
     [self.checkManager loadCheckfiles];
@@ -74,6 +88,7 @@
 - (void)settingsDidChange:(Settings *)settings {
     [self.checkManager reloadCheckfiles];
     [self _configureNotificationsController];
+    [self _configureStickiesController];
 }
 
 #pragma mark - Acting on check

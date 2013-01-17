@@ -24,6 +24,10 @@
 		96534322169E26E2006E1536 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
 		96534324169E2EFF006E1536 /* Growl.framework in Copy Growl Framework */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
 		96534327169E3A8B006E1536 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534326169E3A8B006E1536 /* GrowlNotifier.m */; };
+		965BECB916A73C7700CEE4A1 /* StickiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECB816A73C7700CEE4A1 /* StickiesController.m */; };
+		965BECC016A7408000CEE4A1 /* StickyPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECBF16A7408000CEE4A1 /* StickyPanel.m */; };
+		965BECC416A740C100CEE4A1 /* Sticky.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECC316A740C100CEE4A1 /* Sticky.m */; };
+		965BECC716A7415900CEE4A1 /* StickyPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECC616A7415900CEE4A1 /* StickyPanelView.m */; };
 		9697A2EC169E6A3400ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
 		9697A2ED169E74E900ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
 		9697A2F016A0C85300ED7544 /* NotificationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EF16A0C85300ED7544 /* NotificationPanel.m */; };
@@ -108,6 +112,14 @@
 		9653431F169E26C7006E1536 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		96534325169E3A8B006E1536 /* GrowlNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlNotifier.h; sourceTree = "<group>"; };
 		96534326169E3A8B006E1536 /* GrowlNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotifier.m; sourceTree = "<group>"; };
+		965BECB716A73C7700CEE4A1 /* StickiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickiesController.h; sourceTree = "<group>"; };
+		965BECB816A73C7700CEE4A1 /* StickiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickiesController.m; sourceTree = "<group>"; };
+		965BECBE16A7408000CEE4A1 /* StickyPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyPanel.h; sourceTree = "<group>"; };
+		965BECBF16A7408000CEE4A1 /* StickyPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyPanel.m; sourceTree = "<group>"; };
+		965BECC216A740C100CEE4A1 /* Sticky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sticky.h; sourceTree = "<group>"; };
+		965BECC316A740C100CEE4A1 /* Sticky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sticky.m; sourceTree = "<group>"; };
+		965BECC516A7415900CEE4A1 /* StickyPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyPanelView.h; sourceTree = "<group>"; };
+		965BECC616A7415900CEE4A1 /* StickyPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyPanelView.m; sourceTree = "<group>"; };
 		9697A2EA169E6A3400ED7544 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		9697A2EB169E6A3400ED7544 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
 		9697A2EE16A0C85200ED7544 /* NotificationPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationPanel.h; sourceTree = "<group>"; };
@@ -253,6 +265,43 @@
 				9653431F169E26C7006E1536 /* Growl.framework */,
 			);
 			name = GrowlNotifier;
+			sourceTree = "<group>";
+		};
+		965BECBB16A73FE100CEE4A1 /* Stickies */ = {
+			isa = PBXGroup;
+			children = (
+				965BECC116A740AA00CEE4A1 /* Models */,
+				965BECBD16A73FFF00CEE4A1 /* Controllers */,
+				965BECBC16A73FF400CEE4A1 /* Views */,
+			);
+			name = Stickies;
+			sourceTree = "<group>";
+		};
+		965BECBC16A73FF400CEE4A1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				965BECBE16A7408000CEE4A1 /* StickyPanel.h */,
+				965BECBF16A7408000CEE4A1 /* StickyPanel.m */,
+				965BECC516A7415900CEE4A1 /* StickyPanelView.h */,
+				965BECC616A7415900CEE4A1 /* StickyPanelView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		965BECBD16A73FFF00CEE4A1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		965BECC116A740AA00CEE4A1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				965BECC216A740C100CEE4A1 /* Sticky.h */,
+				965BECC316A740C100CEE4A1 /* Sticky.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		9697A2E8169E6A1300ED7544 /* AsyncTask */ = {
@@ -474,6 +523,7 @@
 				DD4F7C3913C317EC00825C6E /* Views */,
 				96472D4A16880F5900D1CF46 /* Ext */,
 				9697A2E8169E6A1300ED7544 /* AsyncTask */,
+				965BECBB16A73FE100CEE4A1 /* Stickies */,
 				9697A30116A23D1E00ED7544 /* CustomNotifier */,
 				96534329169E3C5A006E1536 /* GrowlNotifier */,
 				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
@@ -502,6 +552,8 @@
 				962C6384168FE1C200CB4737 /* CheckManager.m */,
 				DD4F7C3613C317A500825C6E /* MenuController.h */,
 				DD4F7C3713C317A500825C6E /* MenuController.m */,
+				965BECB716A73C7700CEE4A1 /* StickiesController.h */,
+				965BECB816A73C7700CEE4A1 /* StickiesController.m */,
 				96534306169B7361006E1536 /* NotificationsController.h */,
 				96534307169B7361006E1536 /* NotificationsController.m */,
 				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
@@ -734,6 +786,10 @@
 				9697A30016A218B900ED7544 /* CustomNotifier.m in Sources */,
 				9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */,
 				9697A30A16A379F800ED7544 /* GrowlNotification.m in Sources */,
+				965BECB916A73C7700CEE4A1 /* StickiesController.m in Sources */,
+				965BECC016A7408000CEE4A1 /* StickyPanel.m in Sources */,
+				965BECC416A740C100CEE4A1 /* Sticky.m in Sources */,
+				965BECC716A7415900CEE4A1 /* StickyPanelView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
