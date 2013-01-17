@@ -101,14 +101,14 @@
 #pragma mark - Notifications
 
 - (BOOL)allowCustomNotifications {
-    return ![self.userDefaults boolForKey:@"notifications.custom.disabled"];
+    return [self.userDefaults boolForKey:@"notifications.custom.enabled"];
 }
 
 - (BOOL)allowGrowlNotifications {
-    return ![self.userDefaults boolForKey:@"notifications.growl.disabled"];
+    return [self.userDefaults boolForKey:@"notifications.growl.enabled"];
 }
 
 - (BOOL)allowNotificationCenterNotifications {
-    return ![self.userDefaults boolForKey:@"notifications.center.disabled"];
+    return [self.userDefaults boolForKey:@"notifications.center.enabled"];
 }
 @end

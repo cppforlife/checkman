@@ -119,11 +119,15 @@ You can print anything to `stderr`. Check out included `scripts/` for examples.
 * `Control + click` check menu item - restart check run.
 
 
-# Notifications
+# Stickies and notifications
 
-Notifications are sent when status of a check changes. By default Checkman
-will try to use custom notifications then Growl and finally
-OS X Notification Center.
+* Stickies: mini alert per check appears in right bottom corner if check turns
+  red. Alert disappear when check turns back to green. Stickies are enabled
+  by default.
+
+* Notifications: there are 3 supported notification transports: built-in,
+  Growl and OS X Notification Center. See 'Custom user settings' section on how
+  to enable notifications.
 
 
 # Custom user settings
@@ -137,11 +141,15 @@ Disable single check:
 
     defaults write com.tomato.Checkman checks.<CHECKFILE>.<CHECK>.disabled -bool YES
 
-Disable notification transports:
+Disable stickies:
 
-    defaults write com.tomato.Checkman notifications.custom.disabled -bool YES
-    defaults write com.tomato.Checkman notifications.growl.disabled -bool YES
-    defaults write com.tomato.Checkman notifications.center.disabled -bool YES
+    defaults write com.tomato.Checkman stickies.disabled -bool YES
+
+Enable notification transports:
+
+    defaults write com.tomato.Checkman notifications.custom.enabled -bool YES
+    defaults write com.tomato.Checkman notifications.growl.enabled -bool YES
+    defaults write com.tomato.Checkman notifications.center.enabled -bool YES
 
 View all current customizations:
 
