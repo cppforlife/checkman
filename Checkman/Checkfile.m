@@ -25,7 +25,7 @@
     if (self = [super init]) {
         self.filePath = filePath;
         self.resolvedFilePath = [filePath stringByResolvingSymlinksInPath];
-        self.fsChangesNotifier = fsChangesNotifier;        
+        self.fsChangesNotifier = fsChangesNotifier;
     }
     return self;
 }
@@ -53,7 +53,7 @@
 
 - (void)_startTrackingChanges {
     [self _reloadEntries];
-    [self.fsChangesNotifier startNotifying:self forFilePathInDirectory:self.resolvedFilePath];
+    [self.fsChangesNotifier startNotifying:self forFilePath:self.resolvedFilePath];
 }
 
 - (NSUInteger)indexOfEntry:(CheckfileEntry *)entry {

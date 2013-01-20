@@ -30,6 +30,14 @@
 		965BECC016A7408000CEE4A1 /* StickyPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECBF16A7408000CEE4A1 /* StickyPanel.m */; };
 		965BECC416A740C100CEE4A1 /* Sticky.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECC316A740C100CEE4A1 /* Sticky.m */; };
 		965BECC716A7415900CEE4A1 /* StickyPanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECC616A7415900CEE4A1 /* StickyPanelView.m */; };
+		965BECCA16AAA3AA00CEE4A1 /* FSChangesNotifierSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 965BECC916AAA3AA00CEE4A1 /* FSChangesNotifierSpec.mm */; };
+		965BECCB16AAAF5B00CEE4A1 /* FSChangesNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */; };
+		965BECCC16AAAF6100CEE4A1 /* VDKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6A31684043A00A255D4 /* VDKQueue.m */; };
+		965BECE016AAB4CE00CEE4A1 /* Timing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 965BECDF16AAB4CE00CEE4A1 /* Timing.mm */; };
+		965BECE316AAD41F00CEE4A1 /* FSChangesObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECE216AAD41F00CEE4A1 /* FSChangesObserver.m */; };
+		965BECEC16AB896F00CEE4A1 /* FSChangesObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECE216AAD41F00CEE4A1 /* FSChangesObserver.m */; };
+		965BECF916AB9E2D00CEE4A1 /* FSChangesTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECF816AB9E2D00CEE4A1 /* FSChangesTracker.m */; };
+		965BECFA16AB9E2D00CEE4A1 /* FSChangesTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 965BECF816AB9E2D00CEE4A1 /* FSChangesTracker.m */; };
 		9697A2EC169E6A3400ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
 		9697A2ED169E74E900ED7544 /* AsyncTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EB169E6A3400ED7544 /* AsyncTask.m */; };
 		9697A2F016A0C85300ED7544 /* NotificationPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A2EF16A0C85300ED7544 /* NotificationPanel.m */; };
@@ -123,6 +131,17 @@
 		965BECC316A740C100CEE4A1 /* Sticky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sticky.m; sourceTree = "<group>"; };
 		965BECC516A7415900CEE4A1 /* StickyPanelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyPanelView.h; sourceTree = "<group>"; };
 		965BECC616A7415900CEE4A1 /* StickyPanelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyPanelView.m; sourceTree = "<group>"; };
+		965BECC916AAA3AA00CEE4A1 /* FSChangesNotifierSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FSChangesNotifierSpec.mm; sourceTree = "<group>"; };
+		965BECDB16AAB4CE00CEE4A1 /* AsyncActualValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncActualValue.h; sourceTree = "<group>"; };
+		965BECDC16AAB4CE00CEE4A1 /* CedarAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CedarAsync.h; sourceTree = "<group>"; };
+		965BECDD16AAB4CE00CEE4A1 /* InTimeShouldSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InTimeShouldSyntax.h; sourceTree = "<group>"; };
+		965BECDE16AAB4CE00CEE4A1 /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
+		965BECDF16AAB4CE00CEE4A1 /* Timing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Timing.mm; sourceTree = "<group>"; };
+		965BECE116AAD41F00CEE4A1 /* FSChangesObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSChangesObserver.h; sourceTree = "<group>"; };
+		965BECE216AAD41F00CEE4A1 /* FSChangesObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSChangesObserver.m; sourceTree = "<group>"; };
+		965BECED16AB979700CEE4A1 /* FSChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSChanges.h; sourceTree = "<group>"; };
+		965BECF716AB9E2D00CEE4A1 /* FSChangesTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSChangesTracker.h; sourceTree = "<group>"; };
+		965BECF816AB9E2D00CEE4A1 /* FSChangesTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSChangesTracker.m; sourceTree = "<group>"; };
 		9697A2EA169E6A3400ED7544 /* AsyncTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncTask.h; sourceTree = "<group>"; };
 		9697A2EB169E6A3400ED7544 /* AsyncTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncTask.m; sourceTree = "<group>"; };
 		9697A2EE16A0C85200ED7544 /* NotificationPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationPanel.h; sourceTree = "<group>"; };
@@ -307,6 +326,34 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		965BECC816AAA2F800CEE4A1 /* FSChanges */ = {
+			isa = PBXGroup;
+			children = (
+				965BECC916AAA3AA00CEE4A1 /* FSChangesNotifierSpec.mm */,
+			);
+			name = FSChanges;
+			sourceTree = "<group>";
+		};
+		965BECD916AAB4CE00CEE4A1 /* CedarAsync */ = {
+			isa = PBXGroup;
+			children = (
+				965BECDA16AAB4CE00CEE4A1 /* Headers */,
+				965BECDF16AAB4CE00CEE4A1 /* Timing.mm */,
+			);
+			path = CedarAsync;
+			sourceTree = "<group>";
+		};
+		965BECDA16AAB4CE00CEE4A1 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				965BECDB16AAB4CE00CEE4A1 /* AsyncActualValue.h */,
+				965BECDC16AAB4CE00CEE4A1 /* CedarAsync.h */,
+				965BECDD16AAB4CE00CEE4A1 /* InTimeShouldSyntax.h */,
+				965BECDE16AAB4CE00CEE4A1 /* Timing.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		9697A2E8169E6A1300ED7544 /* AsyncTask */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				96EDD2FD16895AC400294E32 /* SectionedMenu */,
+				965BECC816AAA2F800CEE4A1 /* FSChanges */,
 				96EDD2EC168944D800294E32 /* Supporting Files */,
 				961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */,
 			);
@@ -378,6 +426,7 @@
 		96EDD2EC168944D800294E32 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				965BECD916AAB4CE00CEE4A1 /* CedarAsync */,
 				96EDD2F4168944D900294E32 /* Cedar.framework */,
 				96EDD2ED168944D800294E32 /* CheckmanTests-Info.plist */,
 				96EDD2F3168944D800294E32 /* CheckmanTests-Prefix.pch */,
@@ -471,14 +520,19 @@
 			name = VDKQueue;
 			sourceTree = "<group>";
 		};
-		AEF8D6A61684071A00A255D4 /* FSChangesNotifier */ = {
+		AEF8D6A61684071A00A255D4 /* FSChanges */ = {
 			isa = PBXGroup;
 			children = (
+				965BECED16AB979700CEE4A1 /* FSChanges.h */,
 				AEF8D6A71684073D00A255D4 /* FSChangesNotifier.h */,
 				AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */,
+				965BECF716AB9E2D00CEE4A1 /* FSChangesTracker.h */,
+				965BECF816AB9E2D00CEE4A1 /* FSChangesTracker.m */,
+				965BECE116AAD41F00CEE4A1 /* FSChangesObserver.h */,
+				965BECE216AAD41F00CEE4A1 /* FSChangesObserver.m */,
 				AEF8D6A11684042800A255D4 /* VDKQueue */,
 			);
-			name = FSChangesNotifier;
+			name = FSChanges;
 			sourceTree = "<group>";
 		};
 		DD4F7BF913C30F9F00825C6E = {
@@ -530,7 +584,7 @@
 				965BECBB16A73FE100CEE4A1 /* Stickies */,
 				9697A30116A23D1E00ED7544 /* CustomNotifier */,
 				96534329169E3C5A006E1536 /* GrowlNotifier */,
-				AEF8D6A61684071A00A255D4 /* FSChangesNotifier */,
+				AEF8D6A61684071A00A255D4 /* FSChanges */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
 			);
 			name = Sources;
@@ -755,6 +809,12 @@
 				961AE83816948A85007D8C41 /* CheckRun.m in Sources */,
 				961AE83916948AAD007D8C41 /* NSObject+Delayed.m in Sources */,
 				9697A2ED169E74E900ED7544 /* AsyncTask.m in Sources */,
+				965BECCA16AAA3AA00CEE4A1 /* FSChangesNotifierSpec.mm in Sources */,
+				965BECCB16AAAF5B00CEE4A1 /* FSChangesNotifier.m in Sources */,
+				965BECCC16AAAF6100CEE4A1 /* VDKQueue.m in Sources */,
+				965BECE016AAB4CE00CEE4A1 /* Timing.mm in Sources */,
+				965BECE316AAD41F00CEE4A1 /* FSChangesObserver.m in Sources */,
+				965BECFA16AB9E2D00CEE4A1 /* FSChangesTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +856,8 @@
 				965BECC016A7408000CEE4A1 /* StickyPanel.m in Sources */,
 				965BECC416A740C100CEE4A1 /* Sticky.m in Sources */,
 				965BECC716A7415900CEE4A1 /* StickyPanelView.m in Sources */,
+				965BECEC16AB896F00CEE4A1 /* FSChangesObserver.m in Sources */,
+				965BECF916AB9E2D00CEE4A1 /* FSChangesTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

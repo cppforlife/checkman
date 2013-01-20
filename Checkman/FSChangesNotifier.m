@@ -1,16 +1,17 @@
 #import "FSChangesNotifier.h"
-#import "VDKQueue.h"
+#import "FSChangesObserver.h"
+#import "FSChangesTracker.h"
 
-@interface FSChangesNotifier () <VDKQueueDelegate>
-@property (nonatomic, strong) NSMutableDictionary *watchedFilePaths;
-@property (nonatomic, strong) VDKQueue *watcher;
+@interface FSChangesNotifier () <FSChangesObserverDelegate>
+@property (nonatomic, strong) NSMutableDictionary *observers;
+@property (nonatomic, strong) FSChangesTracker *tracker;
 @end
 
 @implementation FSChangesNotifier
 
-@synthesize 
-    watchedFilePaths = _watchedFilePaths,
-    watcher = _watcher;
+@synthesize
+    observers = _observers,
+    tracker = _tracker;
 
 + (FSChangesNotifier *)sharedNotifier {
     static FSChangesNotifier *notifier = nil;
@@ -25,70 +26,70 @@
 
 - (id)init {
     if (self = [super init]) {
-        self.watchedFilePaths = [NSMutableDictionary dictionary];
-        self.watcher = [[VDKQueue alloc] init];
-        self.watcher.delegate = self;
+        self.observers = self.class._nonRetainingMutableDictionary;
+        self.tracker = [[FSChangesTracker alloc] init];
     }
     return self;
 }
 
-- (void)dealloc {
-    self.watcher.delegate = nil;
-}
-
 #pragma mark -
 
 - (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate
-    forFilePathInDirectory:(NSString *)filePath {
+        forFilePath:(NSString *)filePath {
+    FSChangesObserver *observer =
+        [[FSChangesObserver alloc] initWithFilePath:filePath];
+    observer.delegate = self;
 
-    [self startNotifying:delegate forFilePath:filePath];
-    [self startNotifying:delegate forFilePath:filePath.stringByDeletingLastPathComponent];
-}
-
-- (void)startNotifying:(id<FSChangesNotifierDelegate>)delegate
-    forFilePath:(NSString *)filePath {
-
-    [[self _delegatesForFilePath:filePath] addObject:delegate];
-    [self.watcher addPath:filePath];
+    [self.class _setObject:delegate forKey:observer
+        inNonRetainingMutableDictionary:self.observers];
+    [observer startTracking:self.tracker];
 }
 
 - (void)stopNotifying:(id<FSChangesNotifierDelegate>)delegate {
-    for (NSString *filePath in self.watchedFilePaths) {
-        [[self _delegatesForFilePath:filePath] removeObject:delegate];
-
-        if ([self _delegatesForFilePath:filePath].count == 0) {
-            [self.watcher removePath:filePath];
+    for (FSChangesObserver *observer in self.observers) {
+        if ([self.observers objectForKey:observer] == delegate) {
+            [observer stopTracking:self.tracker];
+            [self.observers removeObjectForKey:observer];
+            return;
         }
     }
 }
 
-#pragma mark - VDKQueueDelegate
+#pragma mark - FSChangesObserverDelegate
 
-- (void)VDKQueue:(VDKQueue *)queue receivedNotification:(NSString *)notificationName forPath:(NSString *)path {
-    if (notificationName == VDKQueueWriteNotification) {
-        NSLog(@"FSChangesNotifier - %@: %@", notificationName, path);
-        NSArray *delegates = [self.watchedFilePaths objectForKey:path];
-        for (id<FSChangesNotifierDelegate> delegate in delegates) {
-            [delegate fsChangesNotifier:self filePathDidChange:path];
-        }
-    } else {
-        NSLog(@"FSChangesNotifier - %@: %@", notificationName, path);
-    }
+- (void)fsChangesObserverDidNoticeChange:(FSChangesObserver *)observer {
+    id<FSChangesNotifierDelegate> delegate = [self.observers objectForKey:observer];
+    [delegate fsChangesNotifier:self filePathDidChange:observer.filePath];
 }
 
-#pragma mark -
+#pragma mark - Non-retaining dictionary
 
-- (NSMutableArray *)_delegatesForFilePath:(NSString *)filePath {
-    NSMutableArray *delegates = [self.watchedFilePaths objectForKey:filePath];
-    if (!delegates) {
-        delegates = [self.class _mutableNonRetainingArrayWithCapacity:1];
-        [self.watchedFilePaths setObject:delegates forKey:filePath];
-    }
-    return delegates;
+inline static const void *FSChangesNotifier_RetainCallBack
+    (CFAllocatorRef allocator, const void *value) { return CFRetain(value); }
+inline static void FSChangesNotifier_ReleaseCallBack
+    (CFAllocatorRef allocator, const void *value) { CFRelease(value); }
+
++ (NSMutableDictionary *)_nonRetainingMutableDictionary {
+    CFMutableDictionaryRef dictionary =
+        CFDictionaryCreateMutable(nil, 0, &(CFDictionaryKeyCallBacks){
+            0, // version
+            &FSChangesNotifier_RetainCallBack,
+            &FSChangesNotifier_ReleaseCallBack,
+            NULL, NULL, NULL,
+        }, NULL);
+    return CFBridgingRelease(dictionary);
 }
 
-+ (id)_mutableNonRetainingArrayWithCapacity:(NSUInteger)capacity {
-    CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-    return (__bridge_transfer id)(CFArrayCreateMutable(0, (CFIndex)capacity, &callbacks));
++ (void)_setObject:(id)object forKey:(id)key
+        inNonRetainingMutableDictionary:(NSMutableDictionary *)dictionary {
+    CFDictionarySetValue(
+        (CFMutableDictionaryRef)dictionary,
+#if __has_feature(objc_arc)
+        (__bridge const void *)(key),
+        (__bridge const void *)(object)
+#else
+        key, object
+#endif
+    );
 }
 @end
