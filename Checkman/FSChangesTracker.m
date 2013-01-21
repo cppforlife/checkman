@@ -1,9 +1,9 @@
 #import "FSChangesTracker.h"
-#import "VDKQueue.h"
+#import "FSChangesDispatchWatcher.h"
 
-@interface FSChangesTracker () <VDKQueueDelegate>
+@interface FSChangesTracker () <FSChangesDispatchWatcherDelegate>
 @property (nonatomic, strong) NSMutableDictionary *filePathObservers;
-@property (nonatomic, strong) VDKQueue *watcher;
+@property (nonatomic, strong) FSChangesDispatchWatcher *watcher;
 @end
 
 @implementation FSChangesTracker
@@ -15,7 +15,7 @@
 - (id)init {
     if (self = [super init]) {
         self.filePathObservers = [NSMutableDictionary dictionary];
-        self.watcher = [[VDKQueue alloc] init];
+        self.watcher = [[FSChangesDispatchWatcher alloc] init];
         self.watcher.delegate = self;
     }
     return self;
@@ -45,15 +45,13 @@
     }
 }
 
-#pragma mark - VDKQueueDelegate
+#pragma mark - FSChangesDispatchWatcherDelegate
 
-- (void)VDKQueue:(VDKQueue *)queue receivedNotification:(NSString *)notificationName forPath:(NSString *)path {
-    NSLog(@"FSChangesNotifier - %@: %@", notificationName, path);
-    if (notificationName == VDKQueueWriteNotification) {
-        NSArray *observers = [self.filePathObservers objectForKey:path];
-        for (id<FSChangesObserver> observer in observers) {
-            [observer handleChangeForFilePath:path tracker:self];
-        }
+- (void)fsChangesDispatchWatcher:(FSChangesDispatchWatcher *)watcher didNoticeChangeToPath:(NSString *)path {
+    NSLog(@"FSChangesNotifier - didNoticeChangeToPath: %@", path);
+    NSArray *observers = [self.filePathObservers objectForKey:path];
+    for (id<FSChangesObserver> observer in observers) {
+        [observer handleChangeForFilePath:path tracker:self];
     }
 }
 

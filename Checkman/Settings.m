@@ -53,8 +53,7 @@
     return [self.userDefaults persistentDomainForName:NSBundle.mainBundle.bundleIdentifier];
 }
 
-- (void)fsChangesNotifier:(FSChangesNotifier *)notifier filePathDidChange:(NSString *)filePath {
-    [self.userDefaults synchronize];
+- (void)_reload {
     NSDictionary *newCurrentValues = self._loadCurrentValues;
 
     // Watch out [nil isEqual:nil] returns nil!
@@ -66,10 +65,17 @@
     }
 }
 
+- (void)fsChangesNotifier:(FSChangesNotifier *)notifier
+        filePathDidChange:(NSString *)filePath {
+    [self.userDefaults synchronize];
+    [self performSelectorOnMainThread:@selector(_reload)
+          withObject:nil waitUntilDone:NO];
+}
+
 #pragma mark - Check specific
 
 - (NSUInteger)runIntervalForCheckWithName:(NSString *)name
-                      inCheckfileWithName:(NSString *)checkfileName {
+        inCheckfileWithName:(NSString *)checkfileName {
     static NSString *key = @"checks.%@.%@.runInterval";
 
     NSInteger runInterval = [self.userDefaults integerForKey:F(key, checkfileName, name)];
@@ -77,7 +83,7 @@
 }
 
 - (BOOL)isCheckWithNameDisabled:(NSString *)name
-            inCheckfileWithName:(NSString *)checkfileName {
+        inCheckfileWithName:(NSString *)checkfileName {
     static NSString *key = @"checks.%@.%@.disabled";
     return [self.userDefaults boolForKey:F(key, checkfileName, name)];
 }

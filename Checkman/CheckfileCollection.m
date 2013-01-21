@@ -11,7 +11,7 @@
 
 @implementation CheckfileCollection
 
-@synthesize 
+@synthesize
     delegate = _delegate,
     directoryPath = _directoryPath,
     files = _files,
@@ -112,6 +112,7 @@
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier
         filePathDidChange:(NSString *)filePath {
-    [self performSelectorOnNextTick:@selector(reloadFiles)]; // nuclear!
+    [self performSelectorOnMainThread:@selector(reloadFiles)
+          withObject:nil waitUntilDone:NO]; // nuclear!
 }
 @end

@@ -97,6 +97,7 @@
 
 - (void)fsChangesNotifier:(FSChangesNotifier *)notifier
         filePathDidChange:(NSString *)filePath {
-    [self performSelectorOnNextTick:@selector(_reloadEntries)]; // nuclear!
+    [self performSelectorOnMainThread:@selector(_reloadEntries)
+          withObject:nil waitUntilDone:NO]; // nuclear!
 }
 @end
