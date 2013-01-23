@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62BF3B9816AF60320051A1CC /* semaphore.check in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9716AF60320051A1CC /* semaphore.check */; };
+		62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9A16AF625C0051A1CC /* Checkman.zip */; };
 		961AE8331694846A007D8C41 /* CheckCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */; };
 		961AE83516948A1A007D8C41 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		961AE83616948A1D007D8C41 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
@@ -90,6 +92,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
+		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
 		961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckCollectionSpec.mm; sourceTree = "<group>"; };
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
@@ -103,7 +107,6 @@
 		96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+KeepOpen.m"; sourceTree = "<group>"; };
 		96472D4B16880F5900D1CF46 /* NSObject+Delayed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Delayed.h"; sourceTree = "<group>"; };
 		96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Delayed.m"; sourceTree = "<group>"; };
-		96472D4F16880F5900D1CF46 /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
 		96472D5016880F5900D1CF46 /* install */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = install; sourceTree = "<group>"; };
 		96472D5516880F5900D1CF46 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = "<group>"; };
 		96472D5716880F5900D1CF46 /* test.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.check; sourceTree = "<group>"; };
@@ -248,7 +251,7 @@
 		96472D4E16880F5900D1CF46 /* bin */ = {
 			isa = PBXGroup;
 			children = (
-				96472D4F16880F5900D1CF46 /* Checkman.zip */,
+				62BF3B9A16AF625C0051A1CC /* Checkman.zip */,
 				96472D5016880F5900D1CF46 /* install */,
 				96472D5516880F5900D1CF46 /* build */,
 			);
@@ -410,6 +413,7 @@
 		AE76A5D91682B82E00004A4D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				62BF3B9716AF60320051A1CC /* semaphore.check */,
 				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
@@ -685,6 +689,8 @@
 				96472D5816880F5900D1CF46 /* test.check in Resources */,
 				AE6EFEE8168D7CA900CC5E11 /* airbrake.check in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
+				62BF3B9816AF60320051A1CC /* semaphore.check in Resources */,
+				62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
