@@ -17,7 +17,7 @@
     if (self = [super init]) {
         self.queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         self.group = dispatch_group_create();
-        self.paths = self.class._nonRetainingMutableDictionary;
+        self.paths = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -38,9 +38,9 @@
         DISPATCH_SOURCE_TYPE_VNODE, (uintptr_t)fd,
         DISPATCH_VNODE_WRITE, self.queue);
 
-    NSValue *sourcePointer = [NSValue valueWithPointer:&source];
-    [self.class _setObject:sourcePointer forKey:path
-        inNonRetainingMutableDictionary:self.paths];
+    NSValue *sourcePointer =
+        [NSValue value:&source withObjCType:@encode(dispatch_source_t)];
+    [self.paths setObject:sourcePointer forKey:path];
 
     __block typeof(self) that = self;
     dispatch_source_set_cancel_handler(source, ^{ close(fd); });
@@ -52,39 +52,12 @@
 }
 
 - (void)removePath:(NSString *)path {
-    NSValue *sourcePointer = [self.paths objectForKey:path];
-    dispatch_source_t source = (dispatch_source_t)[sourcePointer pointerValue];
+    dispatch_source_t source = NULL;
+    [[self.paths objectForKey:path] getValue:&source];
 
     if (source) {
         dispatch_source_cancel(source);
         [self.paths removeObjectForKey:path];
     }
-}
-
-#pragma mark - Non-retaining dictionary
-
-inline static const void *FSChangesNotifier_RetainCallBack
-    (CFAllocatorRef allocator, const void *value) { return CFRetain(value); }
-inline static void FSChangesNotifier_ReleaseCallBack
-    (CFAllocatorRef allocator, const void *value) { CFRelease(value); }
-
-+ (NSMutableDictionary *)_nonRetainingMutableDictionary {
-    CFMutableDictionaryRef dictionary =
-        CFDictionaryCreateMutable(nil, 0, &kCFCopyStringDictionaryKeyCallBacks, NULL);
-    return CFBridgingRelease(dictionary);
-}
-
-#if __has_feature(objc_arc)
-#define BRIDGE_CAST(type, thing) (__bridge type)(thing)
-#else
-#define BRIDGE_CAST(type, thing) (type)(thing)
-#endif
-
-+ (void)_setObject:(id)object forKey:(id)key
-        inNonRetainingMutableDictionary:(NSMutableDictionary *)dictionary {
-    CFDictionarySetValue(
-        BRIDGE_CAST(CFMutableDictionaryRef, dictionary),
-        BRIDGE_CAST(const void *, key),
-        BRIDGE_CAST(const void *, object));
 }
 @end
