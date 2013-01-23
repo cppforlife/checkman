@@ -43,7 +43,9 @@
     dispatch_source_t source = dispatch_source_create(
         DISPATCH_SOURCE_TYPE_VNODE, (uintptr_t)fd,
         DISPATCH_VNODE_WRITE, self.queue);
-    [self.class _setObject:BRIDGE_CAST(id, source) forKey:path
+
+    NSValue *sourcePointer = [NSValue valueWithPointer:&source];
+    [self.class _setObject:sourcePointer forKey:path
         inNonRetainingMutableDictionary:self.paths];
 
     __block typeof(self) that = self;
@@ -56,8 +58,9 @@
 }
 
 - (void)removePath:(NSString *)path {
-    dispatch_source_t source =
-        BRIDGE_CAST(dispatch_source_t, [self.paths objectForKey:path]);
+    NSValue *sourcePointer = [self.paths objectForKey:path];
+    dispatch_source_t source = (dispatch_source_t)[sourcePointer pointerValue];
+
     if (source) {
         dispatch_source_cancel(source);
         [self.paths removeObjectForKey:path];
