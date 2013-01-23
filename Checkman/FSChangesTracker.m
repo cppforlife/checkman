@@ -49,7 +49,11 @@
 
 - (void)fsChangesDispatchWatcher:(FSChangesDispatchWatcher *)watcher didNoticeChangeToPath:(NSString *)path {
     NSLog(@"FSChangesNotifier - didNoticeChangeToPath: %@", path);
-    NSArray *observers = [self.filePathObservers objectForKey:path];
+
+    // Copy list of observers to avoid 'NSArray... was mutated while being enumerated'
+    // since who knows what might happen in observer's handleChangeForFilePath:
+    // (e.g. observer calls stopTrackingFilePath:observer:)
+    NSArray *observers = [[self.filePathObservers objectForKey:path] copy];
     for (id<FSChangesObserver> observer in observers) {
         [observer handleChangeForFilePath:path tracker:self];
     }
