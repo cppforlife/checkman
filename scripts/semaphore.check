@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'json'
+require 'time'
+
+class SemaphoreStatus
+  def initialize(curl_output)
+    @status = JSON.parse(curl_output)
+  end
+
+  def ok?
+    @status['result'] == 'passed'
+  end
+
+  def duration
+    seconds = Time.parse(@status["finished_at"]) - Time.parse(@status["started_at"])
+    Time.at(seconds).gmtime.strftime('%R:%S')
+  end
+
+  def formatted_started_at
+    Time.parse(@status["started_at"]).strftime("%I:%M%p %m/%d/%Y %Z")
+  end
+
+  def as_json(*)
+    {
+        :result => ok?,
+        :changing => false,
+        :url => @status["branch_url"],
+        :info => [
+          ["Branch", @status["branch_name"]],
+          ["Duration", duration],
+          ["SHA", @status["commit"]["id"]],
+          ["Started", formatted_started_at],
+          ["Build Number", @status["build_number"]],
+          ["-", ""],
+          ["Author", @status["commit"]["author_name"]]
+        ]
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class Semaphore
+  def initialize(url)
+    raise ArgumentError "url must not be nil" unless url
+    @url = url
+  end
+
+  def latest_status
+    SemaphoreStatus.new(http_get(@url))
+  end
+
+  private
+
+  def http_get(url)
+    curl = "curl -s #{url}"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts Semaphore.new(*ARGV).latest_status.to_json
