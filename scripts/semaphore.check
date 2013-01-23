@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require 'json'
-require 'time'
+require "rubygems"
+require "json"
+require "time"
 
 class SemaphoreStatus
   def initialize(curl_output)
@@ -9,12 +9,12 @@ class SemaphoreStatus
   end
 
   def ok?
-    @status['result'] == 'passed'
+    @status["result"] == "passed"
   end
 
   def duration
     seconds = Time.parse(@status["finished_at"]) - Time.parse(@status["started_at"])
-    Time.at(seconds).gmtime.strftime('%R:%S')
+    Time.at(seconds).gmtime.strftime("%R:%S")
   end
 
   def formatted_started_at
