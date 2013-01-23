@@ -69,7 +69,15 @@
         selector:@selector(_receiveStdErrData:)];
 
     [self _waitForTaskTermination];
-    [self.task launch];
+
+    @try {
+        [self.task launch];
+    } @catch (NSException *exception) {
+        // e.g. NSInvalidArgumentException reason: 'working directory doesn't exist.'
+        if (exception.name == NSInvalidArgumentException) {
+            return [self _failCompletingTask];
+        } else @throw;
+    }
 
     // - start thread's run loop to receive stdout/stderr end-of-file notifications
     // - use CFRunLoopRun() since NSRunLoop-run cannot be stopped (http://cocoadev.com/wiki/RunLoop)
@@ -116,6 +124,13 @@
 
     // stop run loop started by -_runTask
     CFRunLoopStop(CFRunLoopGetCurrent());
+}
+
+- (void)_failCompletingTask {
+    self.complete = YES;
+    self.stdErrData = [NSData data];
+    self.stdOutData = [NSData data];
+    [self.delegate asyncTaskDidComplete:self];
 }
 @end
 
