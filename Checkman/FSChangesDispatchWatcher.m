@@ -1,11 +1,5 @@
 #import "FSChangesDispatchWatcher.h"
 
-#if __has_feature(objc_arc)
-#define BRIDGE_CAST(type, thing) (__bridge type)(thing)
-#else
-#define BRIDGE_CAST(type, thing) (type)(thing)
-#endif
-
 @interface FSChangesDispatchWatcher ()
 @property (nonatomic, assign) dispatch_queue_t queue;
 @property (nonatomic, assign) dispatch_group_t group;
@@ -80,10 +74,16 @@ inline static void FSChangesNotifier_ReleaseCallBack
     return CFBridgingRelease(dictionary);
 }
 
+#if __has_feature(objc_arc)
+#define BRIDGE_CAST(type, thing) (__bridge type)(thing)
+#else
+#define BRIDGE_CAST(type, thing) (type)(thing)
+#endif
+
 + (void)_setObject:(id)object forKey:(id)key
         inNonRetainingMutableDictionary:(NSMutableDictionary *)dictionary {
     CFDictionarySetValue(
-        (CFMutableDictionaryRef)dictionary,
+        BRIDGE_CAST(CFMutableDictionaryRef, dictionary),
         BRIDGE_CAST(const void *, key),
         BRIDGE_CAST(const void *, object));
 }
