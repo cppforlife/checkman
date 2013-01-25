@@ -3,38 +3,69 @@ require "rubygems"
 require "json"
 require "time"
 
-class SemaphoreStatus
-  def initialize(curl_output)
-    @status = JSON.parse(curl_output)
+class SemaphoreBuildStatus
+  def initialize(json)
+    @status = JSON.parse(json)
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def number
+    @status["build_number"]
+  end
+
+  def branch
+    @status["branch_name"]
   end
 
   def ok?
     @status["result"] == "passed"
   end
 
+  def started_at
+    Time.parse(@status["started_at"])
+  end
+
+  def finished_at
+    Time.parse(@status["finished_at"])
+  end
+
   def duration
-    seconds = Time.parse(@status["finished_at"]) - Time.parse(@status["started_at"])
-    Time.at(seconds).gmtime.strftime("%R:%S")
+    Time.at(finished_at - started_at).gmtime.strftime("%R:%S")
   end
 
   def formatted_started_at
-    Time.parse(@status["started_at"]).strftime("%I:%M%p %m/%d/%Y %Z")
+    started_at.strftime("%I:%M%p %m/%d/%Y %Z")
+  end
+
+  def last_commit_short_sha
+    @status["commit"]["id"]
+  end
+
+  def last_commit_author
+    @status["commit"]["author_name"]
+  end
+
+  def last_commit_message
+    @status["commit"]["message"]
   end
 
   def as_json(*)
     {
-        :result => ok?,
-        :changing => false,
-        :url => @status["branch_url"],
-        :info => [
-          ["Branch", @status["branch_name"]],
-          ["Duration", duration],
-          ["SHA", @status["commit"]["id"]],
-          ["Started", formatted_started_at],
-          ["Build Number", @status["build_number"]],
-          ["-", ""],
-          ["Author", @status["commit"]["author_name"]]
-        ]
+      :result => ok?,
+      :changing => false,
+      :url => @status["branch_url"],
+      :info => [
+        ["Build #", number],
+        ["Duration", duration],
+        ["Started", formatted_started_at],
+        ["-", ""],
+        ["SHA", last_commit_short_sha],
+        ["Branch", branch],
+        ["Message", last_commit_message],
+        ["Author", last_commit_author]
+      ]
     }
   end
 
@@ -50,7 +81,7 @@ class Semaphore
   end
 
   def latest_status
-    SemaphoreStatus.new(http_get(@url))
+    SemaphoreBuildStatus.new(http_get(@url))
   end
 
   private
