@@ -61,10 +61,10 @@ class JenkinsBuildStatus
       :changing => building?,
       :url => console_url,
       :info => [
-        [:Name, full_name],
+        [:Build, full_name],
         [:Duration, duration],
-        [:SHA, last_commit_short_sha],
-        [:Started, formatted_started_at]
+        [:Started, formatted_started_at],
+        [:SHA, last_commit_short_sha]
       ] + optional_info
     }
   end

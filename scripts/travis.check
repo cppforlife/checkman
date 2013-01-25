@@ -53,13 +53,13 @@ class TravisBuildStatus
       :result => success?,
       :changing => building?,
       :info => [
-        ["Build #", number],
-        ["Duration", duration],
-        ["Started", formatted_started_at],
+        [:Build, number],
+        [:Duration, duration],
+        [:Started, formatted_started_at],
         ["-", ""],
-        ["Branch", branch],
-        ["SHA", last_commit_short_sha],
-        ["Message", last_commit_message]
+        [:Branch, branch],
+        [:SHA, last_commit_short_sha],
+        [:Message, last_commit_message]
       ]
     }
   end
