@@ -464,15 +464,23 @@
 		AE76A5D91682B82E00004A4D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
-				62BF3B9716AF60320051A1CC /* semaphore.check */,
-				AEBBEDA716B22CB2008C8880 /* travis.check */,
+				AEBBEDAD16B23E41008C8880 /* CI */,
 				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
 				AE76A5DC1682B82E00004A4D /* vmc_apps.check */,
-				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 			);
 			path = scripts;
+			sourceTree = "<group>";
+		};
+		AEBBEDAD16B23E41008C8880 /* CI */ = {
+			isa = PBXGroup;
+			children = (
+				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
+				AEBBEDA716B22CB2008C8880 /* travis.check */,
+				62BF3B9716AF60320051A1CC /* semaphore.check */,
+			);
+			name = CI;
 			sourceTree = "<group>";
 		};
 		AEBC15D61676D9BE005129E9 /* Models */ = {
