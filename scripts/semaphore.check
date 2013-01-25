@@ -4,87 +4,158 @@ require "json"
 require "time"
 
 class SemaphoreBuildStatus
-  def initialize(json)
-    @status = JSON.parse(json)
-
-  rescue JSON::ParserError
-    raise RuntimeError, "invalid json: '#{json}'"
+  def initialize(hash)
+    @build_data = hash
   end
 
   def number
-    @status["build_number"]
-  end
-
-  def branch
-    @status["branch_name"]
+    @build_data["build_number"]
   end
 
   def ok?
-    @status["result"] == "passed"
+    @build_data["result"] == "passed"
+  end
+
+  def building?
+    @build_data["result"] == "pending"
+  end
+
+  def build_url
+    @build_data["build_url"]
   end
 
   def started_at
-    Time.parse(@status["started_at"])
+    iso8601 = @build_data["started_at"]
+    Time.parse(iso8601) if iso8601
   end
 
   def finished_at
-    Time.parse(@status["finished_at"])
+    iso8601 = @build_data["finished_at"]
+    Time.parse(iso8601) if iso8601
   end
 
   def duration
-    Time.at(finished_at - started_at).gmtime.strftime("%R:%S")
+    if started_at
+      secs = (finished_at || Time.now) - started_at
+      Time.at(secs).gmtime.strftime("%R:%S")
+    end
   end
 
   def formatted_started_at
-    started_at.strftime("%I:%M%p %m/%d/%Y %Z")
+    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z") if started_at
   end
 
   def last_commit_short_sha
-    @status["commit"]["id"]
+    commit["id"][0..5] if commit
   end
 
   def last_commit_author
-    @status["commit"]["author_name"]
+    commit["author_name"] if commit
   end
 
   def last_commit_message
-    @status["commit"]["message"]
+    commit["message"] if commit
   end
 
-  def as_json(*)
+  def as_json(options={})
     {
       :result => ok?,
-      :changing => false,
-      :url => @status["branch_url"],
+      :changing => building?,
+      :url => build_url,
       :info => [
-        ["Build #", number],
-        ["Duration", duration],
-        ["Started", formatted_started_at],
-        ["-", ""],
-        ["SHA", last_commit_short_sha],
-        ["Branch", branch],
-        ["Message", last_commit_message],
-        ["Author", last_commit_author]
-      ]
+        [:Build, number],
+        [:Duration, duration],
+        [:Started, formatted_started_at]
+      ] + optional_info(options)
     }
   end
 
   def to_json(*)
     JSON.dump(as_json)
   end
+
+  private
+
+  def commit
+    # I'm guessing if push was a trigger 
+    # then commit data is available
+    @build_data["commit"]
+  end
+
+  def optional_info(options={})
+    if commit
+      [ ["-", ""],
+        [:SHA, last_commit_short_sha],
+        [:Branch, options[:branch_name]],
+        [:Message, last_commit_message],
+        [:Author, last_commit_author] ]
+    else
+      []
+    end
+  end
+end
+
+class SemaphoreBranchStatus
+  def initialize(json)
+    @branch_data = JSON.parse(json)
+    @build_statuses = @branch_data["builds"].map { |d| SemaphoreBuildStatus.new(d) }
+
+    raise StandardError, "Status for branch '#{branch_name}' is not available" \
+      unless last_build_status
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def branch_name
+    @branch_data["branch_name"]
+  end
+
+  def ok?
+    if last_build_status.building? && penultimate_build_status
+      penultimate_build_status.ok?
+    else
+      last_build_status.ok?
+    end
+  end
+
+  def as_json(*)
+    last_build_status.as_json({
+      :branch_name => branch_name
+    }).tap do |hash|
+      hash[:result] = ok?
+    end
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  def last_build_status;        @build_statuses[0]; end
+  def penultimate_build_status; @build_statuses[1]; end
 end
 
 class Semaphore
-  def initialize(url)
-    raise ArgumentError "url must not be nil" unless url
-    @url = url
+  def initialize(project_id, branch_id, auth_token)
+    raise ArgumentError "project_id must not be nil" unless project_id
+    @project_id = project_id
+
+    raise ArgumentError "branch_id must not be nil" unless branch_id
+    @branch_id = branch_id
+
+    raise ArgumentError "auth_token must not be nil" unless auth_token
+    @auth_token = auth_token
   end
 
   def latest_status
-    SemaphoreBuildStatus.new(http_get(@url))
+    SemaphoreBranchStatus.new(http_get(builds_url))
   end
 
   private
+
+  def builds_url
+    "https://semaphoreapp.com/api/v1/projects/#{@project_id}/#{@branch_id}?auth_token=#{@auth_token}"
+  end
 
   def http_get(url)
     curl = "curl -s #{url}"

@@ -69,8 +69,13 @@ If you ever need to kill Checkman:
   e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
 
 * `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`
-  checks specific repo build on Travis CI
+  checks specific Travis CI build status
   e.g. `travis.check rails arel`
+
+* `semaphore.check <PROJECT_API_ID> <BRANCH_ID> <AUTH_TOKEN>`
+  checks specific SemaphoreApp CI build status
+  e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`
+  (Tip: open project's settings page, then find the "API" tab to get required ids)
 
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result
   (options: url, info, fail, changing, slow, error, flapping)
