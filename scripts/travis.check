@@ -20,7 +20,7 @@ class TravisBuildStatus
     @build_data["branch"]
   end
 
-  def success?
+  def ok?
     @build_data["result"] == 0
   end
 
@@ -29,7 +29,13 @@ class TravisBuildStatus
   end
 
   def duration
-    Time.at(@build_data["duration"]).gmtime.strftime("%R:%S")
+    secs = if @build_data["duration"]
+      @build_data["duration"]
+    elsif started_at
+      Time.now - started_at
+    end
+
+    Time.at(secs).gmtime.strftime("%R:%S") if secs
   end
 
   def started_at
@@ -48,10 +54,11 @@ class TravisBuildStatus
     @build_data["message"]
   end
 
-  def as_json(*)
+  def as_json(options={})
     {
-      :result => success?,
+      :result => ok?,
       :changing => building?,
+      :url => "#{options[:repo_url]}/builds/#{id}",
       :info => [
         [:Build, number],
         [:Duration, duration],
@@ -69,18 +76,51 @@ class TravisBuildStatus
   end
 end
 
+class TravisBranchStatus
+  def initialize(repo_url, build_statuses)
+    @repo_url = repo_url
+    @build_statuses = build_statuses
+
+    raise StandardError, "Status for branch is not available" \
+      unless last_build_status
+  end
+
+  def ok?
+    if last_build_status.building? && penultimate_build_status
+      penultimate_build_status.ok?
+    else
+      last_build_status.ok?
+    end
+  end
+
+  def as_json(*)
+    last_build_status.as_json({
+      :repo_url => @repo_url
+    }).tap do |hash|
+      hash[:result] = ok?
+    end
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  def last_build_status;        @build_statuses[0]; end
+  def penultimate_build_status; @build_statuses[1]; end
+end
+
 class TravisRepoStatus
-  def initialize(json)
-    @repo_data = JSON.parse(json)
-    @build_statuses = @repo_data.map { |d| TravisBuildStatus.new(d) }
+  def initialize(repo_url, json)
+    @repo_url = repo_url
+    @build_statuses = JSON.parse(json).map { |d| TravisBuildStatus.new(d) }
 
   rescue JSON::ParserError
     raise RuntimeError, "invalid json: '#{json}'"
   end
 
   def status_for_branch(branch_name)
-    @build_statuses.detect { |s| s.branch == branch_name } ||
-      (raise StandardError, "Status for branch '#{branch_name}' is not available")
+    build_statuses = @build_statuses.select { |s| s.branch == branch_name }
+    TravisBranchStatus.new(@repo_url, build_statuses)
   end
 end
 
@@ -97,13 +137,20 @@ class Travis
   end
 
   def latest_status
-    TravisRepoStatus.new(http_get(builds_url))
+    TravisRepoStatus.new(repo_url, http_get(builds_url))
       .status_for_branch(@repo_branch)
   end
 
   private
 
+  def repo_url
+    "https://travis-ci.org/#{@repo_owner}/#{@repo_name}"
+  end
+
   def builds_url
+    # Since TravisCI does not provide api to fetch build history for
+    # a specific branch we have to use repo build history and hope
+    # that checked branch does not get pushed off the first N builds.
     "https://api.travis-ci.org/repositories/#{@repo_owner}/#{@repo_name}/builds.json"
   end
 
