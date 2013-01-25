@@ -57,32 +57,33 @@ If you ever need to kill Checkman:
 
 # Included check scripts
 
-* `site.check <URL>` checks returned http response for 200 OK
+* `site.check <URL>`  
+  checks returned http response for 200 OK  
   e.g. `site.check http://www.google.com`
 
-* `vmc_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>`
-  checks that all apps are running
+* `vmc_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>`  
+  checks that all apps are running  
   e.g. `vmc_apps.check http://api.cc.com 37jsd-dsjf79-348jdd-fsa88 my-project`
 
-* `jenkins_build.check <JENKINS_URL> <JOB_NAME>`
-  checks specific Jenkins build status
+* `jenkins_build.check <JENKINS_URL> <JOB_NAME>`  
+  checks specific Jenkins build status  
   e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
 
-* `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`
-  checks specific Travis CI build status
+* `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`  
+  checks specific Travis CI build status  
   e.g. `travis.check rails arel`
 
-* `semaphore.check <PROJECT_API_ID> <BRANCH_ID> <AUTH_TOKEN>`
-  checks specific SemaphoreApp CI build status
-  e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`
+* `semaphore.check <PROJECT_API_ID> <BRANCH_ID> <AUTH_TOKEN>`  
+  checks specific SemaphoreApp CI build status  
+  e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`  
   (Tip: open project's settings page, then find the "API" tab to get required ids)
 
-* `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result
-  (options: url, info, fail, changing, slow, error, flapping)
+* `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
+  (options: url, info, fail, changing, slow, error, flapping)  
   e.g. `test.check fail slow`
 
-* `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>`
-  checks for recent errors
+* `airbrake.check <ACCOUNT_NAME> <API_TOKEN> <PROJECT_ID>`  
+  checks for recent errors  
   e.g. `airbrake.check my-company 2a743rueigw87tegiofs7g 43878087`
 
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
