@@ -68,6 +68,10 @@ If you ever need to kill Checkman:
   checks specific Jenkins build status
   e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
 
+* `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`
+  checks specific repo build on Travis CI
+  e.g. `travis.check rails arel`
+
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result
   (options: url, info, fail, changing, slow, error, flapping)
   e.g. `test.check fail slow`

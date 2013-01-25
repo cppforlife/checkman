@@ -1,0 +1,116 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+require "time"
+
+class TravisBuildStatus
+  def initialize(hash)
+    @build_data = hash
+  end
+
+  def id
+    @build_data["id"]
+  end
+
+  def number
+    @build_data["number"]
+  end
+
+  def branch
+    @build_data["branch"]
+  end
+
+  def success?
+    @build_data["result"] == 0
+  end
+
+  def building?
+    @build_data["result"].nil?
+  end
+
+  def duration
+    Time.at(@build_data["duration"]).gmtime.strftime("%R:%S")
+  end
+
+  def started_at
+    Time.parse(@build_data["started_at"], "%Y-%m-%dT%H:%M:%S%z")
+  end
+
+  def formatted_started_at
+    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
+  end
+
+  def last_commit_short_sha
+    @build_data["commit"][0..5]
+  end
+
+  def last_commit_message
+    @build_data["message"]
+  end
+
+  def as_json(*)
+    {
+      :result => success?,
+      :changing => building?,
+      :info => [
+        ["Build #", number],
+        ["Duration", duration],
+        ["Started", formatted_started_at],
+        ["-", ""],
+        ["Branch", branch],
+        ["SHA", last_commit_short_sha],
+        ["Message", last_commit_message]
+      ]
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class TravisRepoStatus
+  def initialize(json)
+    @repo_data = JSON.parse(json)
+    @build_statuses = @repo_data.map { |d| TravisBuildStatus.new(d) }
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def status_for_branch(branch_name)
+    @build_statuses.detect { |s| s.branch == branch_name } ||
+      (raise StandardError, "Status for branch '#{branch_name}' is not available")
+  end
+end
+
+class Travis
+  def initialize(repo_owner, repo_name, repo_branch="master")
+    raise ArgumentError "repo_owner must not be nil" unless repo_owner
+    @repo_owner = repo_owner
+
+    raise ArgumentError "repo_name must not be nil" unless repo_name
+    @repo_name = repo_name
+
+    raise ArgumentError "repo_branch must not be nil" unless repo_branch
+    @repo_branch = repo_branch
+  end
+
+  def latest_status
+    TravisRepoStatus.new(http_get(builds_url))
+      .status_for_branch(@repo_branch)
+  end
+
+  private
+
+  def builds_url
+    "https://api.travis-ci.org/repositories/#{@repo_owner}/#{@repo_name}/builds.json"
+  end
+
+  def http_get(url)
+    curl = "curl -s #{url}"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts Travis.new(*ARGV).latest_status.to_json
