@@ -12,6 +12,8 @@
 
 @property (nonatomic, assign) id<MenuControllerDelegate> delegate;
 
+- (id)initWithGitSha:(NSString *)gitSha;
+
 - (Check *)checkWithTag:(NSInteger)tag;
 
 #pragma mark - Sections

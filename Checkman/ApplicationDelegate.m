@@ -17,7 +17,6 @@
 @end
 
 @implementation ApplicationDelegate
-
 @synthesize
     checkManager = _checkManager,
     menuController = _menuController,
@@ -45,7 +44,7 @@
 }
 
 - (void)_setUpMenu {
-    self.menuController = [[MenuController alloc] init];
+    self.menuController = [[MenuController alloc] initWithGitSha:self._gitSha];
     self.menuController.delegate = self;
 }
 
@@ -123,10 +122,10 @@
 #pragma mark - Git SHA
 
 - (void)_announceGitSha {
-    NSLog(@"ApplicationDelegate - Git SHA: %@", self.gitSha);
+    NSLog(@"ApplicationDelegate - Git SHA: %@", self._gitSha);
 }
 
-- (NSString *)gitSha {
+- (NSString *)_gitSha {
     return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Git SHA"];
 }
 @end

@@ -7,21 +7,24 @@
 #import "Check.h"
 
 @interface MenuController () <CheckCollectionDelegate, CheckMenuItemDelegate>
+@property (nonatomic, strong) NSString *gitSha;
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) SectionedMenu *menu;
 @property (nonatomic, strong) NSStatusItem *statusItem;
 @end
 
 @implementation MenuController
-
 @synthesize
     delegate = _delegate,
+    gitSha = _gitSha,
     checks = _checks,
     menu = _menu,
     statusItem = _statusItem;
 
-- (id)init {
+- (id)initWithGitSha:(NSString *)gitSha {
     if (self = [super init]) {
+        self.gitSha = gitSha;
+
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
 
@@ -136,7 +139,7 @@
 
 - (NSMenuItem *)_quitMenuItem {
     NSMenuItem *item = [[NSMenuItem alloc] init];
-    item.title = F(@"Quit Checkman (v. %@)", [[NSApp delegate] gitSha]);
+    item.title = F(@"Quit Checkman (v. %@)", self.gitSha);
     item.target = [NSApplication sharedApplication];
     item.action = @selector(terminate:);
     return item;
