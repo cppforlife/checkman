@@ -19,7 +19,6 @@
 @end
 
 @implementation CheckManager
-
 @synthesize
     checkfiles = _checkfiles,
     menuController = _menuController,

@@ -7,7 +7,6 @@
 @end
 
 @implementation StickyPanelView
-
 @synthesize
     sticky = _sticky,
     statusText = _statusText;

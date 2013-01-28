@@ -12,7 +12,6 @@
 @end
 
 @implementation CheckRun
-
 @synthesize
     delegate = _delegate,
     task = _task,

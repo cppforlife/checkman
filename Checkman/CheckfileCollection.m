@@ -10,7 +10,6 @@
 @end
 
 @implementation CheckfileCollection
-
 @synthesize
     delegate = _delegate,
     directoryPath = _directoryPath,

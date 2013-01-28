@@ -7,7 +7,6 @@
 @end
 
 @implementation FSChangesTracker
-
 @synthesize
     filePathObservers = _filePathObservers,
     watcher = _watcher;

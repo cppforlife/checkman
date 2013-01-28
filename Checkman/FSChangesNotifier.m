@@ -8,7 +8,6 @@
 @end
 
 @implementation FSChangesNotifier
-
 @synthesize
     observers = _observers,
     tracker = _tracker;
@@ -18,8 +17,7 @@
     static dispatch_once_t pred;
 
     dispatch_once(&pred, ^{
-        notifier = [FSChangesNotifier alloc];
-        notifier = [notifier init];
+        notifier = [[FSChangesNotifier alloc] init];
     });
     return notifier;
 }

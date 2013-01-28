@@ -10,7 +10,6 @@
 @end
 
 @implementation StickiesController
-
 @synthesize
     allow = _allow,
     checks = _checks,

@@ -12,7 +12,6 @@
 @end
 
 @implementation Checkfile
-
 @synthesize
     delegate = _delegate,
     filePath = _filePath,
@@ -74,7 +73,8 @@
 
 - (NSArray *)_loadEntries {
     NSError *error = nil;
-    NSString *fileContents = [NSString stringWithContentsOfFile:self.resolvedFilePath encoding:NSUTF8StringEncoding error:&error];
+    NSString *fileContents =
+        [NSString stringWithContentsOfFile:self.resolvedFilePath encoding:NSUTF8StringEncoding error:&error];
 
     if (error) {
         NSLog(@"Checkfile - error: %@", error);

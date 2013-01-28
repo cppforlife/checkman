@@ -19,13 +19,13 @@
 
 - (id)initWithTitle:(NSString *)title {
     if (self = [super initWithTitle:title]) {
-        [[NSNotificationCenter defaultCenter]
+        [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
             addObserver:self
             selector:@selector(_didChangeItems:)
             name:NSMenuDidAddItemNotification
             object:self];
 
-        [[NSNotificationCenter defaultCenter]
+        [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
             addObserver:self
             selector:@selector(_didChangeItems:)
             name:NSMenuDidRemoveItemNotification

@@ -7,7 +7,6 @@
 @end
 
 @implementation NotificationPanelView
-
 @synthesize
     notification = _notification,
     statusText = _statusText;

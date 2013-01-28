@@ -7,7 +7,6 @@
 @end
 
 @implementation CheckCollection
-
 @synthesize
     delegate = _delegate,
     checks = _checks,

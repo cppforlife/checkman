@@ -8,7 +8,6 @@
 @end
 
 @implementation CheckDebuggingView
-
 @synthesize
     check = _check,
     scrollView = _scrollView,

@@ -22,7 +22,6 @@
 @end
 
 @implementation Check
-
 @synthesize
     name = _name,
     command = _command,
@@ -151,17 +150,17 @@ static NSString
     *CheckDidChangeRunning = @"CheckDidChangeRunning";
 
 - (void)_didChangeStatus {
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         postNotificationName:CheckDidChangeStatus object:self];
 }
 
 - (void)_didChangeChanging {
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         postNotificationName:CheckDidChangeChanging object:self];
 }
 
 - (void)_didChangeRunning {
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         postNotificationName:CheckDidChangeRunning object:self];
 }
 @end
@@ -169,23 +168,23 @@ static NSString
 
 @implementation Check (Observers)
 - (void)addObserver:(id<CheckDelegate>)observer {
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         addObserver:observer selector:@selector(checkDidChangeStatus:)
         name:CheckDidChangeStatus object:self];
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         addObserver:observer selector:@selector(checkDidChangeChanging:)
         name:CheckDidChangeChanging object:self];
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         addObserver:observer selector:@selector(checkDidChangeRunning:)
         name:CheckDidChangeRunning object:self];
 }
 
 - (void)removeObserver:(id<CheckDelegate>)observer {
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         removeObserver:observer name:CheckDidChangeStatus object:self];
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         removeObserver:observer name:CheckDidChangeChanging object:self];
-    [NSNotificationCenter.defaultCenter
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
         removeObserver:observer name:CheckDidChangeRunning object:self];
 }
 @end

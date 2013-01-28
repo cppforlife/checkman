@@ -11,7 +11,6 @@
 @end
 
 @implementation CustomNotifier
-
 @synthesize
     pendingNotifications = _pendingNotifications,
     notificationPanel = _notificationPanel;

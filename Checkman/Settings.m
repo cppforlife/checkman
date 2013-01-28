@@ -8,7 +8,6 @@
 @end
 
 @implementation Settings
-
 @synthesize
     delegate = _delegate,
     userDefaults = _userDefaults,

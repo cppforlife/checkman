@@ -9,7 +9,6 @@
 @end
 
 @implementation AsyncTask
-
 @synthesize
     delegate = _delegate,
     task = _task,
