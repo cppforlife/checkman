@@ -16,6 +16,10 @@ class TravisBuildStatus
     @build_data["number"]
   end
 
+  def state
+    @build_data["state"]
+  end
+
   def branch
     @build_data["branch"]
   end
@@ -39,11 +43,13 @@ class TravisBuildStatus
   end
 
   def started_at
-    Time.parse(@build_data["started_at"], "%Y-%m-%dT%H:%M:%S%z")
+    iso8601 = @build_data["started_at"]
+    iso8601 && Time.parse(iso8601, "%Y-%m-%dT%H:%M:%S%z")
   end
 
   def formatted_started_at
-    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
+    time = started_at
+    time && time.getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
   end
 
   def last_commit_short_sha
@@ -65,6 +71,7 @@ class TravisBuildStatus
         [:Started, formatted_started_at],
         ["-", ""],
         [:Branch, branch],
+        [:State, state],
         [:SHA, last_commit_short_sha],
         [:Message, last_commit_message]
       ]
