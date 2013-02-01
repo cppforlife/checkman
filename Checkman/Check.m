@@ -144,48 +144,41 @@ DelegateToLastRun(url, NSURL *);
 
 
 @implementation Check (Observers_Private)
-static NSString
-    *CheckDidChangeStatus = @"CheckDidChangeStatus",
-    *CheckDidChangeChanging = @"CheckDidChangeChanging",
-    *CheckDidChangeRunning = @"CheckDidChangeRunning";
 
-- (void)_didChangeStatus {
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        postNotificationName:CheckDidChangeStatus object:self];
-}
+#define ChangeField(field)                                                      \
+    static NSString *CheckDidChange##field = @"CheckDidChange"#field;           \
+    - (void)_didChange##field {                                                 \
+        [(NSNotificationCenter *)NSNotificationCenter.defaultCenter             \
+            postNotificationName:CheckDidChange##field object:self];            \
+    }                                                                           \
 
-- (void)_didChangeChanging {
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        postNotificationName:CheckDidChangeChanging object:self];
-}
-
-- (void)_didChangeRunning {
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        postNotificationName:CheckDidChangeRunning object:self];
-}
+ChangeField(Status)
+ChangeField(Changing)
+ChangeField(Running)
 @end
 
 
 @implementation Check (Observers)
+
+#define AddObserver(field)                                                      \
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter                 \
+        addObserver:observer selector:@selector(checkDidChange##field:)         \
+        name:CheckDidChange##field object:self];                                \
+
 - (void)addObserver:(id<CheckDelegate>)observer {
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        addObserver:observer selector:@selector(checkDidChangeStatus:)
-        name:CheckDidChangeStatus object:self];
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        addObserver:observer selector:@selector(checkDidChangeChanging:)
-        name:CheckDidChangeChanging object:self];
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        addObserver:observer selector:@selector(checkDidChangeRunning:)
-        name:CheckDidChangeRunning object:self];
+    AddObserver(Status)
+    AddObserver(Changing)
+    AddObserver(Running)
 }
 
+#define RemoveObserver(field)                                                   \
+    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter                 \
+        removeObserver:observer name:CheckDidChange##field object:self];        \
+
 - (void)removeObserver:(id<CheckDelegate>)observer {
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        removeObserver:observer name:CheckDidChangeStatus object:self];
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        removeObserver:observer name:CheckDidChangeChanging object:self];
-    [(NSNotificationCenter *)NSNotificationCenter.defaultCenter
-        removeObserver:observer name:CheckDidChangeRunning object:self];
+    RemoveObserver(Status)
+    RemoveObserver(Changing)
+    RemoveObserver(Running)
 }
 @end
 
