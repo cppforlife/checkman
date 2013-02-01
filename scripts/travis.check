@@ -144,7 +144,7 @@ class Travis
   end
 
   def latest_status
-    TravisRepoStatus.new(repo_url, http_get(builds_url))
+    TravisRepoStatus.new(repo_url, http_get(builds_url)) \
       .status_for_branch(@repo_branch)
   end
 
