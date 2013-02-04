@@ -52,4 +52,4 @@ class Test
   end
 end
 
-puts Test.new(*ARGV).to_json
+puts Test.new(*ARGV).to_json if __FILE__ == $0
