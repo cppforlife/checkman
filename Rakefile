@@ -8,12 +8,13 @@ BUILD_DIR = File.join(PROJECT_ROOT, "build")
 def system_or_exit(cmd, stdout=nil)
   puts "Executing #{cmd}"
   cmd += " >#{stdout}" if stdout
-  system(cmd) or raise "******** Build failed ********"
+  system(cmd) or raise "** Build failed **"
 end
 
 task :default => %w(
-  trim_whitespace 
-  included_scripts:verify_ruby_syntax 
+  trim_whitespace
+  included_scripts:verify_ruby_syntax
+  included_scripts:integration_specs
   ocunit:logic
 )
 
@@ -39,6 +40,13 @@ namespace :included_scripts do
     Dir["./scripts/*.check"].each do |file|
       system_or_exit "ruby -c #{file}"
     end
+  end
+
+  desc "Run integration specs"
+  task :integration_specs do
+    rspec = `which rspec`.strip
+    raise "** Install rspec **" if rspec.empty?
+    system_or_exit "#{rspec} scripts/specs/*_spec.rb"
   end
 end
 

@@ -165,4 +165,4 @@ class Semaphore
   end
 end
 
-puts Semaphore.new(*ARGV).latest_status.to_json
+puts Semaphore.new(*ARGV).latest_status.to_json if __FILE__ == $0

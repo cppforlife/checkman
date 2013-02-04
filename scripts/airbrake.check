@@ -112,4 +112,4 @@ class Airbrake
   end
 end
 
-puts Airbrake.new(*ARGV).latest_status.to_json
+puts Airbrake.new(*ARGV).latest_status.to_json if __FILE__ == $0

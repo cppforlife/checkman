@@ -36,6 +36,11 @@ class Test
     end
   end
 
+  # Look like other checks...
+  def latest_status
+    self
+  end
+
   def as_json(*)
     has?(:slow) { sleep 10 }
     has?(:error) { raise }

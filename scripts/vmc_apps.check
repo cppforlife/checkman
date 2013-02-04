@@ -81,4 +81,4 @@ class VmcApps
   end
 end
 
-puts VmcApps.new(*ARGV).latest_status.to_json
+puts VmcApps.new(*ARGV).latest_status.to_json if __FILE__ == $0
