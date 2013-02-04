@@ -20,7 +20,7 @@
     fsChangesNotifier = _fsChangesNotifier;
 
 - (id)initWithFilePath:(NSString *)filePath
-     fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier {
+        fsChangesNotifier:(FSChangesNotifier *)fsChangesNotifier {
     if (self = [super init]) {
         self.filePath = filePath;
         self.resolvedFilePath = [filePath stringByResolvingSymlinksInPath];

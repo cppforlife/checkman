@@ -93,7 +93,8 @@ end
 class JenkinsJobStatus
   def initialize(json)
     @job_data = JSON.parse(json)
-    @last_build_status = JenkinsBuildStatus.new(@job_data["lastBuild"])
+    @last_build_status =
+      JenkinsBuildStatus.new(@job_data["lastBuild"])
 
     if @job_data["lastSuccessfulBuild"]
       @last_successful_build_status =
@@ -141,18 +142,22 @@ end
 
 class JenkinsJob
   def initialize(jenkins_url, name)
-    raise ArgumentError "jenkins_url must not be nil" unless jenkins_url
-    @jenkins_url = jenkins_url
+    raise ArgumentError "jenkins_url must not be nil" \
+      unless @jenkins_url = jenkins_url
 
-    raise ArgumentError "name must not be nil" unless name
-    @name = name
+    raise ArgumentError "name must not be nil" \
+      unless @name = name
   end
 
   def latest_status
-    JenkinsJobStatus.new(http_get("#{@jenkins_url}/job/#{@name}/api/json?depth=1"))
+    JenkinsJobStatus.new(http_get(job_url))
   end
 
   private
+
+  def job_url
+    "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
+  end
 
   def http_get(url)
     curl = "curl -sk #{url}"

@@ -45,7 +45,9 @@ end
 class AirbrakeStatus
   def initialize(project_url, json)
     @project_url = project_url
-    @errors = Array(JSON.parse(json)["groups"]).map { |e| AirbrakeError.new(e) }
+    @errors =
+      Array(JSON.parse(json)["groups"]) \
+        .map { |e| AirbrakeError.new(e) }
 
   rescue JSON::ParserError
     raise RuntimeError, "invalid json: '#{json}'"
@@ -84,14 +86,14 @@ end
 
 class Airbrake
   def initialize(account, auth_token, project_id)
-    raise ArgumentError "account must not be nil" unless account
-    @account = account
+    raise ArgumentError "account must not be nil" \
+      unless @account = account
 
-    raise ArgumentError "auth_token must not be nil" unless auth_token
-    @auth_token = auth_token
+    raise ArgumentError "auth_token must not be nil" \
+      unless @auth_token = auth_token
 
-    raise ArgumentError "project_id must not be nil" unless project_id
-    @project_id = project_id
+    raise ArgumentError "project_id must not be nil" \
+      unless @project_id = project_id
   end
 
   def latest_status
@@ -106,7 +108,7 @@ class Airbrake
 
   def run
     curl = "curl -sk '#{project_url}/errors.json?auth_token=#{@auth_token}'"
-    `#{curl}`.tap { |o| $stderr.puts curl, o } 
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
 

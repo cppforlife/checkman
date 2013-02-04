@@ -38,8 +38,8 @@ end
 
 class Site
   def initialize(url)
-    raise ArgumentError "url must not be nil" unless url
-    @url = url
+    raise ArgumentError "url must not be nil" \
+      unless @url = url
   end
 
   def latest_status

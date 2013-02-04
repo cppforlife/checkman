@@ -50,14 +50,14 @@ end
 
 class VmcApps
   def initialize(cc_target_url, space_id, app_prefix)
-    raise ArgumentError "cc_target must not be nil" unless cc_target_url
-    @cc_target_url = cc_target_url
+    raise ArgumentError "cc_target must not be nil" \
+      unless @cc_target_url = cc_target_url
 
-    raise ArgumentError "space_id must not be nil" unless space_id
-    @space_id = space_id
+    raise ArgumentError "space_id must not be nil" \
+      unless @space_id = space_id
 
-    raise ArgumentError "app_prefix must not be nil" unless app_prefix
-    @app_prefix = app_prefix
+    raise ArgumentError "app_prefix must not be nil" \
+      unless @app_prefix = app_prefix
   end
 
   def latest_status

@@ -119,28 +119,30 @@ end
 class TravisRepoStatus
   def initialize(repo_url, json)
     @repo_url = repo_url
-    @build_statuses = JSON.parse(json).map { |d| TravisBuildStatus.new(d) }
+    @build_statuses =
+      JSON.parse(json).map { |d| TravisBuildStatus.new(d) }
 
   rescue JSON::ParserError
     raise RuntimeError, "invalid json: '#{json}'"
   end
 
   def status_for_branch(branch_name)
-    build_statuses = @build_statuses.select { |s| s.branch == branch_name }
+    build_statuses =
+      @build_statuses.select { |s| s.branch == branch_name }
     TravisBranchStatus.new(@repo_url, build_statuses)
   end
 end
 
 class Travis
   def initialize(repo_owner, repo_name, repo_branch="master")
-    raise ArgumentError "repo_owner must not be nil" unless repo_owner
-    @repo_owner = repo_owner
+    raise ArgumentError "repo_owner must not be nil" \
+      unless @repo_owner = repo_owner
 
-    raise ArgumentError "repo_name must not be nil" unless repo_name
-    @repo_name = repo_name
+    raise ArgumentError "repo_name must not be nil" \
+      unless @repo_name = repo_name
 
-    raise ArgumentError "repo_branch must not be nil" unless repo_branch
-    @repo_branch = repo_branch
+    raise ArgumentError "repo_branch must not be nil" \
+      unless @repo_branch = repo_branch
   end
 
   def latest_status

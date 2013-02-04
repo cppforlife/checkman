@@ -77,7 +77,7 @@ class SemaphoreBuildStatus
   private
 
   def commit
-    # I'm guessing if push was a trigger 
+    # I'm guessing if push was a trigger
     # then commit data is available
     @build_data["commit"]
   end
@@ -98,7 +98,9 @@ end
 class SemaphoreBranchStatus
   def initialize(json)
     @branch_data = JSON.parse(json)
-    @build_statuses = @branch_data["builds"].map { |d| SemaphoreBuildStatus.new(d) }
+    @build_statuses =
+      @branch_data["builds"] \
+        .map { |d| SemaphoreBuildStatus.new(d) }
 
     raise StandardError, "Status for branch '#{branch_name}' is not available" \
       unless last_build_status
@@ -137,14 +139,14 @@ end
 
 class Semaphore
   def initialize(project_id, branch_id, auth_token)
-    raise ArgumentError "project_id must not be nil" unless project_id
-    @project_id = project_id
+    raise ArgumentError "project_id must not be nil" \
+      unless @project_id = project_id
 
-    raise ArgumentError "branch_id must not be nil" unless branch_id
-    @branch_id = branch_id
+    raise ArgumentError "branch_id must not be nil" \
+      unless @branch_id = branch_id
 
-    raise ArgumentError "auth_token must not be nil" unless auth_token
-    @auth_token = auth_token
+    raise ArgumentError "auth_token must not be nil" \
+      unless @auth_token = auth_token
   end
 
   def latest_status
