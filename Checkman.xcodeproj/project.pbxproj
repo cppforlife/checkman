@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		62BF3B9816AF60320051A1CC /* semaphore.check in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9716AF60320051A1CC /* semaphore.check */; };
 		62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9A16AF625C0051A1CC /* Checkman.zip */; };
+		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
 		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
 		960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */; };
@@ -52,9 +53,12 @@
 		9697A30C16A3870A00ED7544 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9697A30B16A3870A00ED7544 /* LICENSE */; };
 		96A6F73E16C6296C004B60BD /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73516C6296C004B60BD /* HTTPConnection.m */; };
 		96A6F73F16C6296C004B60BD /* HTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73716C6296C004B60BD /* HTTPRequest.m */; };
+		96A6F74016C6296C004B60BD /* WebUIStaticFileHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73916C6296C004B60BD /* WebUIStaticFileHandler.m */; };
 		96A6F74116C6296C004B60BD /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73B16C6296C004B60BD /* HTTPServer.m */; };
 		96A6F74216C6296C004B60BD /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73D16C6296C004B60BD /* TCPServer.m */; };
+		96A6F74616C63EF5004B60BD /* WebUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74516C63EF5004B60BD /* WebUI.m */; };
 		96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */; };
+		96A6F75816C7561F004B60BD /* WebUIWebSocketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */; };
 		96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75A16C75B07004B60BD /* TCPConnection.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
 		96EDD2E5168944D800294E32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EDD2E4168944D800294E32 /* SenTestingKit.framework */; };
@@ -112,6 +116,8 @@
 /* Begin PBXFileReference section */
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
+		960C9F0616C7760100F5FAA2 /* WebUIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIHandler.h; sourceTree = "<group>"; };
+		960C9F0716C7760100F5FAA2 /* WebUIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIHandler.m; sourceTree = "<group>"; };
 		960C9F0A16C77A2700F5FAA2 /* WebSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnection.h; sourceTree = "<group>"; };
 		960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketConnection.m; sourceTree = "<group>"; };
 		960C9F1016C7831400F5FAA2 /* WebSocketFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketFrame.h; sourceTree = "<group>"; };
@@ -177,12 +183,18 @@
 		96A6F73516C6296C004B60BD /* HTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPConnection.m; sourceTree = "<group>"; };
 		96A6F73616C6296C004B60BD /* HTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRequest.h; sourceTree = "<group>"; };
 		96A6F73716C6296C004B60BD /* HTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPRequest.m; sourceTree = "<group>"; };
+		96A6F73816C6296C004B60BD /* WebUIStaticFileHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIStaticFileHandler.h; sourceTree = "<group>"; };
+		96A6F73916C6296C004B60BD /* WebUIStaticFileHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIStaticFileHandler.m; sourceTree = "<group>"; };
 		96A6F73A16C6296C004B60BD /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServer.h; sourceTree = "<group>"; };
 		96A6F73B16C6296C004B60BD /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
 		96A6F73C16C6296C004B60BD /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
 		96A6F73D16C6296C004B60BD /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
+		96A6F74416C63EF5004B60BD /* WebUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUI.h; sourceTree = "<group>"; };
+		96A6F74516C63EF5004B60BD /* WebUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUI.m; sourceTree = "<group>"; };
 		96A6F74716C65BBC004B60BD /* TCPBufferedStreams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPBufferedStreams.h; sourceTree = "<group>"; };
 		96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPBufferedStreams.m; sourceTree = "<group>"; };
+		96A6F75616C7561F004B60BD /* WebUIWebSocketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIWebSocketHandler.h; sourceTree = "<group>"; };
+		96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIWebSocketHandler.m; sourceTree = "<group>"; };
 		96A6F75916C75B07004B60BD /* TCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPConnection.h; sourceTree = "<group>"; };
 		96A6F75A16C75B07004B60BD /* TCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPConnection.m; sourceTree = "<group>"; };
 		96EDD2BC16892C4000294E32 /* SectionedMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionedMenu.h; sourceTree = "<group>"; };
@@ -480,6 +492,19 @@
 			name = HTTPServer;
 			sourceTree = "<group>";
 		};
+		96A6F74316C63EBE004B60BD /* WebUI */ = {
+			isa = PBXGroup;
+			children = (
+				960C9F0616C7760100F5FAA2 /* WebUIHandler.h */,
+				960C9F0716C7760100F5FAA2 /* WebUIHandler.m */,
+				96A6F73816C6296C004B60BD /* WebUIStaticFileHandler.h */,
+				96A6F73916C6296C004B60BD /* WebUIStaticFileHandler.m */,
+				96A6F75616C7561F004B60BD /* WebUIWebSocketHandler.h */,
+				96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */,
+			);
+			name = WebUI;
+			sourceTree = "<group>";
+		};
 		96EDD2E7168944D800294E32 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,15 +680,16 @@
 		DD4F7C0E13C30F9F00825C6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				96472D4A16880F5900D1CF46 /* Ext */,
 				AEBC15D61676D9BE005129E9 /* Models */,
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
-				96472D4A16880F5900D1CF46 /* Ext */,
 				9697A2E8169E6A1300ED7544 /* AsyncTask */,
 				965BECBB16A73FE100CEE4A1 /* Stickies */,
 				9697A30116A23D1E00ED7544 /* CustomNotifier */,
 				96534329169E3C5A006E1536 /* GrowlNotifier */,
 				AEF8D6A61684071A00A255D4 /* FSChanges */,
+				96A6F74316C63EBE004B60BD /* WebUI */,
 				96A6F73216C6294C004B60BD /* HTTPServer */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
 			);
@@ -694,6 +720,8 @@
 				965BECB816A73C7700CEE4A1 /* StickiesController.m */,
 				96534306169B7361006E1536 /* NotificationsController.h */,
 				96534307169B7361006E1536 /* NotificationsController.m */,
+				96A6F74416C63EF5004B60BD /* WebUI.h */,
+				96A6F74516C63EF5004B60BD /* WebUI.m */,
 				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
 				96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */,
 			);
@@ -941,10 +969,14 @@
 				965BED0D16ACCF0C00CEE4A1 /* FSChangesDispatchWatcher.m in Sources */,
 				96A6F73E16C6296C004B60BD /* HTTPConnection.m in Sources */,
 				96A6F73F16C6296C004B60BD /* HTTPRequest.m in Sources */,
+				96A6F74016C6296C004B60BD /* WebUIStaticFileHandler.m in Sources */,
 				96A6F74116C6296C004B60BD /* HTTPServer.m in Sources */,
 				96A6F74216C6296C004B60BD /* TCPServer.m in Sources */,
+				96A6F74616C63EF5004B60BD /* WebUI.m in Sources */,
 				96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */,
+				96A6F75816C7561F004B60BD /* WebUIWebSocketHandler.m in Sources */,
 				96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */,
+				960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */,
 				960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */,
 				960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */,
 				960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */,

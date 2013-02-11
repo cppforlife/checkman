@@ -13,6 +13,9 @@
 @optional
 - (void)checkCollection:(CheckCollection *)collection
     checkDidChangeStatus:(Check *)check;
+
+- (void)checkCollection:(CheckCollection *)collection
+   checkDidChangeChanging:(Check *)check;
 @end
 
 @interface CheckCollection : NSObject <NSFastEnumeration>

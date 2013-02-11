@@ -73,7 +73,13 @@
 }
 
 - (void)checkDidChangeChanging:(NSNotification *)notification {
-    [self _updateChangingFromCheck:(Check *)notification.object];
+    Check *check = (Check *)notification.object;
+    [self _updateChangingFromCheck:check];
+
+    // Delegate individual check changing changes for conveniece
+    if ([self.delegate respondsToSelector:@selector(checkCollection:checkDidChangeChanging:)]) {
+        [self.delegate checkCollection:self checkDidChangeChanging:check];
+    }
 }
 
 - (void)checkDidChangeRunning:(NSNotification *)notification {}

@@ -2,6 +2,7 @@
 #import "MenuController.h"
 #import "StickiesController.h"
 #import "NotificationsController.h"
+#import "WebUI.h"
 #import "Settings.h"
 
 #import "CheckfileCollection.h"
@@ -15,6 +16,7 @@
 @property (nonatomic, strong) MenuController *menuController;
 @property (nonatomic, strong) StickiesController *stickiesController;
 @property (nonatomic, strong) NotificationsController *notificationsController;
+@property (nonatomic, strong) WebUI *webUI;
 @property (nonatomic, strong) Settings *settings;
 @end
 
@@ -24,16 +26,19 @@
     menuController = _menuController,
     stickiesController = _stickiesController,
     notificationsController = _notificationsController,
+    webUI = _webUI,
     settings = _settings;
 
 - (id)initWithMenuController:(MenuController *)menuController
           stickiesController:(StickiesController *)stickiesController
      notificationsController:(NotificationsController *)notificationsController
+                       webUI:(WebUI *)webUI
                     settings:(Settings *)settings {
     if (self = [super init]) {
         self.menuController = menuController;
         self.stickiesController = stickiesController;
         self.notificationsController = notificationsController;
+        self.webUI = webUI;
         self.settings = settings;
     }
     return self;
@@ -99,6 +104,7 @@
 
         [self.stickiesController addCheck:check];
         [self.notificationsController addCheck:check];
+        [self.webUI addCheck:check];
     }
     else if (entry.isSeparatorEntry) {
         [self.menuController
@@ -148,6 +154,7 @@
         Check *check = [self.menuController checkWithTag:entry.tag];
         [self.stickiesController removeCheck:check];
         [self.notificationsController removeCheck:check];
+        [self.webUI removeCheck:check];
         [check stop];
     }
 

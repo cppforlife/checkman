@@ -6,6 +6,7 @@
 #import "StickiesController.h"
 #import "Settings.h"
 #import "Check.h"
+#import "WebUI.h"
 
 @interface ApplicationDelegate ()
     <SettingsDelegate, MenuControllerDelegate, NotificationsControllerDelegate>
@@ -14,6 +15,7 @@
 @property (nonatomic, strong) StickiesController *stickiesController;
 @property (nonatomic, strong) NotificationsController *notificationsController;
 @property (nonatomic, strong) Settings *settings;
+@property (nonatomic, strong) WebUI *webUI;
 @end
 
 @implementation ApplicationDelegate
@@ -22,7 +24,8 @@
     menuController = _menuController,
     stickiesController = _stickiesController,
     notificationsController = _notificationsController,
-    settings = _settings;
+    settings = _settings,
+    webUI = _webUI;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     [self _announceGitSha];
@@ -34,6 +37,7 @@
     [self _setUpMenu];
     [self _setUpStickies];
     [self _setUpNotifications];
+    [self _setUpWebUI];
     [self _setUpCheckManager];
 }
 
@@ -78,8 +82,14 @@
             initWithMenuController:self.menuController
             stickiesController:self.stickiesController
             notificationsController:self.notificationsController
+            webUI:self.webUI
             settings:self.settings];
     [self.checkManager loadCheckfiles];
+}
+
+- (void)_setUpWebUI {
+    self.webUI = [[WebUI alloc] init];
+    [self.webUI start];
 }
 
 #pragma mark - SettingsDelegate
