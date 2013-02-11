@@ -13,6 +13,15 @@
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
 		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
 		960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */; };
+		960C9F2016C7D05400F5FAA2 /* checks.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1C16C7D05400F5FAA2 /* checks.js */; };
+		960C9F2116C7D05400F5FAA2 /* connection.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1D16C7D05400F5FAA2 /* connection.js */; };
+		960C9F2216C7D05400F5FAA2 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1E16C7D05400F5FAA2 /* styles.css */; };
+		960C9F2316C7D05400F5FAA2 /* ui.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1F16C7D05400F5FAA2 /* ui.js */; };
+		960C9F2416C7D07200F5FAA2 /* checks.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1C16C7D05400F5FAA2 /* checks.js */; };
+		960C9F2516C7D07500F5FAA2 /* connection.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1D16C7D05400F5FAA2 /* connection.js */; };
+		960C9F2716C7D08200F5FAA2 /* ui.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1F16C7D05400F5FAA2 /* ui.js */; };
+		960C9F2916C7D73C00F5FAA2 /* check.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F2816C7D73C00F5FAA2 /* check.js */; };
+		960C9F2A16C7D74500F5FAA2 /* check.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F2816C7D73C00F5FAA2 /* check.js */; };
 		961AE8331694846A007D8C41 /* CheckCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */; };
 		961AE83516948A1A007D8C41 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		961AE83616948A1D007D8C41 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
@@ -58,6 +67,7 @@
 		96A6F74216C6296C004B60BD /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73D16C6296C004B60BD /* TCPServer.m */; };
 		96A6F74616C63EF5004B60BD /* WebUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74516C63EF5004B60BD /* WebUI.m */; };
 		96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */; };
+		96A6F75216C66CC7004B60BD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 96A6F75116C66CC7004B60BD /* index.html */; };
 		96A6F75816C7561F004B60BD /* WebUIWebSocketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */; };
 		96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75A16C75B07004B60BD /* TCPConnection.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
@@ -124,6 +134,11 @@
 		960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketFrame.m; sourceTree = "<group>"; };
 		960C9F1916C7A3A100F5FAA2 /* WebSocketSec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketSec.h; sourceTree = "<group>"; };
 		960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketSec.m; sourceTree = "<group>"; };
+		960C9F1C16C7D05400F5FAA2 /* checks.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = checks.js; sourceTree = "<group>"; };
+		960C9F1D16C7D05400F5FAA2 /* connection.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = connection.js; sourceTree = "<group>"; };
+		960C9F1E16C7D05400F5FAA2 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		960C9F1F16C7D05400F5FAA2 /* ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ui.js; sourceTree = "<group>"; };
+		960C9F2816C7D73C00F5FAA2 /* check.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = check.js; sourceTree = "<group>"; };
 		961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckCollectionSpec.mm; sourceTree = "<group>"; };
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
@@ -193,6 +208,7 @@
 		96A6F74516C63EF5004B60BD /* WebUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUI.m; sourceTree = "<group>"; };
 		96A6F74716C65BBC004B60BD /* TCPBufferedStreams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPBufferedStreams.h; sourceTree = "<group>"; };
 		96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPBufferedStreams.m; sourceTree = "<group>"; };
+		96A6F75116C66CC7004B60BD /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		96A6F75616C7561F004B60BD /* WebUIWebSocketHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIWebSocketHandler.h; sourceTree = "<group>"; };
 		96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIWebSocketHandler.m; sourceTree = "<group>"; };
 		96A6F75916C75B07004B60BD /* TCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPConnection.h; sourceTree = "<group>"; };
@@ -505,6 +521,19 @@
 			name = WebUI;
 			sourceTree = "<group>";
 		};
+		96A6F75016C66CB9004B60BD /* web_ui */ = {
+			isa = PBXGroup;
+			children = (
+				960C9F1D16C7D05400F5FAA2 /* connection.js */,
+				960C9F1C16C7D05400F5FAA2 /* checks.js */,
+				960C9F2816C7D73C00F5FAA2 /* check.js */,
+				960C9F1F16C7D05400F5FAA2 /* ui.js */,
+				960C9F1E16C7D05400F5FAA2 /* styles.css */,
+				96A6F75116C66CC7004B60BD /* index.html */,
+			);
+			path = web_ui;
+			sourceTree = "<group>";
+		};
 		96EDD2E7168944D800294E32 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,6 +675,7 @@
 				9697A30B16A3870A00ED7544 /* LICENSE */,
 				96EDD307168A6B1900294E32 /* Rakefile */,
 				AE76A5D91682B82E00004A4D /* scripts */,
+				96A6F75016C66CB9004B60BD /* web_ui */,
 				96472D4E16880F5900D1CF46 /* bin */,
 				DD4F7C0E13C30F9F00825C6E /* Sources */,
 				DD4F7C2813C3123E00825C6E /* User Interface */,
@@ -854,6 +884,12 @@
 				62BF3B9816AF60320051A1CC /* semaphore.check in Resources */,
 				62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */,
 				AEBBEDA816B22CB2008C8880 /* travis.check in Resources */,
+				96A6F75216C66CC7004B60BD /* index.html in Resources */,
+				960C9F2216C7D05400F5FAA2 /* styles.css in Resources */,
+				960C9F2516C7D07500F5FAA2 /* connection.js in Resources */,
+				960C9F2416C7D07200F5FAA2 /* checks.js in Resources */,
+				960C9F2A16C7D74500F5FAA2 /* check.js in Resources */,
+				960C9F2716C7D08200F5FAA2 /* ui.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +1016,10 @@
 				960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */,
 				960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */,
 				960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */,
+				960C9F2016C7D05400F5FAA2 /* checks.js in Sources */,
+				960C9F2116C7D05400F5FAA2 /* connection.js in Sources */,
+				960C9F2316C7D05400F5FAA2 /* ui.js in Sources */,
+				960C9F2916C7D73C00F5FAA2 /* check.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

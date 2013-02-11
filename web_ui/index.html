@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="checks">
+      <script type="text/javascript" src="connection.js"></script>
+      <script type="text/javascript" src="checks.js"></script>
+      <script type="text/javascript" src="check.js"></script>
+      <script type="text/javascript" src="ui.js"></script>
+      <script type="text/javascript">
+        WebUI("checks", "ws://localhost:1234/check_updates");
+      </script>
+    </div>
+  </body>
+</html>

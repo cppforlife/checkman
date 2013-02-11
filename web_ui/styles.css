@@ -1,0 +1,44 @@
+body {
+  background: #efefef;
+  font: 16px Helvetica, Arial;
+}
+
+#checks .check {
+  float: left;
+  overflow: hidden;
+
+  margin: 0 10px 10px 0;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+/* Make sure that height of a failed check
+   equals two ok checks stacked up together. */
+#checks .check.ok {
+  background: rgb(58,130,7);
+  color: #fff;
+  font-size: 25px;
+  line-height: 25px;
+}
+#checks .check.failed {
+  background: rgb(202,26,22);
+  color: #fff;
+  font-size: 85px;
+  line-height: 85px;
+}
+#checks .check.undetermined {
+  background: #777;
+  color: #fff;
+  font-size: 85px;
+  line-height: 85px;
+}
+
+@-webkit-keyframes wiggle {
+  0% { -webkit-transform: rotate(1deg); }
+  50% { -webkit-transform: rotate(-1deg); }
+  100% { -webkit-transform: rotate(1deg); }
+}
+#checks .check.changing {
+  -webkit-animation: wiggle 0.5s infinite;
+}
