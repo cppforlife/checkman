@@ -47,6 +47,9 @@
 		9697A30716A23DCD00ED7544 /* CustomNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A30616A23DCD00ED7544 /* CustomNotification.m */; };
 		9697A30A16A379F800ED7544 /* GrowlNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9697A30916A379F800ED7544 /* GrowlNotification.m */; };
 		9697A30C16A3870A00ED7544 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 9697A30B16A3870A00ED7544 /* LICENSE */; };
+		96A6F73E16C6296C004B60BD /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73516C6296C004B60BD /* HTTPConnection.m */; };
+		96A6F73F16C6296C004B60BD /* HTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73716C6296C004B60BD /* HTTPRequest.m */; };
+		96A6F74116C6296C004B60BD /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73B16C6296C004B60BD /* HTTPServer.m */; };
 		96A6F74216C6296C004B60BD /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73D16C6296C004B60BD /* TCPServer.m */; };
 		96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */; };
 		96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75A16C75B07004B60BD /* TCPConnection.m */; };
@@ -161,6 +164,12 @@
 		9697A30816A379F800ED7544 /* GrowlNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlNotification.h; sourceTree = "<group>"; };
 		9697A30916A379F800ED7544 /* GrowlNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlNotification.m; sourceTree = "<group>"; };
 		9697A30B16A3870A00ED7544 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		96A6F73416C6296C004B60BD /* HTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPConnection.h; sourceTree = "<group>"; };
+		96A6F73516C6296C004B60BD /* HTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPConnection.m; sourceTree = "<group>"; };
+		96A6F73616C6296C004B60BD /* HTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPRequest.h; sourceTree = "<group>"; };
+		96A6F73716C6296C004B60BD /* HTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPRequest.m; sourceTree = "<group>"; };
+		96A6F73A16C6296C004B60BD /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServer.h; sourceTree = "<group>"; };
+		96A6F73B16C6296C004B60BD /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
 		96A6F73C16C6296C004B60BD /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
 		96A6F73D16C6296C004B60BD /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
 		96A6F74716C65BBC004B60BD /* TCPBufferedStreams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPBufferedStreams.h; sourceTree = "<group>"; };
@@ -254,6 +263,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		960C9F0E16C7828800F5FAA2 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				96A6F73A16C6296C004B60BD /* HTTPServer.h */,
+				96A6F73B16C6296C004B60BD /* HTTPServer.m */,
+				96A6F73616C6296C004B60BD /* HTTPRequest.h */,
+				96A6F73716C6296C004B60BD /* HTTPRequest.m */,
+				96A6F73416C6296C004B60BD /* HTTPConnection.h */,
+				96A6F73516C6296C004B60BD /* HTTPConnection.m */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
 		960C9F0F16C7829300F5FAA2 /* TCP */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,6 +451,7 @@
 		96A6F73216C6294C004B60BD /* HTTPServer */ = {
 			isa = PBXGroup;
 			children = (
+				960C9F0E16C7828800F5FAA2 /* HTTP */,
 				960C9F0F16C7829300F5FAA2 /* TCP */,
 			);
 			name = HTTPServer;
@@ -618,6 +641,7 @@
 				9697A30116A23D1E00ED7544 /* CustomNotifier */,
 				96534329169E3C5A006E1536 /* GrowlNotifier */,
 				AEF8D6A61684071A00A255D4 /* FSChanges */,
+				96A6F73216C6294C004B60BD /* HTTPServer */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
 			);
 			name = Sources;
@@ -892,6 +916,9 @@
 				965BECEC16AB896F00CEE4A1 /* FSChangesObserver.m in Sources */,
 				965BECF916AB9E2D00CEE4A1 /* FSChangesTracker.m in Sources */,
 				965BED0D16ACCF0C00CEE4A1 /* FSChangesDispatchWatcher.m in Sources */,
+				96A6F73E16C6296C004B60BD /* HTTPConnection.m in Sources */,
+				96A6F73F16C6296C004B60BD /* HTTPRequest.m in Sources */,
+				96A6F74116C6296C004B60BD /* HTTPServer.m in Sources */,
 				96A6F74216C6296C004B60BD /* TCPServer.m in Sources */,
 				96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */,
 				96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */,
