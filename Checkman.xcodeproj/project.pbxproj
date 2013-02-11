@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		62BF3B9816AF60320051A1CC /* semaphore.check in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9716AF60320051A1CC /* semaphore.check */; };
 		62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9A16AF625C0051A1CC /* Checkman.zip */; };
+		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
+		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
+		960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */; };
 		961AE8331694846A007D8C41 /* CheckCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */; };
 		961AE83516948A1A007D8C41 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		961AE83616948A1D007D8C41 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
@@ -109,6 +112,12 @@
 /* Begin PBXFileReference section */
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
+		960C9F0A16C77A2700F5FAA2 /* WebSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnection.h; sourceTree = "<group>"; };
+		960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketConnection.m; sourceTree = "<group>"; };
+		960C9F1016C7831400F5FAA2 /* WebSocketFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketFrame.h; sourceTree = "<group>"; };
+		960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketFrame.m; sourceTree = "<group>"; };
+		960C9F1916C7A3A100F5FAA2 /* WebSocketSec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketSec.h; sourceTree = "<group>"; };
+		960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocketSec.m; sourceTree = "<group>"; };
 		961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckCollectionSpec.mm; sourceTree = "<group>"; };
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
@@ -263,6 +272,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		960C9F0D16C7827A00F5FAA2 /* WebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				960C9F0A16C77A2700F5FAA2 /* WebSocketConnection.h */,
+				960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */,
+				960C9F1916C7A3A100F5FAA2 /* WebSocketSec.h */,
+				960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */,
+				960C9F1016C7831400F5FAA2 /* WebSocketFrame.h */,
+				960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */,
+			);
+			name = WebSocket;
+			sourceTree = "<group>";
+		};
 		960C9F0E16C7828800F5FAA2 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +473,7 @@
 		96A6F73216C6294C004B60BD /* HTTPServer */ = {
 			isa = PBXGroup;
 			children = (
+				960C9F0D16C7827A00F5FAA2 /* WebSocket */,
 				960C9F0E16C7828800F5FAA2 /* HTTP */,
 				960C9F0F16C7829300F5FAA2 /* TCP */,
 			);
@@ -922,6 +945,9 @@
 				96A6F74216C6296C004B60BD /* TCPServer.m in Sources */,
 				96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */,
 				96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */,
+				960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */,
+				960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */,
+				960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

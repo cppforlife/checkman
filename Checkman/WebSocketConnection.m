@@ -1,0 +1,34 @@
+#import "WebSocketConnection.h"
+#import "TCPConnection.h"
+#import "TCPBufferedStreams.h"
+#import "WebSocketFrame.h"
+
+@interface WebSocketConnection () <TCPConnectionDataDelegate>
+@property (nonatomic, retain) TCPConnection *tcpConnection;
+@end
+
+@implementation WebSocketConnection
+@synthesize tcpConnection = _tcpConnection;
+
+- (id)initWithTCPConnection:(TCPConnection *)tcpConnection {
+    if (self = [super init]) {
+        self.tcpConnection = tcpConnection;
+        self.tcpConnection.dataDelegate = self;
+    }
+    return self;
+}
+
+- (void)sendMessage:(NSString *)message {
+    WebSocketFrame *frame = [[WebSocketFrame alloc] init];
+    frame.data = message;
+    [self.tcpConnection.ostream writeData:frame.asWireData];
+}
+
+#pragma mark -
+
+- (void)TCPConnectionProcessIncomingBytes:(TCPConnection *)connection {
+    // Not implemented
+}
+
+- (void)TCPConnectionProcessOutgoingBytes:(TCPConnection *)connection {}
+@end
