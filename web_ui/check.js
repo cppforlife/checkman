@@ -8,15 +8,15 @@ function WebUICheck(checkMsg) {
   };
 
   function uniqueId() {
-    return checkMsg.check_id;
+    return checkMsg.check.id;
   }
 
   function name() {
-    return checkMsg.check_name;
+    return checkMsg.check.name;
   }
 
   function status() {
-    return checkMsg.check_text.toLowerCase();
+    return checkMsg.check.text.toLowerCase();
   }
 
   function isOk() {
@@ -24,6 +24,6 @@ function WebUICheck(checkMsg) {
   }
 
   function isChanging() {
-    return checkMsg.check_changing;
+    return checkMsg.check.changing;
   }
 }

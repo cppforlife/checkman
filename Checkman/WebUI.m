@@ -104,13 +104,16 @@
 }
 
 - (NSString *)_checkJSONMessage:(Check *)check type:(NSString *)type {
+    NSDictionary *jsonCheckObject =
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            check.tagAsNumber, @"id",
+            check.statusNotificationName, @"name",
+            check.statusNotificationText, @"text",
+            [NSNumber numberWithBool:check.isChanging], @"changing", nil];
     NSDictionary *jsonObject =
         [NSDictionary dictionaryWithObjectsAndKeys:
             type, @"type",
-            check.tagAsNumber, @"check_id",
-            check.statusNotificationName, @"check_name",
-            check.statusNotificationText, @"check_text",
-            [NSNumber numberWithBool:check.isChanging], @"check_changing", nil];
+            jsonCheckObject, @"check", nil];
     NSData *data =
         [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil];
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

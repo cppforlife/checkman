@@ -23,11 +23,12 @@
     [task launch];
     [task waitUntilExit];
 
-    NSData *data =
-        [[task.standardOutput fileHandleForReading]
-            readDataToEndOfFile];
+    NSData *output =
+        [[task.standardOutput fileHandleForReading] readDataToEndOfFile];
+    NSString *outputString =
+        [[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding];
 
-    NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    return [result stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    return [outputString stringByTrimmingCharactersInSet:
+            NSCharacterSet.whitespaceAndNewlineCharacterSet];
 }
 @end
