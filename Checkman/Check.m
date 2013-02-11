@@ -202,7 +202,7 @@ ChangeField(Running)
 
 @implementation Check (Notification)
 - (NSString *)statusNotificationName {
-    return F(@"%@'s %@", self.contextName, self.name);
+    return F(@"%@ / %@", self.contextName, self.name);
 }
 
 - (NSString *)statusNotificationText {
