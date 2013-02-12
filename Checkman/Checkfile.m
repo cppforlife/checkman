@@ -86,9 +86,20 @@
     NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
     NSMutableArray *entries = [[NSMutableArray alloc] init];
 
+    CheckfileTitledSeparatorEntry *lastTitledSeparatorEntry = nil;
+
     for (NSString *line in lines) {
         CheckfileEntry *entry = [CheckfileEntry fromLine:line];
-        if (entry) [entries addObject:entry];
+        if (entry) {
+            if (entry.isTitledSeparatorEntry) {
+                lastTitledSeparatorEntry = (id)entry;
+            } else if (entry.isCommandEntry) {
+                CheckfileCommandEntry *e = (id)entry;
+                e.primaryContextName = self.name;
+                e.secondaryContextName = lastTitledSeparatorEntry.title;
+            }
+            [entries addObject:entry];
+        }
     }
     return entries;
 }

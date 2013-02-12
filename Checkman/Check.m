@@ -26,7 +26,8 @@
     name = _name,
     command = _command,
     directoryPath = _directoryPath,
-    contextName = _contextName,
+    primaryContextName = _primaryContextName,
+    secondaryContextName = _secondaryContextName,
     runInterval = _runInterval,
     disabled = _disabled,
     lastRun = _lastRun,
@@ -202,7 +203,17 @@ ChangeField(Running)
 
 @implementation Check (Notification)
 - (NSString *)statusNotificationName {
-    return F(@"%@ / %@", self.contextName, self.name);
+    if (self.primaryContextName && self.secondaryContextName) {
+        // Avoid having duplicate subtitles
+        if (![self.primaryContextName isEqualToString:self.secondaryContextName]) {
+            return F(@"%@ > %@ > %@", self.primaryContextName, self.secondaryContextName, self.name);
+        }
+    }
+    // Primary name will most like be there
+    if (self.primaryContextName) {
+        return F(@"%@ > %@", self.primaryContextName, self.name);
+    }
+    return self.name;
 }
 
 - (NSString *)statusNotificationText {

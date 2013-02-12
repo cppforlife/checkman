@@ -130,7 +130,8 @@
             directoryPath:checkfile.resolvedDirectoryPath];
     check.tag = entry.tag;
 
-    check.contextName = checkfile.name;
+    check.primaryContextName = entry.primaryContextName;
+    check.secondaryContextName = entry.secondaryContextName;
     check.runInterval = [self.settings
         runIntervalForCheckWithName:check.name
         inCheckfileWithName:checkfile.name];

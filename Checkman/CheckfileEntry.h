@@ -13,6 +13,9 @@
 // e.g. 'command-name: bash command'
 + (CheckfileCommandEntry *)fromLine:(NSString *)line;
 
+@property (nonatomic, retain) NSString *primaryContextName;
+@property (nonatomic, retain) NSString *secondaryContextName;
+
 - (id)initWithName:(NSString *)name command:(NSString *)command;
 - (NSString *)name;
 - (NSString *)command;

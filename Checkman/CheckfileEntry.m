@@ -34,7 +34,11 @@
 @end
 
 @implementation CheckfileCommandEntry
-@synthesize name = _name, command = _command;
+@synthesize
+    name = _name,
+    command = _command,
+    primaryContextName = _primaryContextName,
+    secondaryContextName = _secondaryContextName;
 
 + (CheckfileCommandEntry *)fromLine:(NSString *)line {
     line = [self _trimString:line];

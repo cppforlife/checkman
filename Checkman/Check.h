@@ -17,7 +17,9 @@ typedef enum {
 
 @interface Check : TaggedObject
 
-@property (nonatomic, strong) NSString *contextName;
+@property (nonatomic, strong) NSString *primaryContextName;
+@property (nonatomic, strong) NSString *secondaryContextName;
+
 @property (nonatomic, assign) NSUInteger runInterval;
 @property (nonatomic, assign, getter = isDisabled) BOOL disabled;
 
