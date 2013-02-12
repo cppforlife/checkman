@@ -1,10 +1,11 @@
 function WebUICheck(checkMsg) {
   return {
     uniqueId: uniqueId,
-    name: name,
+    contextualName: contextualName,
     status: status,
     isOk: isOk,
-    isChanging: isChanging
+    isChanging: isChanging,
+    isDisabled: isDisabled
   };
 
   function uniqueId() {
@@ -15,8 +16,32 @@ function WebUICheck(checkMsg) {
     return checkMsg.check.name;
   }
 
+  function primaryContextName() {
+    return checkMsg.check.primary_context_name;
+  }
+
+  function secondaryContextName() {
+    return checkMsg.check.secondary_context_name;
+  }
+
+  function contextualName() {
+    if (primaryContextName() && secondaryContextName()) {
+      if (primaryContextName() != secondaryContextName()) {
+        return [
+          primaryContextName(),
+          secondaryContextName(),
+          name()
+        ].join(" > ");
+      }
+    }
+    if (primaryContextName()) {
+      return [primaryContextName(), name()].join(" > ");
+    }
+    return name();
+  }
+
   function status() {
-    return checkMsg.check.text.toLowerCase();
+    return checkMsg.check.status.toLowerCase();
   }
 
   function isOk() {
@@ -25,5 +50,9 @@ function WebUICheck(checkMsg) {
 
   function isChanging() {
     return checkMsg.check.changing;
+  }
+
+  function isDisabled() {
+    return checkMsg.check.disabled;
   }
 }

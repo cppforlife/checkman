@@ -8,6 +8,8 @@ function WebUICheckCollection(domId) {
   };
 
   function show(check) {
+    if (check.isDisabled()) return;
+
     var checksEl = document.getElementById(domId);
     var checkDom = _checkDom(check);
 
@@ -39,7 +41,7 @@ function WebUICheckCollection(domId) {
     var tpl = "<div class='check $check_status $check_changing'>$check_name</div>";
     tpl = tpl.replace("$check_status", check.status());
     tpl = tpl.replace("$check_changing", check.isChanging() ? "changing" : "");
-    tpl = tpl.replace("$check_name", check.name());
+    tpl = tpl.replace("$check_name", check.contextualName());
     return tpl;
   }
 

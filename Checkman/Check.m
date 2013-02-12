@@ -216,6 +216,14 @@ ChangeField(Running)
     return self.name;
 }
 
+- (NSString *)statusNotificationStatus {
+    switch (self.status) {
+        case CheckStatusOk: return @"ok";
+        case CheckStatusFail: return @"failed";
+        case CheckStatusUndetermined: return @"undetermined";
+    }
+}
+
 - (NSString *)statusNotificationText {
     switch (self.status) {
         case CheckStatusOk: return @"OK";

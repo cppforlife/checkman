@@ -103,13 +103,20 @@
     return [self _checkJSONMessage:check type:@"check.update"];
 }
 
+static inline id _WUObjOrNull(id value) {
+    return value ? value : [NSNull null];
+}
+
 - (NSString *)_checkJSONMessage:(Check *)check type:(NSString *)type {
     NSDictionary *jsonCheckObject =
         [NSDictionary dictionaryWithObjectsAndKeys:
             check.tagAsNumber, @"id",
-            check.statusNotificationName, @"name",
-            check.statusNotificationText, @"text",
-            [NSNumber numberWithBool:check.isChanging], @"changing", nil];
+            _WUObjOrNull(check.name), @"name",
+            _WUObjOrNull(check.primaryContextName), @"primary_context_name",
+            _WUObjOrNull(check.secondaryContextName), @"secondary_context_name",
+            _WUObjOrNull(check.statusNotificationStatus), @"status",
+            [NSNumber numberWithBool:check.isChanging], @"changing",
+            [NSNumber numberWithBool:check.isDisabled], @"disabled", nil];
     NSDictionary *jsonObject =
         [NSDictionary dictionaryWithObjectsAndKeys:
             type, @"type",
