@@ -5,13 +5,23 @@
   </head>
   <body>
     <div id="checks">
-      <script type="text/javascript" src="connection.js"></script>
-      <script type="text/javascript" src="checks.js"></script>
-      <script type="text/javascript" src="check.js"></script>
-      <script type="text/javascript" src="ui.js"></script>
-      <script type="text/javascript">
-        WebUI("checks", "ws://localhost:1234/check_updates");
-      </script>
+      <!-- Shows list of check statuses -->
     </div>
+
+    <div id="lastUpdated">
+      <!-- Shows secs since one of the checks were updated -->
+    </div>
+
+    <script type="text/javascript" src="connection.js"></script>
+    <script type="text/javascript" src="checks.js"></script>
+    <script type="text/javascript" src="check.js"></script>
+    <script type="text/javascript" src="ui.js"></script>
+
+    <script type="text/javascript">
+      WebUI("ws://localhost:1234/check_updates", {
+        checks: "checks",
+        lastUpdated: "lastUpdated"
+      });
+    </script>
   </body>
 </html>

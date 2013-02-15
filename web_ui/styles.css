@@ -42,3 +42,15 @@ body {
 #checks .check.changing {
   -webkit-animation: wiggle 0.5s infinite;
 }
+
+#lastUpdated {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  padding: 5px 5px 0 0;
+
+  text-align: right;
+  font: 11px Courier New, Courier;
+  color: #999;
+}
