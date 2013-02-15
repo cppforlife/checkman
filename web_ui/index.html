@@ -8,11 +8,16 @@
       <!-- Shows list of check statuses -->
     </div>
 
+    <div id="heartBeat">
+      <!-- Server checks in every couple of secs -->
+    </div>
+
     <div id="lastUpdated">
       <!-- Shows secs since one of the checks were updated -->
     </div>
 
     <script type="text/javascript" src="connection.js"></script>
+    <script type="text/javascript" src="heart_beat.js"></script>
     <script type="text/javascript" src="checks.js"></script>
     <script type="text/javascript" src="check.js"></script>
     <script type="text/javascript" src="ui.js"></script>
@@ -20,6 +25,7 @@
     <script type="text/javascript">
       WebUI("ws://localhost:1234/check_updates", {
         checks: "checks",
+        heartBeat: "heartBeat",
         lastUpdated: "lastUpdated"
       });
     </script>

@@ -11,7 +11,9 @@
 @end
 
 @implementation WebUIWebSocketHandler
-@synthesize delegate = _delegate, webSocketConnection = _webSocketConnection;
+@synthesize
+    delegate = _delegate,
+    webSocketConnection = _webSocketConnection;
 
 - (void)dealloc {
     self.delegate = nil;

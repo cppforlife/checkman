@@ -1,10 +1,13 @@
 // require "check.js"
 
 function WebUICheckCollection(domId) {
+  var _presentedChecksCount = 0;
+
   return {
     show: show,
     hide: hide,
-    update: update
+    update: update,
+    presentedChecksCount: presentedChecksCount,
   };
 
   function show(check) {
@@ -18,16 +21,25 @@ function WebUICheckCollection(domId) {
     } else {
       checksEl.innerHTML = checkDom + checksEl.innerHTML;
     }
+
+    _presentedChecksCount += 1;
   }
 
   function hide(check) {
     var checkEl = document.getElementById(_checkDomId(check));
-    if (checkEl) checkEl.remove();
+    if (checkEl) {
+      checkEl.remove();
+      _presentedChecksCount -= 1;
+    }
   }
 
   function update(check) {
     hide(check);
     show(check);
+  }
+
+  function presentedChecksCount() {
+    return _presentedChecksCount;
   }
 
   function _checkDom(check) {

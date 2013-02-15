@@ -1,24 +1,20 @@
 // require "connection.js"
+// require "heart_beat.js"
 // require "checks.js"
 // require "check.js"
-
-function WebUILastUpdated(domId, getSecs) {
-  var timer = setInterval(function() {
-    var secs = getSecs();
-    var secsText = (secs ? secs : "?") + "s ago";
-    document.getElementById(domId).innerHTML = secsText;
-  }, 2000);
-
-  return {};
-}
 
 function WebUI(connectionUrl, domIds) {
   var checks = WebUICheckCollection(domIds.checks);
 
+  var heartBeat = WebUIHeartBeat(domIds.heartBeat, function() {
+    return { presentedChecksCount: checks.presentedChecksCount() };
+  });
+
   var connection = WebUIConnection(connectionUrl, {
     "check.show": checkCallback(checks.show),
     "check.hide": checkCallback(checks.hide),
-    "check.update": checkCallback(checks.update)
+    "check.update": checkCallback(checks.update),
+    "heartbeat": heartBeat.beat
   });
 
   var lastUpdated = WebUILastUpdated(domIds.lastUpdated, function() {

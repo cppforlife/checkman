@@ -33,4 +33,7 @@
 
 - (NSString *)statusDescription;
 - (NSString *)extendedStatusDescription;
+
+- (NSUInteger)numberOfDisabledChecks;
+- (NSUInteger)count;
 @end

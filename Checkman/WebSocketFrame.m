@@ -19,7 +19,7 @@
 - (void)setData:(id)data {
     BOOL isString = [data isKindOfClass:NSString.class];
     BOOL isData = [data isKindOfClass:NSData.class];
-    NSAssert(isString || isData, @"Must be string or data");
+    NSAssert(isString || isData, @"Must be string or data (was %@)", [data class]);
     _data = data;
 }
 

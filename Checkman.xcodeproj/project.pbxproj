@@ -7,21 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		62BF3B9816AF60320051A1CC /* semaphore.check in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9716AF60320051A1CC /* semaphore.check */; };
-		62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */ = {isa = PBXBuildFile; fileRef = 62BF3B9A16AF625C0051A1CC /* Checkman.zip */; };
 		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
 		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
 		960C9F1B16C7A3A100F5FAA2 /* WebSocketSec.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1A16C7A3A100F5FAA2 /* WebSocketSec.m */; };
 		960C9F2016C7D05400F5FAA2 /* checks.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1C16C7D05400F5FAA2 /* checks.js */; };
 		960C9F2116C7D05400F5FAA2 /* connection.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1D16C7D05400F5FAA2 /* connection.js */; };
-		960C9F2216C7D05400F5FAA2 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1E16C7D05400F5FAA2 /* styles.css */; };
 		960C9F2316C7D05400F5FAA2 /* ui.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1F16C7D05400F5FAA2 /* ui.js */; };
-		960C9F2416C7D07200F5FAA2 /* checks.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1C16C7D05400F5FAA2 /* checks.js */; };
-		960C9F2516C7D07500F5FAA2 /* connection.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1D16C7D05400F5FAA2 /* connection.js */; };
-		960C9F2716C7D08200F5FAA2 /* ui.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F1F16C7D05400F5FAA2 /* ui.js */; };
 		960C9F2916C7D73C00F5FAA2 /* check.js in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F2816C7D73C00F5FAA2 /* check.js */; };
-		960C9F2A16C7D74500F5FAA2 /* check.js in Resources */ = {isa = PBXBuildFile; fileRef = 960C9F2816C7D73C00F5FAA2 /* check.js */; };
+		9611349016CE158C00095D09 /* WebUIMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611348F16CE158C00095D09 /* WebUIMessages.m */; };
+		9611349316CE169200095D09 /* NSCustomTicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9611349216CE169200095D09 /* NSCustomTicker.m */; };
+		9611349516CE234100095D09 /* heart_beat.js in Sources */ = {isa = PBXBuildFile; fileRef = 9611349416CE234000095D09 /* heart_beat.js */; };
+		9611349816CE241200095D09 /* connection.js in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 960C9F1D16C7D05400F5FAA2 /* connection.js */; };
+		9611349916CE241200095D09 /* heart_beat.js in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 9611349416CE234000095D09 /* heart_beat.js */; };
+		9611349A16CE241200095D09 /* checks.js in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 960C9F1C16C7D05400F5FAA2 /* checks.js */; };
+		9611349B16CE241200095D09 /* check.js in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 960C9F2816C7D73C00F5FAA2 /* check.js */; };
+		9611349C16CE241200095D09 /* ui.js in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 960C9F1F16C7D05400F5FAA2 /* ui.js */; };
+		9611349D16CE241200095D09 /* styles.css in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 960C9F1E16C7D05400F5FAA2 /* styles.css */; };
+		9611349E16CE241200095D09 /* index.html in Copy WebUI */ = {isa = PBXBuildFile; fileRef = 96A6F75116C66CC7004B60BD /* index.html */; };
+		961134A116CE247300095D09 /* jenkins_build.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = AE76A5DA1682B82E00004A4D /* jenkins_build.check */; };
+		961134A216CE247300095D09 /* travis.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = AEBBEDA716B22CB2008C8880 /* travis.check */; };
+		961134A316CE247300095D09 /* semaphore.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = 62BF3B9716AF60320051A1CC /* semaphore.check */; };
+		961134A416CE247300095D09 /* airbrake.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = AE6EFEE7168D7CA900CC5E11 /* airbrake.check */; };
+		961134A516CE247300095D09 /* test.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
+		961134A616CE247300095D09 /* site.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = AE76A5DB1682B82E00004A4D /* site.check */; };
+		961134A716CE247300095D09 /* vmc_apps.check in Copy Included Checks */ = {isa = PBXBuildFile; fileRef = AE76A5DC1682B82E00004A4D /* vmc_apps.check */; };
 		961AE8331694846A007D8C41 /* CheckCollectionSpec.mm in Sources */ = {isa = PBXBuildFile; fileRef = 961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */; };
 		961AE83516948A1A007D8C41 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		961AE83616948A1D007D8C41 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
@@ -34,7 +44,6 @@
 		96361581168FAF4C00DE0CEB /* CheckDebuggingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */; };
 		96361584168FE28B00DE0CEB /* NSWindow+KeepOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = 96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96472D4D16880F5900D1CF46 /* NSObject+Delayed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */; };
-		96472D5816880F5900D1CF46 /* test.check in Resources */ = {isa = PBXBuildFile; fileRef = 96472D5716880F5900D1CF46 /* test.check */; };
 		96534308169B7361006E1536 /* NotificationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96534307169B7361006E1536 /* NotificationsController.m */; };
 		96534322169E26E2006E1536 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
 		96534324169E2EFF006E1536 /* Growl.framework in Copy Growl Framework */ = {isa = PBXBuildFile; fileRef = 9653431F169E26C7006E1536 /* Growl.framework */; };
@@ -67,7 +76,6 @@
 		96A6F74216C6296C004B60BD /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F73D16C6296C004B60BD /* TCPServer.m */; };
 		96A6F74616C63EF5004B60BD /* WebUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74516C63EF5004B60BD /* WebUI.m */; };
 		96A6F74916C65BBC004B60BD /* TCPBufferedStreams.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F74816C65BBC004B60BD /* TCPBufferedStreams.m */; };
-		96A6F75216C66CC7004B60BD /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 96A6F75116C66CC7004B60BD /* index.html */; };
 		96A6F75816C7561F004B60BD /* WebUIWebSocketHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75716C7561F004B60BD /* WebUIWebSocketHandler.m */; };
 		96A6F75B16C75B08004B60BD /* TCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A6F75A16C75B07004B60BD /* TCPConnection.m */; };
 		96EDD2BE16892C4000294E32 /* SectionedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EDD2BD16892C4000294E32 /* SectionedMenu.m */; };
@@ -93,11 +101,6 @@
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
-		AE6EFEE8168D7CA900CC5E11 /* airbrake.check in Resources */ = {isa = PBXBuildFile; fileRef = AE6EFEE7168D7CA900CC5E11 /* airbrake.check */; };
-		AE76A5DD1682B82E00004A4D /* jenkins_build.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DA1682B82E00004A4D /* jenkins_build.check */; };
-		AE76A5DE1682B82E00004A4D /* site.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DB1682B82E00004A4D /* site.check */; };
-		AE76A5DF1682B82E00004A4D /* vmc_apps.check in Resources */ = {isa = PBXBuildFile; fileRef = AE76A5DC1682B82E00004A4D /* vmc_apps.check */; };
-		AEBBEDA816B22CB2008C8880 /* travis.check in Resources */ = {isa = PBXBuildFile; fileRef = AEBBEDA716B22CB2008C8880 /* travis.check */; };
 		AEBC15DA1676D9D2005129E9 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		AEF8D69D1682C0AF00A255D4 /* CheckfileCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D69C1682C0AF00A255D4 /* CheckfileCollection.m */; };
 		AEF8D6A91684073D00A255D4 /* FSChangesNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */; };
@@ -110,6 +113,40 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		9611349716CE23F100095D09 /* Copy WebUI */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9611349816CE241200095D09 /* connection.js in Copy WebUI */,
+				9611349916CE241200095D09 /* heart_beat.js in Copy WebUI */,
+				9611349A16CE241200095D09 /* checks.js in Copy WebUI */,
+				9611349B16CE241200095D09 /* check.js in Copy WebUI */,
+				9611349C16CE241200095D09 /* ui.js in Copy WebUI */,
+				9611349D16CE241200095D09 /* styles.css in Copy WebUI */,
+				9611349E16CE241200095D09 /* index.html in Copy WebUI */,
+			);
+			name = "Copy WebUI";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		961134A016CE244600095D09 /* Copy Included Checks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				961134A116CE247300095D09 /* jenkins_build.check in Copy Included Checks */,
+				961134A216CE247300095D09 /* travis.check in Copy Included Checks */,
+				961134A316CE247300095D09 /* semaphore.check in Copy Included Checks */,
+				961134A416CE247300095D09 /* airbrake.check in Copy Included Checks */,
+				961134A516CE247300095D09 /* test.check in Copy Included Checks */,
+				961134A616CE247300095D09 /* site.check in Copy Included Checks */,
+				961134A716CE247300095D09 /* vmc_apps.check in Copy Included Checks */,
+			);
+			name = "Copy Included Checks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		96534323169E2ED3006E1536 /* Copy Growl Framework */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +176,11 @@
 		960C9F1E16C7D05400F5FAA2 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
 		960C9F1F16C7D05400F5FAA2 /* ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ui.js; sourceTree = "<group>"; };
 		960C9F2816C7D73C00F5FAA2 /* check.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = check.js; sourceTree = "<group>"; };
+		9611348E16CE158C00095D09 /* WebUIMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIMessages.h; sourceTree = "<group>"; };
+		9611348F16CE158C00095D09 /* WebUIMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIMessages.m; sourceTree = "<group>"; };
+		9611349116CE169200095D09 /* NSCustomTicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCustomTicker.h; sourceTree = "<group>"; };
+		9611349216CE169200095D09 /* NSCustomTicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCustomTicker.m; sourceTree = "<group>"; };
+		9611349416CE234000095D09 /* heart_beat.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = heart_beat.js; sourceTree = "<group>"; };
 		961AE8321694846A007D8C41 /* CheckCollectionSpec.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CheckCollectionSpec.mm; sourceTree = "<group>"; };
 		962C637E168FCFCD00CB4737 /* SeparatorMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeparatorMenuItem.h; sourceTree = "<group>"; };
 		962C637F168FCFCD00CB4737 /* SeparatorMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeparatorMenuItem.m; sourceTree = "<group>"; };
@@ -339,6 +381,17 @@
 			name = TCP;
 			sourceTree = "<group>";
 		};
+		9611348C16CE153A00095D09 /* WebUI */ = {
+			isa = PBXGroup;
+			children = (
+				96A6F74416C63EF5004B60BD /* WebUI.h */,
+				96A6F74516C63EF5004B60BD /* WebUI.m */,
+				9611348E16CE158C00095D09 /* WebUIMessages.h */,
+				9611348F16CE158C00095D09 /* WebUIMessages.m */,
+			);
+			name = WebUI;
+			sourceTree = "<group>";
+		};
 		962C6382168FD60D00CB4737 /* MenuItems */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +412,8 @@
 				96472D4C16880F5900D1CF46 /* NSObject+Delayed.m */,
 				96361582168FE28B00DE0CEB /* NSWindow+KeepOpen.h */,
 				96361583168FE28B00DE0CEB /* NSWindow+KeepOpen.m */,
+				9611349116CE169200095D09 /* NSCustomTicker.h */,
+				9611349216CE169200095D09 /* NSCustomTicker.m */,
 			);
 			name = Ext;
 			sourceTree = "<group>";
@@ -525,6 +580,7 @@
 			isa = PBXGroup;
 			children = (
 				960C9F1D16C7D05400F5FAA2 /* connection.js */,
+				9611349416CE234000095D09 /* heart_beat.js */,
 				960C9F1C16C7D05400F5FAA2 /* checks.js */,
 				960C9F2816C7D73C00F5FAA2 /* check.js */,
 				960C9F1F16C7D05400F5FAA2 /* ui.js */,
@@ -740,6 +796,7 @@
 		DD4F7C2613C311DF00825C6E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9611348C16CE153A00095D09 /* WebUI */,
 				DD4F7C1A13C30F9F00825C6E /* ApplicationDelegate.h */,
 				DD4F7C1B13C30F9F00825C6E /* ApplicationDelegate.m */,
 				962C6383168FE1C200CB4737 /* CheckManager.h */,
@@ -750,8 +807,6 @@
 				965BECB816A73C7700CEE4A1 /* StickiesController.m */,
 				96534306169B7361006E1536 /* NotificationsController.h */,
 				96534307169B7361006E1536 /* NotificationsController.m */,
-				96A6F74416C63EF5004B60BD /* WebUI.h */,
-				96A6F74516C63EF5004B60BD /* WebUI.m */,
 				9636157F168FAF4C00DE0CEB /* CheckDebuggingWindow.h */,
 				96361580168FAF4C00DE0CEB /* CheckDebuggingWindow.m */,
 			);
@@ -816,6 +871,8 @@
 				DD4F7C0013C30F9F00825C6E /* Sources */,
 				DD4F7C0113C30F9F00825C6E /* Frameworks */,
 				DD4F7C0213C30F9F00825C6E /* Resources */,
+				961134A016CE244600095D09 /* Copy Included Checks */,
+				9611349716CE23F100095D09 /* Copy WebUI */,
 				96534323169E2ED3006E1536 /* Copy Growl Framework */,
 				962CD5D81691141B00728AD1 /* Update Git SHA in Info.plist */,
 			);
@@ -867,29 +924,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0C7284167D5317007DC793 /* icon-fail-changing.png in Resources */,
 				AE0C7285167D5317007DC793 /* icon-undetermined-changing.png in Resources */,
 				AE0C7286167D5317007DC793 /* icon-fail.png in Resources */,
 				AE0C7287167D5317007DC793 /* icon-undetermined.png in Resources */,
 				AE0C7289167D5317007DC793 /* icon-ok-changing.png in Resources */,
 				AE0C728A167D5317007DC793 /* icon-ok.png in Resources */,
-				AE76A5DD1682B82E00004A4D /* jenkins_build.check in Resources */,
-				AE76A5DE1682B82E00004A4D /* site.check in Resources */,
-				AE76A5DF1682B82E00004A4D /* vmc_apps.check in Resources */,
+				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,
-				96472D5816880F5900D1CF46 /* test.check in Resources */,
-				AE6EFEE8168D7CA900CC5E11 /* airbrake.check in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
-				62BF3B9816AF60320051A1CC /* semaphore.check in Resources */,
-				62BF3B9B16AF625C0051A1CC /* Checkman.zip in Resources */,
-				AEBBEDA816B22CB2008C8880 /* travis.check in Resources */,
-				96A6F75216C66CC7004B60BD /* index.html in Resources */,
-				960C9F2216C7D05400F5FAA2 /* styles.css in Resources */,
-				960C9F2516C7D07500F5FAA2 /* connection.js in Resources */,
-				960C9F2416C7D07200F5FAA2 /* checks.js in Resources */,
-				960C9F2A16C7D74500F5FAA2 /* check.js in Resources */,
-				960C9F2716C7D08200F5FAA2 /* ui.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1020,6 +1063,9 @@
 				960C9F2116C7D05400F5FAA2 /* connection.js in Sources */,
 				960C9F2316C7D05400F5FAA2 /* ui.js in Sources */,
 				960C9F2916C7D73C00F5FAA2 /* check.js in Sources */,
+				9611349016CE158C00095D09 /* WebUIMessages.m in Sources */,
+				9611349316CE169200095D09 /* NSCustomTicker.m in Sources */,
+				9611349516CE234100095D09 /* heart_beat.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,19 +5,26 @@
 #import "HTTPRequest.h"
 #import "WebUIStaticFileHandler.h"
 #import "WebUIWebSocketHandler.h"
+#import "WebUIMessages.h"
+#import "NSCustomTicker.h"
 
 @interface WebUI ()
-    <CheckCollectionDelegate, HTTPServerDelegate, WebUIWebSocketHandlerDelegate>
+    <CheckCollectionDelegate, HTTPServerDelegate,
+    WebUIWebSocketHandlerDelegate, NSCustomTickerDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
 @property (nonatomic, strong) HTTPServer *httpServer;
 @property (nonatomic, strong) NSMutableArray *checkUpdatesHandlers;
+@property (nonatomic, strong) WebUIMessages *messages;
+@property (nonatomic, strong) NSCustomTicker *heartBeatTicker;
 @end
 
 @implementation WebUI
 @synthesize
     checks = _checks,
     httpServer = _httpServer,
-    checkUpdatesHandlers = _checkUpdatesHandlers;
+    checkUpdatesHandlers = _checkUpdatesHandlers,
+    messages = _messages,
+    heartBeatTicker = _heartBeatTicker;
 
 - (id)init {
     if (self = [super init]) {
@@ -26,7 +33,13 @@
 
         self.httpServer = [HTTPServer onPort:1234];
         self.httpServer.requestDelegate = self;
+
         self.checkUpdatesHandlers = [[NSMutableArray alloc] init];
+        self.messages = [[WebUIMessages alloc] init];
+
+        // WebUIHeartBeat (js) expect to receive at least one beat every 10 secs.
+        self.heartBeatTicker = [[NSCustomTicker alloc] initWithInterval:5];
+        self.heartBeatTicker.delegate = self;
     }
     return self;
 }
@@ -73,63 +86,26 @@
 
 - (void)_showAllChecksWithHandler:(WebUIWebSocketHandler *)handler {
     for (Check *check in self.checks) {
-        [handler sendMessage:[self _showCheckJSONMessage:check]];
+        [handler sendMessage:[self.messages showCheckJSONMessage:check]];
     }
 }
 
 - (void)_showCheck:(Check *)check {
     [self.checkUpdatesHandlers
         makeObjectsPerformSelector:@selector(sendMessage:)
-        withObject:[self _showCheckJSONMessage:check]];
+        withObject:[self.messages showCheckJSONMessage:check]];
 }
 
 - (void)_hideCheck:(Check *)check {
     [self.checkUpdatesHandlers
         makeObjectsPerformSelector:@selector(sendMessage:)
-        withObject:[self _hideCheckJSONMessage:check]];
+        withObject:[self.messages hideCheckJSONMessage:check]];
 }
 
 - (void)_updateCheck:(Check *)check {
     [self.checkUpdatesHandlers
         makeObjectsPerformSelector:@selector(sendMessage:)
-        withObject:[self _updateCheckJSONMessage:check]];
-}
-
-#pragma mark - Messages
-
-- (NSString *)_showCheckJSONMessage:(Check *)check {
-    return [self _checkJSONMessage:check type:@"check.show"];
-}
-
-- (NSString *)_hideCheckJSONMessage:(Check *)check {
-    return [self _checkJSONMessage:check type:@"check.hide"];
-}
-
-- (NSString *)_updateCheckJSONMessage:(Check *)check {
-    return [self _checkJSONMessage:check type:@"check.update"];
-}
-
-static inline id _WUObjOrNull(id value) {
-    return value ? value : [NSNull null];
-}
-
-- (NSString *)_checkJSONMessage:(Check *)check type:(NSString *)type {
-    NSDictionary *jsonCheckObject =
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            check.tagAsNumber, @"id",
-            _WUObjOrNull(check.name), @"name",
-            _WUObjOrNull(check.primaryContextName), @"primary_context_name",
-            _WUObjOrNull(check.secondaryContextName), @"secondary_context_name",
-            _WUObjOrNull(check.statusNotificationStatus), @"status",
-            [NSNumber numberWithBool:check.isChanging], @"changing",
-            [NSNumber numberWithBool:check.isDisabled], @"disabled", nil];
-    NSDictionary *jsonObject =
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            type, @"type",
-            jsonCheckObject, @"check", nil];
-    NSData *data =
-        [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:nil];
-    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        withObject:[self.messages updateCheckJSONMessage:check]];
 }
 
 #pragma mark - HTTPServerDelegate
@@ -167,5 +143,13 @@ static inline id _WUObjOrNull(id value) {
 - (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
         WebSocketConnectionDidEnd:(WebSocketConnection *)connnection{
     [self.checkUpdatesHandlers removeObjectIdenticalTo:handler];
+}
+
+#pragma mark - NSCustomTimerDelegate
+
+- (void)customTickerDidTick:(NSCustomTicker *)ticker {
+    [self.checkUpdatesHandlers
+        makeObjectsPerformSelector:@selector(sendMessage:)
+        withObject:[self.messages heartBeatJSONMessage:self.checks]];
 }
 @end

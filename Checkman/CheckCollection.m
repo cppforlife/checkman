@@ -139,7 +139,7 @@
         [self _numberOfChecksWithStatus:CheckStatusOk],
         [self _numberOfChecksWithStatus:CheckStatusFail],
         [self _numberOfChecksWithStatus:CheckStatusUndetermined],
-        self._numberOfDisabledChecks);
+        self.numberOfDisabledChecks);
 }
 
 - (NSUInteger)_numberOfChecksWithStatus:(CheckStatus)status {
@@ -151,12 +151,16 @@
     return count;
 }
 
-- (NSUInteger)_numberOfDisabledChecks {
+- (NSUInteger)numberOfDisabledChecks {
     NSUInteger count = 0;
     for (Check *check in self.checks) {
         if (check.isDisabled) count++;
     }
     return count;
+}
+
+- (NSUInteger)count {
+    return self.checks.count;
 }
 
 #pragma mark - NSFastEnumeration
