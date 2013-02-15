@@ -51,22 +51,29 @@
 }
 
 - (void)_runTask {
-    self.task.standardOutput = [NSPipe pipe];
-    self.task.standardError = [NSPipe pipe];
+    NSPipe *standardOutput = [NSPipe pipe];
+    if (standardOutput) {
+        self.task.standardOutput = standardOutput;
+    } else return [self _failCompletingTask];
+
+    NSPipe *standardError = [NSPipe pipe];
+    if (standardError) {
+        self.task.standardError = standardError;
+    } else return [self _failCompletingTask];
 
 #ifdef DEBUG
-    // NSTask breaks Xcode's console when bash is executed (http://cocoadev.com/wiki/NSTask)
-    self.task.standardInput = NSPipe.pipe;
+    // NSTask breaks Xcode's console when bash is executed
+    // (more discussion http://cocoadev.com/wiki/NSTask).
+    NSPipe *standardInput = [NSPipe pipe];
+    if (standardInput) {
+        self.task.standardInput = standardInput;
+    } else return [self _failCompletingTask];
 #endif
 
-    [self _readToEndOfFileInBackground:
-            [self.task.standardOutput fileHandleForReading]
+    [self _readToEndOfFileInBackground:standardOutput.fileHandleForReading
         selector:@selector(_receiveStdOutData:)];
-
-    [self _readToEndOfFileInBackground:
-            [self.task.standardError fileHandleForReading]
+    [self _readToEndOfFileInBackground:standardError.fileHandleForReading
         selector:@selector(_receiveStdErrData:)];
-
     [self _waitForTaskTermination];
 
     @try {
