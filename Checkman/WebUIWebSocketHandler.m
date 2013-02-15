@@ -4,8 +4,9 @@
 #import "HTTPRequest.h"
 #import "WebSocketConnection.h"
 #import "WebSocketSec.h"
+#import "TCPConnection.h"
 
-@interface WebUIWebSocketHandler ()
+@interface WebUIWebSocketHandler () <TCPConnectionDelegate>
 @property (nonatomic, retain) WebSocketConnection *webSocketConnection;
 @end
 
@@ -72,7 +73,16 @@
     self.webSocketConnection =
         [[WebSocketConnection alloc]
             initWithTCPConnection:self.connection.tcpConnection];
+    self.webSocketConnection.tcpConnection.delegate = self;
 
-    [self.delegate WebUIWebSocketHandlerDidAcceptNewConnection:self];
+    [self.delegate
+        WebUIWebSocketHandler:self
+        WebSocketConnectionDidStart:self.webSocketConnection];
+}
+
+- (void)TCPConnectionDidClose:(TCPConnection *)connection {
+    [self.delegate
+        WebUIWebSocketHandler:self
+        WebSocketConnectionDidEnd:self.webSocketConnection];
 }
 @end

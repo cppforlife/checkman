@@ -41,10 +41,10 @@ NSString * const TCPServerErrorDomain = @"TCPServerErrorDomain";
 }
 
 - (BOOL)stop {
-    NSLog(@"TCPServer - stopping");
-    CFSocketInvalidate(self.ipv4socket);
-    CFRelease(self.ipv4socket);
-    self.ipv4socket = NULL;
+    if (self.ipv4socket) {
+        CFSocketInvalidate(self.ipv4socket);
+        self.ipv4socket = nil;
+    }
     return YES;
 }
 
@@ -143,7 +143,7 @@ static void _TCPServerAcceptCallBack(
     // If port is 0 it will be automatically assigned
     // so let's get it from the address.
     if (self.port == 0) {
-        NSData *addr = (__bridge NSData *)CFSocketCopyAddress(self.ipv4socket);
+        NSData *addr = CFBridgingRelease(CFSocketCopyAddress(self.ipv4socket));
         memcpy(&addr4, addr.bytes, addr.length);
         self.port = ntohs(addr4.sin_port);
     }
@@ -157,14 +157,15 @@ static void _TCPServerAcceptCallBack(
         CFSocketCreateRunLoopSource(kCFAllocatorDefault, self.ipv4socket, 0);
     CFRunLoopAddSource(cfrl, source4, kCFRunLoopCommonModes);
     CFRelease(source4);
-    CFRunLoopRun();
+    @autoreleasepool {
+        CFRunLoopRun();
+    }
     return YES;
 }
 
 - (void)_cleanUpWithError:(NSInteger)code {
     // *error = [[NSError alloc] initWithDomain:TCPServerErrorDomain code:code userInfo:nil];
-    if (self.ipv4socket) CFRelease(self.ipv4socket);
-    self.ipv4socket = NULL;
+    self.ipv4socket = nil;
 }
 @end
 

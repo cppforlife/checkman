@@ -19,8 +19,6 @@
 }
 
 - (void)dealloc {
-    if (self.request) CFRelease(self.request);
-    if (self.response) CFRelease(self.response);
     self.delegate = nil;
 }
 

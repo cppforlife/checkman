@@ -19,18 +19,19 @@
     inputStream:(NSInputStream *)inputStream
     outputStream:(NSOutputStream *)outputStream {
 
-    self.uniqueId = self.class._uniqueId;
+    if (self = [super init]) {
+        self.uniqueId = self.class._uniqueId;
 
-    self.istream = [[TCPBufferedInputStream alloc] initWithStream:inputStream];
-    self.istream.delegate = self;
-    [self.istream scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:(id)kCFRunLoopCommonModes];
-    [self.istream open];
+        self.istream = [[TCPBufferedInputStream alloc] initWithStream:inputStream];
+        self.istream.delegate = self;
+        [self.istream scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:(id)kCFRunLoopCommonModes];
+        [self.istream open];
 
-    self.ostream = [[TCPBufferedOutputStream alloc] initWithStream:outputStream];
-    self.ostream.delegate = self;
-    [self.ostream scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:(id)kCFRunLoopCommonModes];
-    [self.ostream open];
-
+        self.ostream = [[TCPBufferedOutputStream alloc] initWithStream:outputStream];
+        self.ostream.delegate = self;
+        [self.ostream scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:(id)kCFRunLoopCommonModes];
+        [self.ostream open];
+    }
     return self;
 }
 

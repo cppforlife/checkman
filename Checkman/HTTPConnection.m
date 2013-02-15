@@ -58,12 +58,12 @@
 
         if (CFHTTPMessageIsHeaderComplete(incomingMessage)) {
             NSString *expectedLengthValue =
-            (__bridge NSString *)CFHTTPMessageCopyHeaderFieldValue(
-                incomingMessage, (CFStringRef)@"Content-Length");
+                CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(
+                    incomingMessage, (CFStringRef)@"Content-Length"));
             unsigned long expectedLength =
                 expectedLengthValue ? (unsigned long)expectedLengthValue.intValue : 0;
 
-            NSData *receivedBody = (__bridge NSData *)CFHTTPMessageCopyBody(incomingMessage);
+            NSData *receivedBody = CFBridgingRelease(CFHTTPMessageCopyBody(incomingMessage));
             unsigned long receivedLength = receivedBody.length;
 
             NSLog(@"HTTPConnection - bytes for a request: expected=%d received=%d",

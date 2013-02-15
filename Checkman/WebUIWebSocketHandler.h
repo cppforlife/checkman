@@ -1,9 +1,12 @@
 #import "WebUIHandler.h"
 
-@class WebUIWebSocketHandler;
+@class WebUIWebSocketHandler, WebSocketConnection;
 
 @protocol WebUIWebSocketHandlerDelegate <NSObject>
-- (void)WebUIWebSocketHandlerDidAcceptNewConnection:(WebUIWebSocketHandler *)handler;
+- (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
+    WebSocketConnectionDidStart:(WebSocketConnection *)connection;
+- (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
+    WebSocketConnectionDidEnd:(WebSocketConnection *)connection;
 @end
 
 @interface WebUIWebSocketHandler : WebUIHandler

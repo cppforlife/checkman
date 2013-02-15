@@ -1,10 +1,10 @@
 #import "WebUI.h"
+#import "CheckCollection.h"
+#import "Check.h"
 #import "HTTPServer.h"
 #import "HTTPRequest.h"
 #import "WebUIStaticFileHandler.h"
 #import "WebUIWebSocketHandler.h"
-#import "CheckCollection.h"
-#import "Check.h"
 
 @interface WebUI ()
     <CheckCollectionDelegate, HTTPServerDelegate, WebUIWebSocketHandlerDelegate>
@@ -23,7 +23,7 @@
     if (self = [super init]) {
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
- 
+
         self.httpServer = [HTTPServer onPort:1234];
         self.httpServer.requestDelegate = self;
         self.checkUpdatesHandlers = [[NSMutableArray alloc] init];
@@ -57,7 +57,7 @@
     didUpdateStatusFromCheck:(Check *)check {}
 
 - (void)checkCollection:(CheckCollection *)collection
-        didUpdateChangingFromCheck:(Check *)check {}
+    didUpdateChangingFromCheck:(Check *)check {}
 
 - (void)checkCollection:(CheckCollection *)collection
         checkDidChangeStatus:(Check *)check {
@@ -70,6 +70,12 @@
 }
 
 #pragma mark -
+
+- (void)_showAllChecksWithHandler:(WebUIWebSocketHandler *)handler {
+    for (Check *check in self.checks) {
+        [handler sendMessage:[self _showCheckJSONMessage:check]];
+    }
+}
 
 - (void)_showCheck:(Check *)check {
     [self.checkUpdatesHandlers
@@ -141,8 +147,7 @@ static inline id _WUObjOrNull(id value) {
         [self.checkUpdatesHandlers addObject:handler];
         handler.delegate = self;
         [handler handle];
-    }
-    else {
+    } else {
         WebUIStaticFileHandler *handler =
             [[WebUIStaticFileHandler alloc]
                 initWithHTTPServer:server
@@ -154,9 +159,13 @@ static inline id _WUObjOrNull(id value) {
 
 #pragma mark - WebUIWebkSocketHandlerDelegate
 
-- (void)WebUIWebSocketHandlerDidAcceptNewConnection:(WebUIWebSocketHandler *)handler {
-    for (Check *check in self.checks) {
-        [handler sendMessage:[self _showCheckJSONMessage:check]];
-    }
+- (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
+        WebSocketConnectionDidStart:(WebSocketConnection *)connnection {
+    [self _showAllChecksWithHandler:handler];
+}
+
+- (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
+        WebSocketConnectionDidEnd:(WebSocketConnection *)connnection{
+    [self.checkUpdatesHandlers removeObjectIdenticalTo:handler];
 }
 @end
