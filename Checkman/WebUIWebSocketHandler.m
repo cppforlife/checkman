@@ -6,7 +6,7 @@
 #import "WebSocketSec.h"
 #import "TCPConnection.h"
 
-@interface WebUIWebSocketHandler () <TCPConnectionDelegate>
+@interface WebUIWebSocketHandler () <WebSocketConnectionDelegate>
 @property (nonatomic, retain) WebSocketConnection *webSocketConnection;
 @end
 
@@ -33,7 +33,6 @@
 
 - (void)_hijackConnection {
     [self.server hijackConnection:self.connection];
-    self.connection.delegate = nil;
 }
 
 - (void)_handleFirstRequest {
@@ -75,14 +74,14 @@
     self.webSocketConnection =
         [[WebSocketConnection alloc]
             initWithTCPConnection:self.connection.tcpConnection];
-    self.webSocketConnection.tcpConnection.delegate = self;
+    self.webSocketConnection.ownerDelegate = self;
 
     [self.delegate
         WebUIWebSocketHandler:self
         WebSocketConnectionDidStart:self.webSocketConnection];
 }
 
-- (void)TCPConnectionDidClose:(TCPConnection *)connection {
+- (void)WebSocketConnectionDidClose:(WebSocketConnection *)connection {
     [self.delegate
         WebUIWebSocketHandler:self
         WebSocketConnectionDidEnd:self.webSocketConnection];

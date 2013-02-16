@@ -48,31 +48,34 @@ NSString * const TCPServerErrorDomain = @"TCPServerErrorDomain";
     return YES;
 }
 
-#pragma mark -
+#pragma mark - Connection management
 
 - (void)_handleNewConnectionFromAddress:(NSData *)address
+    socketHandle:(CFSocketNativeHandle)socketHandle
     inputStream:(NSInputStream *)inputStream
     outputStream:(NSOutputStream *)outputStream {
 
     TCPConnection *connection =
         [[TCPConnection alloc]
             initWithAddress:address
+            socketHandle:socketHandle
             inputStream:inputStream
             outputStream:outputStream];
 
+    NSLog(@"TCPServer - %ld active connections", self.connections.count);
     [self.connections addObject:connection];
-    connection.delegate = self;
+    connection.ownerDelegate = self;
 
     [self.delegate TCPServer:self TCPConnectionDidStart:connection];
 }
 
 - (void)TCPConnectionDidClose:(TCPConnection *)connection {
-    [self.delegate TCPServer:self TCPConnectionDidEnd:connection];
+    connection.ownerDelegate = self;
     [self.connections removeObjectIdenticalTo:connection];
 }
 
 - (void)hijackConnection:(TCPConnection *)connection {
-    connection.delegate = nil;
+    connection.ownerDelegate = nil;
     [self.connections removeObjectIdenticalTo:connection];
 }
 
@@ -94,6 +97,7 @@ static void _TCPServerAcceptCallBack(
             CFWriteStreamSetProperty(writeStream,
                 kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
             [server _handleNewConnectionFromAddress:nil
+                socketHandle:nativeSocketHandle
                 inputStream:(__bridge NSInputStream *)readStream
                 outputStream:(__bridge NSOutputStream *)writeStream];
         } else {

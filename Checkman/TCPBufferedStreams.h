@@ -24,5 +24,7 @@
 - (id)initWithStream:(NSOutputStream *)stream;
 
 - (NSInteger)writeData:(NSData *)data;
+
 - (NSInteger)flush;
+- (BOOL)isFlushed;
 @end

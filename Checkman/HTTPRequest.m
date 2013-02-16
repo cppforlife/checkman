@@ -19,6 +19,8 @@
 }
 
 - (void)dealloc {
+    if (_request) CFRelease(_request);
+    if (_response) CFRelease(_response);
     self.delegate = nil;
 }
 
@@ -31,10 +33,12 @@
 }
 
 - (NSString *)requestMethod {
+    NSAssert(self.request, @"Request must not be nil");
     return CFBridgingRelease(CFHTTPMessageCopyRequestMethod(self.request));
 }
 
 - (NSString *)requestVersion {
+    NSAssert(self.request, @"Request must not be nil");
     return CFBridgingRelease(CFHTTPMessageCopyVersion(self.request));
 }
 
@@ -44,18 +48,23 @@
 }
 
 - (NSURL *)requestURL {
+    NSAssert(self.request, @"Request must not be nil");
     return CFBridgingRelease(CFHTTPMessageCopyRequestURL(self.request));
 }
 
 - (NSString *)requestNamedHeaderValue:(NSString *)name {
+    NSAssert(self.request, @"Request must not be nil");
     return CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(self.request, (__bridge CFStringRef)name));
 }
 
 #pragma mark - Response
 
 - (void)setResponseStatus:(CFIndex)status {
-    self.response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, status, NULL, kCFHTTPVersion1_1);
+    CFHTTPMessageRef response =
+        CFHTTPMessageCreateResponse(kCFAllocatorDefault, status, NULL, kCFHTTPVersion1_1);
+    self.response = response;
     [self setResponseHeader:@"Content-Length" value:@"0"];
+    CFRelease(response);
 }
 
 - (void)setResponse:(CFHTTPMessageRef)response {
@@ -68,6 +77,15 @@
     NSAssert(self.response, @"Response must not be nil");
     CFHTTPMessageSetHeaderFieldValue(self.response,
         (__bridge CFStringRef)name, (__bridge CFStringRef)value);
+}
+
+- (NSString *)responseNamedHeaderValue:(NSString *)name {
+    NSAssert(self.response, @"Response must not be nil");
+    return CFBridgingRelease(CFHTTPMessageCopyHeaderFieldValue(self.response, (__bridge CFStringRef)name));
+}
+
+- (BOOL)isResponseConnectionUpgrade {
+    return [[self responseNamedHeaderValue:@"Connection"] isEqual:@"Upgrade"];
 }
 
 - (void)setResponseBody:(NSData *)data {

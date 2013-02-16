@@ -28,9 +28,12 @@
 
 // Also sets HTTP 1.1 and Content-Length: 0
 - (void)setResponseStatus:(CFIndex)status;
-- (void)setResponseHeader:(NSString *)name value:(NSString *)value;
 
-// Automatically set Content-Length: to data's length
+- (void)setResponseHeader:(NSString *)name value:(NSString *)value;
+- (NSString *)responseNamedHeaderValue:(NSString *)name;
+- (BOOL)isResponseConnectionUpgrade;
+
+// Automatically sets Content-Length: to data's length
 - (void)setResponseBody:(NSData *)data;
 
 - (void)respond;

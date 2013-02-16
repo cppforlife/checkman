@@ -14,8 +14,6 @@ typedef enum {
 @protocol TCPServerDelegate <NSObject>
 - (void)TCPServer:(TCPServer *)server
     TCPConnectionDidStart:(TCPConnection *)connection;
-- (void)TCPServer:(TCPServer *)server
-    TCPConnectionDidEnd:(TCPConnection *)connection;
 @end
 
 @interface TCPServer : NSObject

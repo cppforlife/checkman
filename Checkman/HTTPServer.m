@@ -3,9 +3,10 @@
 #import "TCPServer.h"
 #import "TCPConnection.h"
 
-@interface HTTPServer () <TCPServerDelegate, HTTPConnectionDelegate>
+@interface HTTPServer ()
+    <TCPServerDelegate, HTTPConnectionDelegate, HTTPConnectionDataDelegate>
 @property (nonatomic, retain) TCPServer *tcpServer;
-@property (nonatomic, retain) NSMutableDictionary *connections;
+@property (nonatomic, retain) NSMutableArray *connections;
 @end
 
 @implementation HTTPServer
@@ -24,7 +25,7 @@
     if (self = [super init]) {
         self.tcpServer = tcpServer;
         self.tcpServer.delegate = self;
-        self.connections = [[NSMutableDictionary alloc] init];
+        self.connections = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -49,26 +50,27 @@
 
     HTTPConnection *httpConnection =
         [[HTTPConnection alloc] initWithTCPConnection:connection];
-    [self.connections setObject:httpConnection forKey:connection.uniqueId];
-    httpConnection.delegate = self;
+
+    NSLog(@"HTTPServer - %ld active connections", self.connections.count);
+    [self.connections addObject:httpConnection];
+    httpConnection.ownerDelegate = self;
+    httpConnection.dataDelegate = self;
 }
 
-- (void)TCPServer:(TCPServer *)server
-    TCPConnectionDidEnd:(TCPConnection *)connection {
-
-    HTTPConnection *httpConnection =
-        [self.connections objectForKey:connection.uniqueId];
-    httpConnection.delegate = nil;
-    [self.connections removeObjectForKey:connection.uniqueId];
+- (void)HTTPConnectionDidClose:(HTTPConnection *)connection {
+    connection.ownerDelegate = nil;
+    connection.dataDelegate = nil;
+    [self.connections removeObjectIdenticalTo:connection];
 }
 
 - (void)hijackConnection:(HTTPConnection *)connection {
-    connection.delegate = nil;
-    [self.connections removeObjectForKey:connection.tcpConnection.uniqueId];
+    connection.ownerDelegate = nil;
+    connection.dataDelegate = nil;
+    [self.connections removeObjectIdenticalTo:connection];
     [self.tcpServer hijackConnection:connection.tcpConnection];
 }
 
-#pragma mark - HTTPConnectionDelegate
+#pragma mark - HTTPConnectionDataDelegate
 
 - (void)HTTPConnection:(HTTPConnection *)connection
         didReceiveHTTPRequest:(HTTPRequest *)request {

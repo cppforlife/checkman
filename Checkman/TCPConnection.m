@@ -2,25 +2,28 @@
 #import "TCPBufferedStreams.h"
 
 @interface TCPConnection () <NSStreamDelegate>
-@property (nonatomic, retain) NSString *uniqueId;
+@property (nonatomic, assign) CFSocketNativeHandle socketHandle;
 @property (nonatomic, retain) TCPBufferedInputStream *istream;
 @property (nonatomic, retain) TCPBufferedOutputStream *ostream;
 @end
 
 @implementation TCPConnection
 @synthesize
-    delegate = _delegate,
+    ownerDelegate = _ownerDelegate,
+    connectionDelegate = _connectionDelegate,
     dataDelegate = _dataDelegate,
-    uniqueId = _uniqueId,
+    canClose = _canClose,
+    socketHandle = _socketHandle,
     istream = _istream,
     ostream = _ostream;
 
 - (id)initWithAddress:(NSData *)address
+    socketHandle:(CFSocketNativeHandle)socketHandle
     inputStream:(NSInputStream *)inputStream
     outputStream:(NSOutputStream *)outputStream {
 
     if (self = [super init]) {
-        self.uniqueId = self.class._uniqueId;
+        self.socketHandle = socketHandle;
 
         self.istream = [[TCPBufferedInputStream alloc] initWithStream:inputStream];
         self.istream.delegate = self;
@@ -36,15 +39,33 @@
 }
 
 - (void)dealloc {
-    [self invalidate];
-    self.delegate = nil;
+    [self close];
+    self.ownerDelegate = nil;
+    self.connectionDelegate = nil;
     self.dataDelegate = nil;
 }
 
-- (void)invalidate {
-    [self.istream close];
-    [self.ostream close];
+#pragma mark - Closing connection
+
+- (void)close {
+    if (self.istream) {
+        [self.istream close];
+        self.istream = nil;
+    }
+    if (self.ostream) {
+        [self.ostream close];
+        self.ostream = nil;
+    }
+    if (self.socketHandle != -1) {
+        close(self.socketHandle);
+        self.socketHandle = -1;
+
+        [self.connectionDelegate TCPConnectionDidClose:self];
+        [self.ownerDelegate TCPConnectionDidClose:self];
+    }
 }
+
+#pragma mark - Connection events
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)streamEvent {
     switch(streamEvent) {
@@ -71,19 +92,18 @@
 - (void)_handleStreamHasSpaceAvailable {
     [self.dataDelegate TCPConnectionProcessOutgoingBytes:self];
     [self.ostream flush];
+    [self _closeIfCanClose];
+}
+
+- (void)_closeIfCanClose {
+    if (self.canClose && self.ostream.isFlushed) {
+        [self close];
+    }
 }
 
 - (void)_handleStreamEndEncountered:(NSStream *)stream {
     if (stream == self.ostream.stream) {
-        [self invalidate];
-        [self.delegate TCPConnectionDidClose:self];
+        [self close];
     }
-}
-
-+ (NSString *)_uniqueId {
-    CFUUIDRef uuid = CFUUIDCreate(NULL);
-    CFStringRef uuidString = CFUUIDCreateString(NULL, uuid);
-    CFRelease(uuid);
-    return CFBridgingRelease(uuidString);
 }
 @end

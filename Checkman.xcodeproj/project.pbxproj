@@ -360,10 +360,10 @@
 			children = (
 				96A6F73A16C6296C004B60BD /* HTTPServer.h */,
 				96A6F73B16C6296C004B60BD /* HTTPServer.m */,
-				96A6F73616C6296C004B60BD /* HTTPRequest.h */,
-				96A6F73716C6296C004B60BD /* HTTPRequest.m */,
 				96A6F73416C6296C004B60BD /* HTTPConnection.h */,
 				96A6F73516C6296C004B60BD /* HTTPConnection.m */,
+				96A6F73616C6296C004B60BD /* HTTPRequest.h */,
+				96A6F73716C6296C004B60BD /* HTTPRequest.m */,
 			);
 			name = HTTP;
 			sourceTree = "<group>";

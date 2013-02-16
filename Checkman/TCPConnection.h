@@ -12,15 +12,21 @@
 @end
 
 @interface TCPConnection : NSObject
-@property (nonatomic, assign) id<TCPConnectionDelegate> delegate;
+@property (nonatomic, assign) id<TCPConnectionDelegate> ownerDelegate;
+@property (nonatomic, assign) id<TCPConnectionDelegate> connectionDelegate;
 @property (nonatomic, assign) id<TCPConnectionDataDelegate> dataDelegate;
 
+// If set to true connection will be closed next time
+// something is written to the wire and everything is flushed.
+@property (nonatomic, assign) BOOL canClose;
+
 - (id)initWithAddress:(NSData *)address
+    socketHandle:(CFSocketNativeHandle)socketHandle
     inputStream:(NSInputStream *)inputStream
     outputStream:(NSOutputStream *)outputStream;
 
-- (NSString *)uniqueId;
-
 - (TCPBufferedInputStream *)istream;
 - (TCPBufferedOutputStream *)ostream;
+
+- (void)close;
 @end

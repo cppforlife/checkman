@@ -127,4 +127,8 @@
 
     return 0;
 }
+
+- (BOOL)isFlushed {
+    return self.buffer.length == 0;
+}
 @end

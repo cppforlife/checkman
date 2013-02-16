@@ -114,22 +114,24 @@
     HTTPConnection:(HTTPConnection *)connection
     didReceiveHTTPRequest:(HTTPRequest *)request {
 
-    if ([request.requestURL.path isEqual:@"/check_updates"]) {
-        WebUIWebSocketHandler *handler =
-            [[WebUIWebSocketHandler alloc]
-                initWithHTTPServer:server
-                HTTPConnection:connection
-                HTTPRequest:request];
-        [self.checkUpdatesHandlers addObject:handler];
-        handler.delegate = self;
-        [handler handle];
-    } else {
-        WebUIStaticFileHandler *handler =
-            [[WebUIStaticFileHandler alloc]
-                initWithHTTPServer:server
-                HTTPConnection:connection
-                HTTPRequest:request];
-        [handler handle];
+    @autoreleasepool {
+        if ([request.requestURL.path isEqual:@"/check_updates"]) {
+            WebUIWebSocketHandler *handler =
+                [[WebUIWebSocketHandler alloc]
+                    initWithHTTPServer:server
+                    HTTPConnection:connection
+                    HTTPRequest:request];
+            [self.checkUpdatesHandlers addObject:handler];
+            handler.delegate = self;
+            [handler handle];
+        } else {
+            WebUIStaticFileHandler *handler =
+                [[WebUIStaticFileHandler alloc]
+                    initWithHTTPServer:server
+                    HTTPConnection:connection
+                    HTTPRequest:request];
+            [handler handle];
+        }
     }
 }
 
@@ -137,6 +139,8 @@
 
 - (void)WebUIWebSocketHandler:(WebUIWebSocketHandler *)handler
         WebSocketConnectionDidStart:(WebSocketConnection *)connnection {
+    // Connection is added to checkUpdatesHandlers
+    // when initial HTTP connection is established.
     [self _showAllChecksWithHandler:handler];
 }
 
