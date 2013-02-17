@@ -27,6 +27,11 @@
 - (void)close {
     [self.stream close];
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<TCPBufferedStream: %p> status=%ld error=%@",
+            self, self.stream.streamStatus, self.stream.streamError];
+}
 @end
 
 

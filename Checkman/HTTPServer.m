@@ -51,7 +51,6 @@
     HTTPConnection *httpConnection =
         [[HTTPConnection alloc] initWithTCPConnection:connection];
 
-    NSLog(@"HTTPServer - %ld active connections", self.connections.count);
     [self.connections addObject:httpConnection];
     httpConnection.ownerDelegate = self;
     httpConnection.dataDelegate = self;

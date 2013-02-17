@@ -62,7 +62,6 @@ NSString * const TCPServerErrorDomain = @"TCPServerErrorDomain";
             inputStream:inputStream
             outputStream:outputStream];
 
-    NSLog(@"TCPServer - %ld active connections", self.connections.count);
     [self.connections addObject:connection];
     connection.ownerDelegate = self;
 
@@ -170,6 +169,16 @@ static void _TCPServerAcceptCallBack(
 - (void)_cleanUpWithError:(NSInteger)code {
     // *error = [[NSError alloc] initWithDomain:TCPServerErrorDomain code:code userInfo:nil];
     self.ipv4socket = nil;
+}
+
+#pragma mark -
+
+- (void)_debugActiveConnections {
+    NSLog(@"TCPServer - %ld active connections:", self.connections.count);
+    for (TCPConnection *connection in self.connections) {
+        NSLog(@"TCPServer - connection %p: ostream='%@' istream='%@'",
+              connection, connection.istream, connection.ostream);
+    }
 }
 @end
 
