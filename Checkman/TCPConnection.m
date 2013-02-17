@@ -78,7 +78,7 @@
         case NSStreamEventEndEncountered:
             [self _handleStreamEndEncountered:stream]; break;
         case NSStreamEventErrorOccurred:
-            NSLog(@"TCPConnection - stream error: %@", stream.streamError); break;
+            [self _handleStreamErrorEncountered:stream]; break;
         default: break;
     }
 }
@@ -105,5 +105,10 @@
     if (stream == self.ostream.stream) {
         [self close];
     }
+}
+
+- (void)_handleStreamErrorEncountered:(NSStream *)stream {
+    NSLog(@"TCPConnection - stream error: %@", stream.streamError);
+    [self close];
 }
 @end
