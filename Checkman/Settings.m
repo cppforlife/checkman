@@ -116,4 +116,11 @@
 - (BOOL)allowNotificationCenterNotifications {
     return [self.userDefaults boolForKey:@"notifications.center.enabled"];
 }
+
+#pragma mark - WebUI
+
+- (uint16_t)webUIPort {
+    NSInteger port = [self.userDefaults integerForKey:@"webUI.port"];
+    return port > 0 ? (uint16_t)port : 1234;
+}
 @end

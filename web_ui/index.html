@@ -23,7 +23,7 @@
     <script type="text/javascript" src="ui.js"></script>
 
     <script type="text/javascript">
-      WebUI("ws://localhost:1234/check_updates", {
+      WebUI("ws://" + location.host + "/check_updates", {
         checks: "checks",
         heartBeat: "heartBeat",
         lastUpdated: "lastUpdated"

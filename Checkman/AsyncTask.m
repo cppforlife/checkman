@@ -51,6 +51,8 @@
 }
 
 - (void)_runTask {
+    [NSThread currentThread].name = @"AsyncTask - _runTask";
+
     NSPipe *standardOutput = [NSPipe pipe];
     if (standardOutput) {
         self.task.standardOutput = standardOutput;

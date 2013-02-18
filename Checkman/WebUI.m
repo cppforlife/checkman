@@ -12,8 +12,10 @@
     <CheckCollectionDelegate, HTTPServerDelegate,
     WebUIWebSocketHandlerDelegate, NSCustomTickerDelegate>
 @property (nonatomic, strong) CheckCollection *checks;
+
 @property (nonatomic, strong) HTTPServer *httpServer;
 @property (nonatomic, strong) NSMutableArray *checkUpdatesHandlers;
+
 @property (nonatomic, strong) WebUIMessages *messages;
 @property (nonatomic, strong) NSCustomTicker *heartBeatTicker;
 @end
@@ -26,12 +28,12 @@
     messages = _messages,
     heartBeatTicker = _heartBeatTicker;
 
-- (id)init {
+- (id)initWithPort:(uint16_t)port {
     if (self = [super init]) {
         self.checks = [[CheckCollection alloc] init];
         self.checks.delegate = self;
 
-        self.httpServer = [HTTPServer onPort:1234];
+        self.httpServer = [HTTPServer onPort:port];
         self.httpServer.requestDelegate = self;
 
         self.checkUpdatesHandlers = [[NSMutableArray alloc] init];

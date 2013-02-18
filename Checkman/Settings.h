@@ -31,4 +31,8 @@
 - (BOOL)allowCustomNotifications;
 - (BOOL)allowGrowlNotifications;
 - (BOOL)allowNotificationCenterNotifications;
+
+#pragma mark - WebUI
+
+- (uint16_t)webUIPort;
 @end

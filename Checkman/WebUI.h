@@ -4,6 +4,7 @@
 
 @interface WebUI : NSObject
 
+- (id)initWithPort:(uint16_t)port;
 - (void)start;
 
 - (void)addCheck:(Check *)check;

@@ -160,6 +160,10 @@ static void _TCPServerAcceptCallBack(
         CFSocketCreateRunLoopSource(kCFAllocatorDefault, self.ipv4socket, 0);
     CFRunLoopAddSource(cfrl, source4, kCFRunLoopCommonModes);
     CFRelease(source4);
+
+    [NSThread currentThread].name = \
+        [NSString stringWithFormat:@"TCPServer - port: %d", (int)self.port];
+
     @autoreleasepool {
         CFRunLoopRun();
     }

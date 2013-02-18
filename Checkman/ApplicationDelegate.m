@@ -88,7 +88,7 @@
 }
 
 - (void)_setUpWebUI {
-    self.webUI = [[WebUI alloc] init];
+    self.webUI = [[WebUI alloc] initWithPort:self.settings.webUIPort];
     [self.webUI start];
 }
 
