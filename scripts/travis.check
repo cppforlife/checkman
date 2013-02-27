@@ -24,6 +24,12 @@ class TravisBuildStatus
     @build_data["branch"]
   end
 
+  def for_branch?(branch_name)
+    # Travis runs specs for pull request
+    # and marks them as event_type=pull_request
+    self.branch == branch_name && @build_data["event_type"] == "push"
+  end
+
   def ok?
     @build_data["result"] == 0
   end
@@ -128,7 +134,7 @@ class TravisRepoStatus
 
   def status_for_branch(branch_name)
     build_statuses =
-      @build_statuses.select { |s| s.branch == branch_name }
+      @build_statuses.select { |s| s.for_branch?(branch_name) }
     TravisBranchStatus.new(@repo_url, build_statuses)
   end
 end
