@@ -107,7 +107,8 @@ class Airbrake
   end
 
   def run
-    curl = "curl -sk '#{project_url}/errors.json?auth_token=#{@auth_token}'"
+    curl  = "curl -sk -A \"CheckmanAirbrake (Hostname: $HOSTNAME)\""
+    curl += "'#{project_url}/errors.json?auth_token=#{@auth_token}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end

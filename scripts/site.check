@@ -49,7 +49,7 @@ class Site
   private
 
   def http_get(url)
-    curl = "curl -sIk #{url}"
+    curl = "curl -sIk -A \"CheckmanSite (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
