@@ -68,8 +68,8 @@ class VmcApps
 
   def run
     curl  = "curl -sk -A \"CheckmanVmcApps (Hostname: $HOSTNAME)\""
-    curl += "-H 'Authorization: #{auth_token_header}'"
-    curl += "'#{api_url}'"
+    curl += " -H 'Authorization: #{auth_token_header}'"
+    curl += " '#{api_url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 
