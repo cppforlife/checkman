@@ -3,7 +3,7 @@ require "rubygems"
 require "json"
 require "yaml"
 
-class VmcAppsStatus
+class CfAppsStatus
   def initialize(app_prefix, json)
     @apps_data = JSON.parse(json)["apps"]
     raise ArgumentError, "No apps in space: '#{json}'" unless @apps_data
@@ -48,7 +48,7 @@ class VmcAppsStatus
   end
 end
 
-class VmcApps
+class CfApps
   def initialize(cc_target_url, space_id, app_prefix)
     raise ArgumentError "cc_target must not be nil" \
       unless @cc_target_url = cc_target_url
@@ -61,13 +61,13 @@ class VmcApps
   end
 
   def latest_status
-    VmcAppsStatus.new(@app_prefix, run)
+    CfAppsStatus.new(@app_prefix, run)
   end
 
   private
 
   def run
-    curl  = "curl -sk -A \"CheckmanVmcApps (Hostname: $HOSTNAME)\""
+    curl  = "curl -sk -A \"CheckmanCfApps (Hostname: $HOSTNAME)\""
     curl += " -H 'Authorization: #{auth_token_header}'"
     curl += " '#{api_url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
@@ -78,9 +78,9 @@ class VmcApps
   end
 
   def auth_token_header
-    tokens_yml = YAML.load_file(File.expand_path("~/.vmc/tokens.yml"))
+    tokens_yml = YAML.load_file(File.expand_path("~/.cf/tokens.yml"))
     tokens_yml[@cc_target_url][:token]
   end
 end
 
-puts VmcApps.new(*ARGV).latest_status.to_json if __FILE__ == $0
+puts CfApps.new(*ARGV).latest_status.to_json if __FILE__ == $0
