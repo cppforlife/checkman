@@ -6,6 +6,6 @@ rvm:
 
 # Does not run OS X tests =(
 script: >
-  gem install rspec &&
+  gem install rspec json &&
   rake included_scripts:verify_ruby_syntax &&
   rake included_scripts:integration_specs
