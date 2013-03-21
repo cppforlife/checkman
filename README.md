@@ -1,5 +1,7 @@
 # Checkman
 
+[![Build Status](https://travis-ci.org/cppforlife/checkman.png?branch=master)](https://travis-ci.org/cppforlife/checkman)
+
 Checkman runs your custom script(s) periodically and then updates system tray
 icon. It could be used to check on CI build status, site http response, etc.
 
