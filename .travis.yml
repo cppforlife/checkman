@@ -6,6 +6,5 @@ rvm:
 
 # Does not run OS X tests =(
 script: >
-  bundle install &&
-  bundle exec rake included_scripts:verify_ruby_syntax &&
-  bundle exec rake included_scripts:integration_specs
+  rake included_scripts:verify_ruby_syntax &&
+  rake included_scripts:integration_specs
