@@ -90,7 +90,7 @@ If you ever need to kill Checkman:
 
 * `github_issues.check <REPO_OWNER> <REPO_NAME>`  
   checks for issues in GitHub repo  
-  e.g. `airbrake.check rails rails`  
+  e.g. `github_issues.check rails rails`  
   (Tip: Since GitHub rate limits api requests set
   `GITHUB_ISSUES_CHECK_CLIENT_ID` and `GITHUB_ISSUES_CHECK_CLIENT_SECRET`.
   See [check's code](scripts/github_issues.check) on how to obtain client id/secret.)
