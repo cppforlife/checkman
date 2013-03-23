@@ -73,8 +73,9 @@ class AirbrakeStatus
   private
 
   def info
-    @errors.each_with_object([]) do |error, result|
+    @errors.inject([]) do |result, error|
       result.concat(error_details(error))
+      result
     end[0..-2]
   end
 
