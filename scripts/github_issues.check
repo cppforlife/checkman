@@ -1,0 +1,131 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "time"
+require "json"
+
+class GithubIssue
+  def initialize(hash)
+    @hash = hash
+  end
+
+  def pull_request?
+    @hash["pull_request"]["html_url"]
+  end
+
+  def comments_count
+    @hash["comments"]
+  end
+
+  def updated_at
+    @updated_at ||=
+      Time.parse(@hash["updated_at"], "%Y-%m-%dT%H:%M:%S%z")
+  end
+
+  def formatted_updated_at
+    time_ago(updated_at)
+  end
+
+  def formatted_title
+    "#{formatted_updated_at} [#{comments_count}] #{"[PR]" if pull_request?}"
+  end
+
+  def formatted_description
+    @hash["title"].gsub(/[\r\n\t]/, " ")[0..100] + "..."
+  end
+
+  private
+
+  # https://gist.github.com/3808180
+  def time_ago(time)
+    case delta = (Time.now.to_i - time.to_i)
+      when 0..119 then "-1 min"
+      when 120..3599 then "-#{delta / 60} mins"
+      when 3600..86399 then "-#{(delta / 3600).round} hours"
+      else "-#{(delta / 86400).round} days"
+    end
+  end
+end
+
+class GithubIssuesStatus
+  def initialize(issues_url, json)
+    @issues_url = issues_url
+    @issues =
+      Array(JSON.parse(json)) \
+        .map { |e| GithubIssue.new(e) }
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def any_issues_with_0_comments?
+    @issues.any? { |i| i.comments_count.zero? }
+  end
+
+  def as_json(*)
+    {
+      :result => @issues.empty?,
+      :changing => any_issues_with_0_comments?,
+      :url => @issues_url,
+      :info => info
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def info
+    @issues.inject([]) do |result, issue|
+      result.concat(issue_details(issue))
+      result
+    end[0..-2]
+  end
+
+  def issue_details(issue)
+    [ [issue.formatted_title, issue.formatted_description],
+      ["-", ""] ]
+  end
+end
+
+class GithubIssues
+  def initialize(repo_owner, repo_name)
+    raise ArgumentError "repo_owner must not be nil" \
+      unless @repo_owner = repo_owner
+
+    raise ArgumentError "repo_name must not be nil" \
+      unless @repo_name = repo_name
+  end
+
+  def latest_status
+    GithubIssuesStatus.new(issues_url, run)
+  end
+
+  private
+
+  def run
+    # Github rate limits unauthenticated requests to the api by ip.
+    # To obtains client_id/client_secret just create new application on
+    # `https://github.com/settings/applications`.
+    if ENV.keys.grep(/GITHUB_ISSUES_CHECK/)
+      auth  = "client_id=#{ENV["GITHUB_ISSUES_CHECK_CLIENT_ID"]}"
+      auth += "&client_secret=#{ENV["GITHUB_ISSUES_CHECK_CLIENT_SECRET"]}"
+    end
+
+    curl  = "curl -sk -A \"CheckmanGithubIssues (Hostname: $HOSTNAME)\""
+    curl += " '#{api_url}?#{auth}'"
+
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+
+  def api_url
+    "https://api.github.com/repos/#{@repo_owner}/#{@repo_name}/issues"
+  end
+
+  def issues_url
+    "https://github.com/#{@repo_owner}/#{@repo_name}/issues"
+  end
+end
+
+puts GithubIssues.new(*ARGV).latest_status.to_json if __FILE__ == $0

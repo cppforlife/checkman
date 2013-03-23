@@ -88,6 +88,13 @@ If you ever need to kill Checkman:
   checks for recent errors  
   e.g. `airbrake.check my-company 2a743rueigw87tegiofs7g 43878087`
 
+* `github_issues.check <REPO_OWNER> <REPO_NAME>`  
+  checks for issues in GitHub repo  
+  e.g. `airbrake.check rails rails`  
+  (Tip: Since GitHub rate limits api requests set
+  `GITHUB_ISSUES_CHECK_CLIENT_ID` and `GITHUB_ISSUES_CHECK_CLIENT_SECRET`.
+  See [check's code](scripts/github_issues.check) on how to obtain client id/secret.)
+
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env
 variable when running check commands.

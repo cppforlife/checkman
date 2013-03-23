@@ -99,6 +99,7 @@
 		AE0C7297167D6AFA007DC793 /* CheckCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0C7296167D6AFA007DC793 /* CheckCollection.m */; };
 		AE0F7C3D167ACDE200513177 /* CheckfileEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AE0F7C3C167ACDE200513177 /* CheckfileEntry.m */; };
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
+		AE1E7D2116FD57070026129A /* github_issues.check in Resources */ = {isa = PBXBuildFile; fileRef = AE1E7D2016FD57070026129A /* github_issues.check */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
 		AEBC15DA1676D9D2005129E9 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
@@ -287,6 +288,7 @@
 		AE0F7C3C167ACDE200513177 /* CheckfileEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckfileEntry.m; sourceTree = "<group>"; };
 		AE1C9ABD168190EA00CFCB78 /* InfoMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoMenuItem.h; sourceTree = "<group>"; };
 		AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoMenuItem.m; sourceTree = "<group>"; };
+		AE1E7D2016FD57070026129A /* github_issues.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = github_issues.check; sourceTree = "<group>"; };
 		AE26D777168D392B008D2498 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		AE6613EF167ACB1D0031F845 /* Checkfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkfile.h; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 			children = (
 				AEBBEDAD16B23E41008C8880 /* CI */,
 				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
+				AE1E7D2016FD57070026129A /* github_issues.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
 				AE76A5DC1682B82E00004A4D /* cf_apps.check */,
@@ -933,6 +936,7 @@
 				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
+				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
