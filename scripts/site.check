@@ -16,7 +16,7 @@ class SiteStatus
   end
 
   def headers
-    @curl_lines[1..-1].map { |l| l.split(": ", 2) }.sort
+    @curl_lines[1..-1].map { |l| l.split(": ", 2).map { |e| ellipsis(e) } }.sort
   end
 
   def as_json(*)
@@ -33,6 +33,12 @@ class SiteStatus
 
   def to_json(*)
     JSON.dump(as_json)
+  end
+
+  private
+
+  def ellipsis(text)
+    text[0..59].tap { |short_text| short_text << '...' if short_text != text }
   end
 end
 
