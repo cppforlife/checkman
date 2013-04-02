@@ -133,8 +133,13 @@ class SemaphoreBranchStatus
     JSON.dump(as_json)
   end
 
-  def last_build_status;             @build_statuses[0]; end
-  def last_non_pending_build_status; @build_statuses.find { |d| !d.building? }; end
+  def last_build_status
+    @build_statuses[0]
+  end
+
+  def last_non_pending_build_status
+    @build_statuses.find { |d| !d.building? }
+  end
 end
 
 class Semaphore
