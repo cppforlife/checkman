@@ -4,8 +4,5 @@ rvm:
   - "1.8.7"
   - "1.9.3"
 
-# Does not run OS X tests =(
 script: >
-  gem install rspec json &&
-  rake included_scripts:verify_ruby_syntax &&
-  rake included_scripts:integration_specs
+  gem install rspec json && rake
