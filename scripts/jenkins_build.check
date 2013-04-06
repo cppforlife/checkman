@@ -52,7 +52,10 @@ class JenkinsBuildStatus
 
   def recent_commit_messages
     items = @build_data["changeSet"]["items"].reverse
-    items.map { |i| [" - #{i["msg"]}", i["commitId"][0..5]] }
+    items.map do |i|
+      commit_id = i["commitId"][0..5] if i["commitId"]
+      [" - #{i["msg"]}", commit_id || "<missing>"]
+    end
   end
 
   def as_json(*)
