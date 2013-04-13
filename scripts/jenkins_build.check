@@ -144,14 +144,14 @@ class JenkinsJobStatus
 end
 
 class JenkinsJob
-  def initialize(jenkins_url, name, username = nil, api_token = nil)
+  def initialize(jenkins_url, name, user_id = nil, api_token = nil)
     raise ArgumentError "jenkins_url must not be nil" \
       unless @jenkins_url = jenkins_url
 
     raise ArgumentError "name must not be nil" \
       unless @name = name
 
-    @username, @api_token = username, api_token
+    @user_id, @api_token = user_id, api_token
   end
 
   def latest_status
@@ -161,8 +161,8 @@ class JenkinsJob
   private
 
   def authentication_option
-    if @username && @api_token
-      "-u #{@username}:#{@api_token}"
+    if @user_id && @api_token
+      "-u '#{@user_id}:#{@api_token}'"
     end
   end
 
