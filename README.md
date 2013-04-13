@@ -67,9 +67,15 @@ If you ever need to kill Checkman:
   checks that all apps are running  
   e.g. `cf_apps.check http://api.cc.com 37jsd-dsjf79-348jdd-fsa88 my-project`
 
-* `jenkins_build.check <JENKINS_URL> <JOB_NAME>`  
+* `jenkins_build.check <JENKINS_URL> <JOB_NAME> [USERNAME] [API_TOKEN]`  
   checks specific Jenkins build status  
   e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
+
+  Allows for an optional username and API token (or password) if your Jenkins
+  instance requires authentication. Specify your full email address as your
+  username if you are using OAuth authentication. Details on obtaining your API
+  token can be found
+  [here](https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients).
 
 * `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`  
   checks specific Travis CI build status  
