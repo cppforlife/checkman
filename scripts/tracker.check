@@ -1,0 +1,102 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "time"
+require "json"
+require "pivotal-tracker"
+
+class TrackerStatus
+  def initialize(project)
+    @project = project
+  end
+
+  def as_json(*)
+    {
+      :result => result,
+      :changing => changing,
+      :url => url,
+      :info => nil
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def result
+    @project.ok?
+  end
+
+  def changing
+    @project.changing?
+  end
+
+  def url
+    @project.url
+  end
+end
+
+class Tracker
+  def initialize(project_id, user_token, *user_name)
+    @project_id, @user_token, @user_name = project_id, user_token, user_name.join(" ")
+    authorize
+  end
+
+  def latest_status
+    TrackerStatus.new(project)
+  end
+
+  private
+
+  def authorize
+    ::PivotalTracker::Client.token = @user_token
+  end
+
+  def project
+    Project.new(@project_id, @user_name)
+  end
+
+  def user_name
+    @user_name
+  end
+
+  class Project
+    def initialize(project_id, user_name)
+      @project = ::PivotalTracker::Project.find(project_id)
+      @user_name = user_name
+    end
+
+    def ok?
+      !any_stories_rejected?
+    end
+
+    def changing?
+      !any_stories_started? && !any_stories_rejected?
+    end
+
+    def url
+      "https://pivotaltracker.com/s/projects/#{@project.id}"
+    end
+
+    private
+
+    def all_their_stories
+      @stories ||= @project.stories.all(owned_by: @user_name)
+    end
+
+    def any_stories_started?
+      all_their_stories.any? { |s| s.current_state == 'started' }
+    end
+
+    def any_stories_rejected?
+      !rejected_stories.empty?
+    end
+
+    def rejected_stories
+      all_their_stories.select { |s| s.current_state == 'rejected' }
+    end
+  end
+end
+
+puts Tracker.new(*ARGV).latest_status.to_json if __FILE__ == $0

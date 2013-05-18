@@ -18,4 +18,14 @@ module CheckSharedExamples
       end
     end
   end
+
+  def it_returns_changing(opts)
+    context "when check indicates changing" do
+      let(:opts) { opts }
+
+      it "returns changing result" do
+        subject.latest_status.as_json[:changing].should == true
+      end
+    end
+  end
 end

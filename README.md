@@ -95,6 +95,13 @@ If you ever need to kill Checkman:
   `GITHUB_ISSUES_CHECK_CLIENT_ID` and `GITHUB_ISSUES_CHECK_CLIENT_SECRET`.
   See [check's code](scripts/github_issues.check) on how to obtain client id/secret.)
 
+* `tracker.check <PROJECT_ID> <API_KEY> <FULL USER NAME>`    
+  Checks for your owned story statuses in Tracker, requires the [Pivotal Tracker Gem](https://github.com/jsmestad/pivotal-tracker).    
+  e.g `tracker.check 1234 ABC123 Trent Beatie`
+  * **Green:** You don't own any rejected stories
+  * **Red:** You own a rejected story
+  * **Pending:** You haven't started a story
+
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env
 variable when running check commands.
