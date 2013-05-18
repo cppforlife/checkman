@@ -13,8 +13,8 @@ class PivotalTrackerStatus
     {
       result: result,
       changing: changing,
-      url: url,
-      info: info
+      url: nil,
+      info: nil
     }
   end
 
@@ -26,14 +26,6 @@ class PivotalTrackerStatus
 
   def changing
     @project.status == :changing
-  end
-
-  def url
-    nil
-  end
-
-  def info
-    nil
   end
 
 end
