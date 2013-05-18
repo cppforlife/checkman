@@ -16,3 +16,54 @@ describe_check :PivotalTracker, "pivotal_tracker" do
   it_returns_fail %w(failingprojectid userid)
   it_returns_changing %w(changingprojectid userid)
 end
+
+describe PivotalTracker::Project do
+  let(:project) { PivotalTracker::Project.new }
+
+  let(:accepted)  { stub_story('accepted') }
+  let(:rejected)  { stub_story('rejected') }
+  let(:delivered) { stub_story('delivered') }
+  let(:finished)  { stub_story('finished') }
+  let(:started)   { stub_story('started') }
+  let(:unstarted) { stub_story('unstarted') }
+
+  before do
+    project.stub_chain(:stories, :all).and_return(stories)
+  end
+
+  describe "#status" do
+    subject { project.status }
+
+    context "no stories started or rejected" do
+      let(:stories) { [delivered, finished, accepted, unstarted] }
+
+      it { should == :changing }
+    end
+
+    context "started stories exist, none rejected or accepted" do
+      let(:stories) { [finished, started, unstarted] }
+
+      it { should == :ok }
+    end
+
+    context "started stories exist, some accepted, none rejected" do
+      let(:stories) { [accepted, delivered, finished, started, unstarted] }
+
+      it { should == :ok }
+    end
+
+    context "rejected stories exist" do
+      let(:stories) { [rejected] }
+
+      it { should == :failing }
+    end
+  end
+
+  private
+
+  def stub_story(status)
+    story = ::PivotalTracker::Story.new
+    story.stub(:current_state).and_return(status)
+    story
+  end
+end

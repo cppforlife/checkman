@@ -58,3 +58,37 @@ class PivotalTracker
     ::PivotalTracker::Project.find(@project_id)
   end
 end
+
+::PivotalTracker::Project.class_eval do
+
+  def status
+    if changing?
+      :changing
+    elsif ok?
+      :ok
+    elsif failing?
+      :failing
+    end
+  end
+
+  def ok?
+    any_stories_started? && !any_stories_rejected?
+  end
+
+  def changing?
+    !any_stories_started? && !any_stories_rejected?
+  end
+
+  def failing?
+    any_stories_rejected?
+  end
+
+  def any_stories_started?
+    stories.all.any? { |s| s.current_state == 'started' }
+  end
+
+  def any_stories_rejected?
+    stories.all.any? { |s| s.current_state == 'rejected' }
+  end
+
+end
