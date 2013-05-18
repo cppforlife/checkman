@@ -5,8 +5,8 @@ require "json"
 require "pivotal-tracker"
 
 class PivotalTrackerStatus
-  def initialize(project)
-    @project = project
+  def initialize(project, user_name)
+    @project, @user_name = project, user_name
   end
 
   def as_json
@@ -21,23 +21,23 @@ class PivotalTrackerStatus
   private
 
   def result
-    @project.status == :ok
+    @project.status(@user_name) == :ok
   end
 
   def changing
-    @project.status == :changing
+    @project.status(@user_name) == :changing
   end
 
 end
 
 class PivotalTracker
-  def initialize(project_id, user_token)
-    @project_id, @user_token = project_id, user_token
+  def initialize(project_id, user_token, *user_name)
+    @project_id, @user_token, @user_name = project_id, user_token, user_name.join(" ")
+    authorize
   end
 
   def latest_status
-    authorize
-    PivotalTrackerStatus.new(project)
+    PivotalTrackerStatus.new(project, user_name)
   end
 
   private
@@ -49,11 +49,17 @@ class PivotalTracker
   def project
     ::PivotalTracker::Project.find(@project_id)
   end
+
+  def user_name
+    @user_name
+  end
 end
 
 ::PivotalTracker::Project.class_eval do
 
-  def status
+  def status(user_name)
+    @user_name = user_name
+
     if changing?
       :changing
     elsif ok?
@@ -62,6 +68,8 @@ end
       :failing
     end
   end
+
+  private
 
   def ok?
     any_stories_started? && !any_stories_rejected?
@@ -75,12 +83,16 @@ end
     any_stories_rejected?
   end
 
+  def all_their_stories
+    stories.all(owned_by: @user_name)
+  end
+
   def any_stories_started?
-    stories.all.any? { |s| s.current_state == 'started' }
+    all_their_stories.any? { |s| s.current_state == 'started' }
   end
 
   def any_stories_rejected?
-    stories.all.any? { |s| s.current_state == 'rejected' }
+    all_their_stories.any? { |s| s.current_state == 'rejected' }
   end
 
 end
