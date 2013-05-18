@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "time"
+require "json"
+require "pivotal-tracker"
+
+class PivotalTrackerStatus
+  def initialize(project)
+    @project = project
+  end
+
+  def as_json
+    {
+      result: result,
+      changing: changing,
+      url: url,
+      info: info
+    }
+  end
+
+  private
+
+  def result
+    @project.status == :ok
+  end
+
+  def changing
+    @project.status == :changing
+  end
+
+  def url
+    nil
+  end
+
+  def info
+    nil
+  end
+
+end
+
+class PivotalTracker
+  def initialize(project_id, user_token)
+    @project_id, @user_token = project_id, user_token
+  end
+
+  def latest_status
+    authorize
+    PivotalTrackerStatus.new(project)
+  end
+
+  private
+
+  def authorize
+    ::PivotalTracker::Client.token = @user_token
+  end
+
+  def project
+    ::PivotalTracker::Project.find(@project_id)
+  end
+end
