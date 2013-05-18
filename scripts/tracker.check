@@ -5,8 +5,8 @@ require "json"
 require "pivotal-tracker"
 
 class TrackerStatus
-  def initialize(project, user_name)
-    @project, @user_name = project, user_name
+  def initialize(project)
+    @project = project
   end
 
   def as_json(*)
@@ -25,13 +25,12 @@ class TrackerStatus
   private
 
   def ok
-    @project.ok?(@user_name)
+    @project.ok?
   end
 
   def changing
-    @project.changing?(@user_name)
+    @project.changing?
   end
-
 end
 
 class Tracker
@@ -41,7 +40,7 @@ class Tracker
   end
 
   def latest_status
-    TrackerStatus.new(project, user_name)
+    TrackerStatus.new(project)
   end
 
   private
@@ -51,42 +50,41 @@ class Tracker
   end
 
   def project
-    ::PivotalTracker::Project.find(@project_id)
+    Project.new(@project_id, @user_name)
   end
 
   def user_name
     @user_name
   end
-end
 
-::PivotalTracker::Project.class_eval do
+  class Project
+    def initialize(project_id, user_name)
+      @project = ::PivotalTracker::Project.find(project_id)
+      @user_name = user_name
+    end
 
-  def ok?(user_name)
-    @user_name = user_name
+    def ok?
+      !any_stories_rejected?
+    end
 
-    !any_stories_rejected?
+    def changing?
+      !any_stories_started? && !any_stories_rejected?
+    end
+
+    private
+
+    def all_their_stories
+      @stories ||= @project.stories.all(owned_by: @user_name)
+    end
+
+    def any_stories_started?
+      all_their_stories.any? { |s| s.current_state == 'started' }
+    end
+
+    def any_stories_rejected?
+      all_their_stories.any? { |s| s.current_state == 'rejected' }
+    end
   end
-
-  def changing?(user_name)
-    @user_name = user_name
-
-    !any_stories_started? && !any_stories_rejected?
-  end
-
-  private
-
-  def all_their_stories
-    stories.all(owned_by: @user_name)
-  end
-
-  def any_stories_started?
-    all_their_stories.any? { |s| s.current_state == 'started' }
-  end
-
-  def any_stories_rejected?
-    all_their_stories.any? { |s| s.current_state == 'rejected' }
-  end
-
 end
 
 puts Tracker.new(*ARGV).latest_status.to_json if __FILE__ == $0
