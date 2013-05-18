@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		692E3D2E1747FB940037C46D /* pivotal_tracker.check in Resources */ = {isa = PBXBuildFile; fileRef = 692E3D2D1747FB940037C46D /* pivotal_tracker.check */; };
+		69CCFAD2174801430097A6CC /* tracker.check in Resources */ = {isa = PBXBuildFile; fileRef = 69CCFAD1174801430097A6CC /* tracker.check */; };
 		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
 		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
@@ -165,7 +165,7 @@
 /* Begin PBXFileReference section */
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
-		692E3D2D1747FB940037C46D /* pivotal_tracker.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pivotal_tracker.check; sourceTree = "<group>"; };
+		69CCFAD1174801430097A6CC /* tracker.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracker.check; sourceTree = "<group>"; };
 		960C9F0616C7760100F5FAA2 /* WebUIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIHandler.h; sourceTree = "<group>"; };
 		960C9F0716C7760100F5FAA2 /* WebUIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIHandler.m; sourceTree = "<group>"; };
 		960C9F0A16C77A2700F5FAA2 /* WebSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnection.h; sourceTree = "<group>"; };
@@ -657,8 +657,8 @@
 				AEBBEDAD16B23E41008C8880 /* CI */,
 				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
 				AE1E7D2016FD57070026129A /* github_issues.check */,
+				69CCFAD1174801430097A6CC /* tracker.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
-				692E3D2D1747FB940037C46D /* pivotal_tracker.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
 				AE76A5DC1682B82E00004A4D /* cf_apps.check */,
 			);
@@ -940,7 +940,7 @@
 				AE0200881684752A00FFED8D /* README.md in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
 				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
-				692E3D2E1747FB940037C46D /* pivotal_tracker.check in Resources */,
+				69CCFAD2174801430097A6CC /* tracker.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

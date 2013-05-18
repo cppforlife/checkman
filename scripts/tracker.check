@@ -4,7 +4,7 @@ require "time"
 require "json"
 require "pivotal-tracker"
 
-class PivotalTrackerStatus
+class TrackerStatus
   def initialize(project, user_name)
     @project, @user_name = project, user_name
   end
@@ -30,14 +30,14 @@ class PivotalTrackerStatus
 
 end
 
-class PivotalTracker
+class Tracker
   def initialize(project_id, user_token, *user_name)
     @project_id, @user_token, @user_name = project_id, user_token, user_name.join(" ")
     authorize
   end
 
   def latest_status
-    PivotalTrackerStatus.new(project, user_name)
+    TrackerStatus.new(project, user_name)
   end
 
   private
