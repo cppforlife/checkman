@@ -11,9 +11,9 @@ class TrackerStatus
 
   def as_json(*)
     {
-      :result => ok,
+      :result => result,
       :changing => changing,
-      :url => nil,
+      :url => url,
       :info => nil
     }
   end
@@ -24,12 +24,16 @@ class TrackerStatus
 
   private
 
-  def ok
+  def result
     @project.ok?
   end
 
   def changing
     @project.changing?
+  end
+
+  def url
+    @project.url
   end
 end
 
@@ -71,6 +75,10 @@ class Tracker
       !any_stories_started? && !any_stories_rejected?
     end
 
+    def url
+      "https://pivotaltracker.com/s/projects/#{@project.id}"
+    end
+
     private
 
     def all_their_stories
@@ -82,7 +90,11 @@ class Tracker
     end
 
     def any_stories_rejected?
-      all_their_stories.any? { |s| s.current_state == 'rejected' }
+      !rejected_stories.empty?
+    end
+
+    def rejected_stories
+      all_their_stories.select { |s| s.current_state == 'rejected' }
     end
   end
 end
