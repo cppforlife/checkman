@@ -8,9 +8,9 @@ describe_check :Tracker, "tracker" do
 end
 
 describe_check :Tracker, "tracker" do
-  let(:ok_project) { double(:ok_project, status: :ok) }
-  let(:failing_project) { double(:failing_project, status: :failing) }
-  let(:changing_project) { double(:changing_project, status: :changing) }
+  let(:ok_project) { double(:ok_project, ok?: true, changing?: false) }
+  let(:failing_project) { double(:failing_project, ok?: false, changing?: false) }
+  let(:changing_project) { double(:changing_project, ok?: true, changing?: true) }
 
   before do
     PivotalTracker::Project.stub(:find).with('okprojectid').and_return(ok_project)
@@ -38,31 +38,47 @@ describe PivotalTracker::Project do
     project.stub_chain(:stories, :all).with(owned_by: user_name).and_return(stories)
   end
 
-  describe "#status" do
-    subject { project.status(user_name) }
+  describe "#ok?" do
+    subject { project.ok?(user_name) }
 
-    context "no stories started or rejected" do
-      let(:stories) { [delivered, finished, accepted, unstarted] }
+    context "started stories exist, some accepted, none rejected" do
+      let(:stories) { [accepted, delivered, finished, started, unstarted] }
 
-      it { should == :changing }
+      it { should be_true }
     end
 
-    context "started stories exist, none rejected or accepted" do
-      let(:stories) { [finished, started, unstarted] }
+    context "rejected stories exist" do
+      let(:stories) { [accepted, rejected, delivered, finished, started, unstarted] }
 
-      it { should == :ok }
+      it { should be_false }
+    end
+  end
+
+  describe "#changing?" do
+    subject { project.changing?(user_name) }
+
+    context "no started stories exist, some accepted, none rejected" do
+      let(:stories) { [accepted, delivered, finished, unstarted] }
+
+      it { should be_true }
+    end
+
+    context "no started stories exist, some accepted, some rejected" do
+      let(:stories) { [accepted, rejected, delivered, finished, unstarted] }
+
+      it { should be_false }
     end
 
     context "started stories exist, some accepted, none rejected" do
       let(:stories) { [accepted, delivered, finished, started, unstarted] }
 
-      it { should == :ok }
+      it { should be_false }
     end
 
-    context "rejected stories exist" do
-      let(:stories) { [rejected] }
+    context "started stories exist, some accepted, some rejected" do
+      let(:stories) { [accepted, rejected, delivered, finished, started, unstarted] }
 
-      it { should == :failing }
+      it { should be_false }
     end
   end
 

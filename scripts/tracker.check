@@ -11,7 +11,7 @@ class TrackerStatus
 
   def as_json(*)
     {
-      :result => result,
+      :result => ok,
       :changing => changing,
       :url => nil,
       :info => nil
@@ -24,12 +24,12 @@ class TrackerStatus
 
   private
 
-  def result
-    @project.status(@user_name) == :ok
+  def ok
+    @project.ok?(@user_name)
   end
 
   def changing
-    @project.status(@user_name) == :changing
+    @project.changing?(@user_name)
   end
 
 end
@@ -61,31 +61,19 @@ end
 
 ::PivotalTracker::Project.class_eval do
 
-  def status(user_name)
+  def ok?(user_name)
     @user_name = user_name
 
-    if changing?
-      :changing
-    elsif ok?
-      :ok
-    elsif failing?
-      :failing
-    end
+    !any_stories_rejected?
   end
 
-  private
+  def changing?(user_name)
+    @user_name = user_name
 
-  def ok?
-    any_stories_started? && !any_stories_rejected?
-  end
-
-  def changing?
     !any_stories_started? && !any_stories_rejected?
   end
 
-  def failing?
-    any_stories_rejected?
-  end
+  private
 
   def all_their_stories
     stories.all(owned_by: @user_name)
