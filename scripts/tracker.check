@@ -9,13 +9,17 @@ class TrackerStatus
     @project, @user_name = project, user_name
   end
 
-  def as_json
+  def as_json(*)
     {
-      result: result,
-      changing: changing,
-      url: nil,
-      info: nil
+      :result => result,
+      :changing => changing,
+      :url => nil,
+      :info => nil
     }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
   end
 
   private
@@ -96,3 +100,5 @@ end
   end
 
 end
+
+puts Tracker.new(*ARGV).latest_status.to_json if __FILE__ == $0
