@@ -7,9 +7,10 @@ env:
 before_install: >
   curl -L https://get.rvm.io | bash -s stable --autolibs=enabled &&
   source ~/.rvm/scripts/rvm &&
+  rvm reload &&
   rvm install $RVM_RUBY_VERSION --autolibs=3 &&
   rvm use $RVM_RUBY_VERSION
 
 script: >
-  gem install rspec json &&
+  gem install rspec json pivotal-tracker &&
   LC_CTYPE="en_US.UTF-8" rake
