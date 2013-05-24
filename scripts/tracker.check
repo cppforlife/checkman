@@ -46,7 +46,7 @@ class TrackerProjectView
   private
 
   def owned_stories
-    @owned_stories ||= @project.stories.all(owned_by: @user_name)
+    @owned_stories ||= @project.stories.all(:owned_by => @user_name)
   end
 
   def stories_marked_as(state)
