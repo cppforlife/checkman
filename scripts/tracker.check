@@ -1,19 +1,27 @@
 #!/usr/bin/env ruby
 require "rubygems"
-require "time"
 require "json"
 require "pivotal-tracker"
 
 class TrackerStatus
-  def initialize(project)
-    @project = project
+  def initialize(project_view)
+    @project_view = project_view
+  end
+
+  def ok?
+    @project_view.rejected_stories.empty?
+  end
+
+  def changing?
+    @project_view.started_stories.empty? && \
+      @project_view.rejected_stories.empty?
   end
 
   def as_json(*)
     {
-      :result => result,
-      :changing => changing,
-      :url => url,
+      :result => ok?,
+      :changing => changing?,
+      :url => @project_view.url,
       :info => nil
     }
   end
@@ -21,81 +29,41 @@ class TrackerStatus
   def to_json(*)
     JSON.dump(as_json)
   end
+end
+
+class TrackerProjectView
+  def initialize(project, user_name)
+    @project, @user_name = project, user_name
+  end
+
+  def started_stories;  stories_marked_as(:started);  end
+  def rejected_stories; stories_marked_as(:rejected); end
+
+  def url
+    "https://pivotaltracker.com/s/projects/#{@project.id}"
+  end
 
   private
 
-  def result
-    @project.ok?
+  def owned_stories
+    @owned_stories ||= @project.stories.all(owned_by: @user_name)
   end
 
-  def changing
-    @project.changing?
-  end
-
-  def url
-    @project.url
+  def stories_marked_as(state)
+    owned_stories.select { |s| s.current_state == state.to_s }
   end
 end
 
 class Tracker
   def initialize(project_id, user_token, *user_name)
-    @project_id, @user_token, @user_name = project_id, user_token, user_name.join(" ")
-    authorize
+    @project_id, @user_name = project_id, user_name.join(" ")
+    PivotalTracker::Client.token = user_token
   end
 
   def latest_status
-    TrackerStatus.new(project)
-  end
-
-  private
-
-  def authorize
-    ::PivotalTracker::Client.token = @user_token
-  end
-
-  def project
-    Project.new(@project_id, @user_name)
-  end
-
-  def user_name
-    @user_name
-  end
-
-  class Project
-    def initialize(project_id, user_name)
-      @project = ::PivotalTracker::Project.find(project_id)
-      @user_name = user_name
-    end
-
-    def ok?
-      !any_stories_rejected?
-    end
-
-    def changing?
-      !any_stories_started? && !any_stories_rejected?
-    end
-
-    def url
-      "https://pivotaltracker.com/s/projects/#{@project.id}"
-    end
-
-    private
-
-    def all_their_stories
-      @stories ||= @project.stories.all(owned_by: @user_name)
-    end
-
-    def any_stories_started?
-      all_their_stories.any? { |s| s.current_state == 'started' }
-    end
-
-    def any_stories_rejected?
-      !rejected_stories.empty?
-    end
-
-    def rejected_stories
-      all_their_stories.select { |s| s.current_state == 'rejected' }
-    end
+    project = PivotalTracker::Project.find(@project_id)
+    project_view = TrackerProjectView.new(project, @user_name)
+    TrackerStatus.new(project_view)
   end
 end
 
