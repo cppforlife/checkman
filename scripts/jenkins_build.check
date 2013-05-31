@@ -144,12 +144,14 @@ class JenkinsJobStatus
 end
 
 class JenkinsJob
-  def initialize(jenkins_url, name)
+  def initialize(jenkins_url, name, user_id = nil, api_token = nil)
     raise ArgumentError "jenkins_url must not be nil" \
       unless @jenkins_url = jenkins_url
 
     raise ArgumentError "name must not be nil" \
       unless @name = name
+
+    @user_id, @api_token = user_id, api_token
   end
 
   def latest_status
@@ -158,12 +160,18 @@ class JenkinsJob
 
   private
 
+  def authentication_option
+    if @user_id && @api_token
+      "-u '#{@user_id}:#{@api_token}'"
+    end
+  end
+
   def job_url
     "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
   end
 
   def http_get(url)
-    curl = "curl -sk -A \"CheckmanJenkins (Hostname: $HOSTNAME)\" '#{url}'"
+    curl = "curl -sk #{authentication_option} -A \"CheckmanJenkins (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
