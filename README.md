@@ -69,7 +69,8 @@ If you ever need to kill Checkman:
 
 * `jenkins_build.check <JENKINS_URL> <JOB_NAME>`  
   checks specific Jenkins build status  
-  e.g. `jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk`
+  e.g. `jenkins_build.check https://user:pass@ci.jenkins-ci.org jenkins_main_trunk`
+  (Tip: Encode `@` symbol as `%40` in username)
 
 * `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`  
   checks specific Travis CI build status  
