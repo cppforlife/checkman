@@ -8,6 +8,8 @@ before_install: >
   curl -L https://get.rvm.io | bash -s stable --autolibs=enabled &&
   source ~/.rvm/scripts/rvm &&
   rvm reload &&
+  brew cleanup &&
+  brew tap --repair &&
   rvm install $RVM_RUBY_VERSION --autolibs=3 &&
   rvm use $RVM_RUBY_VERSION
 
