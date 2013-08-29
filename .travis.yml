@@ -8,9 +8,15 @@ before_install: >
   curl -L https://get.rvm.io | bash -s stable --autolibs=enabled &&
   source ~/.rvm/scripts/rvm &&
   rvm reload &&
+  brew cleanup &&
+  brew tap --repair &&
   rvm install $RVM_RUBY_VERSION --autolibs=3 &&
   rvm use $RVM_RUBY_VERSION
 
+# Lock down nokogiri so that it installs on 1.8.7
 script: >
-  gem install rspec json pivotal-tracker &&
+  gem install rspec &&
+  gem install json &&
+  gem install nokogiri -v 1.5.9 &&
+  gem install pivotal-tracker &&
   LC_CTYPE="en_US.UTF-8" rake
