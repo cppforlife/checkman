@@ -1,0 +1,113 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+require "nokogiri"
+require "time"
+
+class TddiumProjectStatus
+  def initialize(node)
+    @node = node
+  end
+
+  def ok?
+    @node.attribute("lastBuildStatus").value == "Success"
+  end
+
+  def project_name
+    @node.attribute("name").value
+  end
+
+  def url
+   @node.attribute("webUrl").value
+  end
+
+  def lastBuildLabel
+    @node.attribute("lastBuildLabel").value
+  end
+
+  def lastBuildStatus
+    @node.attribute("lastBuildStatus").value
+  end
+
+  def activity
+    @node.attribute("activity").value
+  end
+
+  def formatted_started_at
+    Time.parse(raw_utc_time).getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
+  end
+
+  def for_project?(project_name)
+    self.project_name == project_name
+  end
+
+  def as_json(options={})
+    {
+      :result => ok?,
+      :url => url,
+      :info => [
+        [:Build, lastBuildLabel],
+        [:Status, lastBuildStatus],
+        [:Started, formatted_started_at],
+        [:Activity, activity]
+      ]
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def raw_utc_time
+    raw_time = @node.attribute("lastBuildTime").value
+    "#{raw_time}Z"
+  end
+end
+
+class TddiumAccountStatus
+  def initialize(raw_xml)
+    @project_statuses = extract_projects(raw_xml)
+  end
+
+  def status_for_project(project_name)
+    @project_statuses.find { |status| status.for_project? project_name}
+  end
+
+  private
+
+  def extract_projects(xml)
+    project_nodes = Nokogiri.XML(xml).children.first.children.select \
+      { |node| node.name == "Project" }
+    project_nodes.map { |project_node| TddiumProjectStatus.new project_node }
+  end
+end
+
+class TddiumJob
+  def initialize(token, project_name)
+    raise ArgumentError "token must not be nil" \
+      unless @token = token
+
+    raise ArgumentError "project_name must not be nil" \
+      unless @project_name = project_name
+  end
+
+  def latest_status
+    TddiumAccountStatus.new(http_get(builds_url)) \
+      .status_for_project(@project_name)
+  end
+
+  private
+
+  def builds_url
+    "https://api.tddium.com/cc/#{@token}/cctray.xml"
+  end
+
+  def http_get(url)
+    curl = "curl -sk -A \"CheckmanTddium (Hostname: $HOSTNAME)\" '#{url}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts TddiumJob.new(*ARGV).latest_status.to_json if __FILE__ == $0
