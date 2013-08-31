@@ -19,4 +19,5 @@ script: >
   gem install json &&
   gem install nokogiri -v 1.5.9 &&
   gem install pivotal-tracker &&
+  gem install httparty &&
   LC_CTYPE="en_US.UTF-8" rake

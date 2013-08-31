@@ -103,6 +103,13 @@ If you ever need to kill Checkman:
   * **Red:** You own a rejected story
   * **Pending:** You haven't started a story
 
+* `couchdb.check <COUCHDB URL>`
+  Checks for active tasks on the CouchDB instance.  The info for the check will show the type and progress of each active task.
+  e.g. `couchdb.check http://localhost:5984`
+  * **Green:** No active tasks
+  * **Pending/Green:** One or more active tasks. All tasks are at least 50% complete.
+  * **Pending/Red:** One or more active tasks is less than 50% complete.
+
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env
 variable when running check commands.
