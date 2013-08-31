@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'httparty'
+require 'json'
+
+class CouchDB
+  def initialize(server)
+    @server = server
+  end
+
+  def latest_status
+    response = HTTParty.get("#{@server}/_active_tasks",
+      headers: {'accept' => 'application/json'})
+
+    tasks = response
+    completions = tasks.map {|t| t['progress'] }
+    info = tasks.map {|t| [t['type'], "#{t['progress']}%"] }
+
+    {
+      result: tasks.size == 0 || completions.min > 50,
+      changing: tasks.size > 0,
+      url: "#{@server}/_utils",
+      info: info
+    }
+  end
+end
+
+puts CouchDB.new(*ARGV).latest_status.to_json if __FILE__ == $0
