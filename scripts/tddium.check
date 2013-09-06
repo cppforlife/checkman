@@ -33,6 +33,10 @@ class TddiumProjectStatus
     @node.attribute("activity").value
   end
 
+  def building?
+    @node.attribute("activity").value == 'Building'
+  end
+
   def formatted_started_at
     Time.parse(raw_utc_time).getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
   end
@@ -44,6 +48,7 @@ class TddiumProjectStatus
   def as_json(options={})
     {
       :result => ok?,
+      :changing => building?,
       :url => url,
       :info => [
         [:Build, lastBuildLabel],
