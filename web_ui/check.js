@@ -41,17 +41,20 @@ function WebUICheck(checkMsg) {
   // Determines if check matches filter in different formats:
   // 'primary', 'primary/secondary', 'primary/secondary/name'
   function matchesFilter(filter) {
-    var p = filter.split("/");
-    var matchesPrimary   = p[0] == "*" || p[0] == primaryContextName();
-    var matchesSecondary = p[1] == "*" || p[1] == secondaryContextName();
-    var matchesName      = p[2] == "*" || p[2] == name();
+    var subFilters = filter.split(",");
+    for (var i in subFilters) {
+      var p = subFilters[i].split("/");
+      var matchesPrimary   = p[0] == "*" || p[0] == primaryContextName();
+      var matchesSecondary = p[1] == "*" || p[1] == secondaryContextName();
+      var matchesName      = p[2] == "*" || p[2] == name();
 
-    if (p.length == 1) {
-      return matchesPrimary;
-    } else if (p.length == 2) {
-      return matchesPrimary && matchesSecondary;
-    } else if (p.length == 3) {
-      return matchesPrimary && matchesSecondary && matchesName;
+      if (p.length == 1) {
+        if (matchesPrimary) return true;
+      } else if (p.length == 2) {
+        if (matchesPrimary && matchesSecondary) return true;
+      } else if (p.length == 3) {
+        if (matchesPrimary && matchesSecondary && matchesName) true;
+      }
     }
     return false;
   }
