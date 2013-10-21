@@ -1,58 +1,58 @@
 function WebUICheck(checkMsg) {
   return {
     uniqueId: uniqueId,
-    contextualName: contextualName,
     status: status,
     isOk: isOk,
     isChanging: isChanging,
-    isDisabled: isDisabled
+    isDisabled: isDisabled,
+    contextualName: contextualName,
+    matchesFilter: matchesFilter
   };
 
-  function uniqueId() {
-    return checkMsg.check.id;
-  }
+  function uniqueId() { return checkMsg.check.id; }
 
-  function name() {
-    return checkMsg.check.name;
-  }
+  function name()                 { return checkMsg.check.name; }
+  function primaryContextName()   { return checkMsg.check.primary_context_name; }
+  function secondaryContextName() { return checkMsg.check.secondary_context_name; }
 
-  function primaryContextName() {
-    return checkMsg.check.primary_context_name;
-  }
-
-  function secondaryContextName() {
-    return checkMsg.check.secondary_context_name;
-  }
+  function status()     { return checkMsg.check.status.toLowerCase(); }
+  function isOk()       { return status() == "ok"; }
+  function isChanging() { return checkMsg.check.changing; }
+  function isDisabled() { return checkMsg.check.disabled; }
 
   function contextualName() {
-    if (primaryContextName() && secondaryContextName()) {
-      if (primaryContextName() != secondaryContextName()) {
-        return [
-          primaryContextName(),
-          secondaryContextName(),
-          name()
-        ].join(" > ");
-      }
+    var primary   = primaryContextName();
+    var secondary = secondaryContextName();
+    var result    = [];
+
+    if (primary) {
+      result.push(primary);
     }
-    if (primaryContextName()) {
-      return [primaryContextName(), name()].join(" > ");
+    // Include secondary name if it does not 
+    // match primary to avoid repetition
+    if (secondary && primary != secondary) {
+      result.push(secondary);
     }
-    return name();
+    result.push(name());
+
+    return result.join(" > ");
   }
 
-  function status() {
-    return checkMsg.check.status.toLowerCase();
-  }
+  // Determines if check matches filter in different formats:
+  // 'primary', 'primary/secondary', 'primary/secondary/name'
+  function matchesFilter(filter) {
+    var p = filter.split("/");
+    var matchesPrimary   = p[0] == "*" || p[0] == primaryContextName();
+    var matchesSecondary = p[1] == "*" || p[1] == secondaryContextName();
+    var matchesName      = p[2] == "*" || p[2] == name();
 
-  function isOk() {
-    return status() == "ok";
-  }
-
-  function isChanging() {
-    return checkMsg.check.changing;
-  }
-
-  function isDisabled() {
-    return checkMsg.check.disabled;
+    if (p.length == 1) {
+      return matchesPrimary;
+    } else if (p.length == 2) {
+      return matchesPrimary && matchesSecondary;
+    } else if (p.length == 3) {
+      return matchesPrimary && matchesSecondary && matchesName;
+    }
+    return false;
   }
 }

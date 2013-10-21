@@ -3,29 +3,55 @@
 // require "checks.js"
 // require "check.js"
 
-function WebUI(connectionUrl, domIds) {
+function WebUI(connectionUrl, checkFilter, domIds) {
   var checks = WebUICheckCollection(domIds.checks);
 
-  var heartBeat = WebUIHeartBeat(domIds.heartBeat, function() {
-    return { presentedChecksCount: checks.presentedChecksCount() };
-  });
+  // Make sure every so often that proper number
+  // of checks are presented; otherwise, alert the viewer
+  var heartBeat = WebUIHeartBeat(domIds.heartBeat);
 
+  // Respond to events received from Checkman app
   var connection = WebUIConnection(connectionUrl, {
-    "check.show": checkCallback(checks.show),
-    "check.hide": checkCallback(checks.hide),
-    "check.update": checkCallback(checks.update),
-    "heartbeat": heartBeat.beat
+    "check.show":   function(msg) { checks.show(WebUICheck(msg), checkFilter); },
+    "check.hide":   function(msg) { checks.hide(WebUICheck(msg)); },
+    "check.update": function(msg) { checks.update(WebUICheck(msg), checkFilter); },
+    "heartbeat":    heartBeat.beat
   });
 
+  // Present heart beat information
   var lastUpdated = WebUILastUpdated(domIds.lastUpdated, function() {
     return connection.secsSinceLastMessageReceived();
   });
 
   return {};
+}
 
-  function checkCallback(callback) {
-    return function(msg) {
-      callback(WebUICheck(msg));
-    };
+function WebUIPageLocation(location) {
+  return {
+    connectionUrl: connectionUrl,
+    checkFilter: checkFilter
+  }
+
+  function connectionUrl() {
+    var url = "ws://" + location.host + "/check_updates";
+    console.log("WebUIPageLocation - connectionUrl", url);
+    return url;
+  }
+
+  function checkFilter() {
+    var filter = parseQueryString()["filter"] || "*";
+    console.log("WebUIPageLocation - checkFilter", filter);
+    return filter;
+  }
+
+  function parseQueryString() {
+    var query = location.search.substr(1); // remove '?'
+    var data  = query.split("&");
+    var result = {};
+    for (var i=0; i<data.length; i++) {
+      var item = data[i].split("=");
+      result[item[0]] = item[1];
+    }
+    return result;
   }
 }

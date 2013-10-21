@@ -23,7 +23,11 @@
     <script type="text/javascript" src="ui.js"></script>
 
     <script type="text/javascript">
-      WebUI("ws://" + location.host + "/check_updates", {
+      var pageLocation = WebUIPageLocation(document.location);
+      var url    = pageLocation.connectionUrl();
+      var filter = pageLocation.checkFilter();
+
+      WebUI(url, filter, {
         checks: "checks",
         heartBeat: "heartBeat",
         lastUpdated: "lastUpdated"

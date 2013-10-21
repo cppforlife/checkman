@@ -1,4 +1,4 @@
-function WebUIHeartBeat(domId, getLocalStats) {
+function WebUIHeartBeat(domId) {
   var _lastReceivedAt = null;
   var _timeoutError = null;
 
@@ -13,7 +13,6 @@ function WebUIHeartBeat(domId, getLocalStats) {
   function beat(msg) {
     _lastReceivedAt = new Date();
     updateStats(msg);
-    compareStats(msg, getLocalStats());
     scheduleTimeoutError();
   }
 
@@ -22,28 +21,18 @@ function WebUIHeartBeat(domId, getLocalStats) {
       clearTimeout(_timeoutError);
     }
     _timeoutError = setTimeout(function() {
-      showError("No heartbeat within 10 secs.");
+      alert("No heartbeat within 10 secs.");
     }, 10 * 1000);
   }
 
   function updateStats(msg) {
-    var text = msg.total_checks_count    + " total checks</br>" +
-               msg.disabled_checks_count + " disabled checks</br>" +
-               "@ " + formattedLastReceivedAt();
+    var text = 
+      msg.total_checks_count 
+      + " total checks</br>"
+      + msg.disabled_checks_count 
+      + " disabled checks</br>@ "
+      + formattedLastReceivedAt();
     document.getElementById(domId).innerHTML = text;
-  }
-
-  function compareStats(msg, localStats) {
-    var expectedPresentedChecksCount =
-      (msg.total_checks_count - msg.disabled_checks_count);
-
-    if (expectedPresentedChecksCount != localStats.presentedChecksCount) {
-      showError("Checks are out of sync.");
-    }
-  }
-
-  function showError(description) {
-    alert(description);
   }
 
   function formattedLastReceivedAt() {
