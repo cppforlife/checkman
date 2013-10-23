@@ -27,7 +27,7 @@ if [ -e Checkman.zip ]; then
   cd $TMP_DIR
 else
   cd $TMP_DIR
-  curl -sO https://raw.github.com/cppforlife/checkman/test_race/bin/Checkman.zip
+  curl -sO https://raw.github.com/cppforlife/checkman/master/bin/Checkman.zip
 fi
 
 unzip Checkman.zip
