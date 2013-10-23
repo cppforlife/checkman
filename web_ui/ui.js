@@ -6,9 +6,15 @@
 function WebUI(connectionUrl, checkFilter, domIds) {
   var checks = WebUICheckCollection(domIds.checks);
 
+  var heartBeatOverlay = 
+    WebUIHeartBeatOverlay(domIds.heartBeatOverlay);
+
   // Make sure every so often that proper number
   // of checks are presented; otherwise, alert the viewer
-  var heartBeat = WebUIHeartBeat(domIds.heartBeat);
+  var heartBeat = WebUIHeartBeat(domIds.heartBeat, {
+    "live": function() { heartBeatOverlay.hide(); },
+    "dead": function() { heartBeatOverlay.show(); }
+  });
 
   // Respond to events received from Checkman app
   var connection = WebUIConnection(connectionUrl, {
