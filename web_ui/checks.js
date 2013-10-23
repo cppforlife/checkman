@@ -4,10 +4,12 @@ function WebUICheckCollection(domId) {
   return {
     show: show,
     hide: hide,
-    update: update,
   };
 
+  // Converges UI based on check's state
   function show(check, filter) {
+    hide(check);
+
     if (check.isDisabled()) {
       return console.log(
         "WebUICheckCollection - show: disabled check", 
@@ -40,11 +42,6 @@ function WebUICheckCollection(domId) {
     if (checkEl) {
       checkEl.remove();
     }
-  }
-
-  function update(check, filter) {
-    hide(check);
-    show(check, filter);
   }
 
   function _checkDom(check) {

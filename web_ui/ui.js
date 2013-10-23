@@ -18,10 +18,9 @@ function WebUI(connectionUrl, checkFilter, domIds) {
 
   // Respond to events received from Checkman app
   var connection = WebUIConnection(connectionUrl, {
-    "check.show":   function(msg) { checks.show(WebUICheck(msg), checkFilter); },
-    "check.hide":   function(msg) { checks.hide(WebUICheck(msg)); },
-    "check.update": function(msg) { checks.update(WebUICheck(msg), checkFilter); },
-    "heartbeat":    heartBeat.beat
+    "check.show": function(msg) { checks.show(WebUICheck(msg), checkFilter); },
+    "check.hide": function(msg) { checks.hide(WebUICheck(msg)); },
+    "heartbeat":  heartBeat.beat
   });
 
   // Present heart beat information

@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) WebUIMessages *messages;
 @property (nonatomic, strong) NSCustomTicker *heartBeatTicker;
+@property (nonatomic, strong) NSCustomTicker *safetyTicker;
 @end
 
 @implementation WebUI
@@ -26,7 +27,8 @@
     httpServer = _httpServer,
     checkUpdatesHandlers = _checkUpdatesHandlers,
     messages = _messages,
-    heartBeatTicker = _heartBeatTicker;
+    heartBeatTicker = _heartBeatTicker,
+    safetyTicker = _safetyTicker;
 
 - (id)initWithPort:(uint16_t)port {
     if (self = [super init]) {
@@ -42,6 +44,12 @@
         // WebUIHeartBeat (js) expect to receive at least one beat every 10 secs.
         self.heartBeatTicker = [[NSCustomTicker alloc] initWithInterval:5];
         self.heartBeatTicker.delegate = self;
+
+        // It's extremely important that WebUI (js) does not get out of sync
+        // from actual check results; so we'll use this timer to dump
+        // all state to all connections once in a while.
+        self.safetyTicker = [[NSCustomTicker alloc] initWithInterval:120];
+        self.safetyTicker.delegate = self;
     }
     return self;
 }
@@ -76,12 +84,12 @@
 
 - (void)checkCollection:(CheckCollection *)collection
         checkDidChangeStatus:(Check *)check {
-    [self _updateCheck:check];
+    [self _showCheck:check];
 }
 
 - (void)checkCollection:(CheckCollection *)collection
         checkDidChangeChanging:(Check *)check {
-    [self _updateCheck:check];
+    [self _showCheck:check];
 }
 
 #pragma mark -
@@ -102,12 +110,6 @@
     [self.checkUpdatesHandlers
         makeObjectsPerformSelector:@selector(sendMessage:)
         withObject:[self.messages hideCheckJSONMessage:check]];
-}
-
-- (void)_updateCheck:(Check *)check {
-    [self.checkUpdatesHandlers
-        makeObjectsPerformSelector:@selector(sendMessage:)
-        withObject:[self.messages updateCheckJSONMessage:check]];
 }
 
 #pragma mark - HTTPServerDelegate
@@ -154,8 +156,14 @@
 #pragma mark - NSCustomTimerDelegate
 
 - (void)customTickerDidTick:(NSCustomTicker *)ticker {
-    [self.checkUpdatesHandlers
-        makeObjectsPerformSelector:@selector(sendMessage:)
-        withObject:[self.messages heartBeatJSONMessage:self.checks]];
+    if (ticker == self.safetyTicker) {
+        for (WebUIWebSocketHandler *handler in self.checkUpdatesHandlers) {
+            [self _showAllChecksWithHandler:handler];
+        }
+    } else {
+        [self.checkUpdatesHandlers
+            makeObjectsPerformSelector:@selector(sendMessage:)
+            withObject:[self.messages heartBeatJSONMessage:self.checks]];
+    }
 }
 @end
