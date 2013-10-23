@@ -21,11 +21,15 @@
 }
 
 - (void)open {
-    [self.stream open];
+    @synchronized(self) {
+        [self.stream open];
+    }
 }
 
 - (void)close {
-    [self.stream close];
+    @synchronized(self) {
+        [self.stream close];
+    }
 }
 
 - (NSString *)description {
@@ -46,40 +50,48 @@
 }
 
 - (const void *)bufferBytes {
-    return self.buffer.bytes;
+    @synchronized(self) {
+        return self.buffer.bytes;
+    }
 }
 
 - (NSUInteger)bufferLength {
-    return self.buffer.length;
+    @synchronized(self) {
+        return self.buffer.length;
+    }
 }
 
 - (void)takeUntilLengthLeft:(NSUInteger)length {
-    void *dest = self.buffer.mutableBytes;
-    void *src = self.buffer.mutableBytes + self.buffer.length - length;
-    memmove(dest, src, length);
-    self.buffer.length = length;
+    @synchronized(self) {
+        void *dest = self.buffer.mutableBytes;
+        void *src = self.buffer.mutableBytes + self.buffer.length - length;
+        memmove(dest, src, length);
+        self.buffer.length = length;
+    }
 }
 
 - (NSUInteger)read {
-    NSInputStream *inputStream = (NSInputStream *)self.stream;
+    @synchronized(self) {
+        NSInputStream *inputStream = (NSInputStream *)self.stream;
 
-    uint8_t *buffer = NULL;
-    NSUInteger bufferLength = 0;
+        uint8_t *buffer = NULL;
+        NSUInteger bufferLength = 0;
 
-    // obtain buffer to available bytes
-    if (![inputStream getBuffer:&buffer length:&bufferLength]) {
-        uint8_t copyBuffer[16 * 1024];
-        NSInteger bytesRead = [inputStream read:copyBuffer maxLength:sizeof(copyBuffer)];
-        if (bytesRead > 0) {
-            bufferLength = (NSUInteger)bytesRead;
-            buffer = copyBuffer;
-        } else /* 0 or -1 when error */ return 0;
+        // obtain buffer to available bytes
+        if (![inputStream getBuffer:&buffer length:&bufferLength]) {
+            uint8_t copyBuffer[16 * 1024];
+            NSInteger bytesRead = [inputStream read:copyBuffer maxLength:sizeof(copyBuffer)];
+            if (bytesRead > 0) {
+                bufferLength = (NSUInteger)bytesRead;
+                buffer = copyBuffer;
+            } else /* 0 or -1 when error */ return 0;
+        }
+        if (bufferLength > 0) {
+            [self.buffer appendBytes:buffer length:bufferLength];
+            return bufferLength;
+        }
+        return 0;
     }
-    if (bufferLength > 0) {
-        [self.buffer appendBytes:buffer length:bufferLength];
-        return bufferLength;
-    }
-    return 0;
 }
 @end
 
@@ -95,7 +107,9 @@
 }
 
 - (NSInteger)writeData:(NSData *)data {
-    return [self write:data.bytes maxLength:data.length];
+    @synchronized(self) {
+        return [self write:data.bytes maxLength:data.length];
+    }
 }
 
 - (NSInteger)write:(const uint8_t *)buffer maxLength:(NSUInteger)len {
@@ -105,35 +119,39 @@
 }
 
 - (NSInteger)flush {
-    NSOutputStream *outputStream = (NSOutputStream *)self.stream;
+    @synchronized(self) {
+        NSOutputStream *outputStream = (NSOutputStream *)self.stream;
 
-    unsigned long bufferLength = self.buffer.length;
-    if (bufferLength == 0) return 0;
+        unsigned long bufferLength = self.buffer.length;
+        if (bufferLength == 0) return 0;
 
-    // Looks like unless space available
-    // subsequent write blocks
-    if (!outputStream.hasSpaceAvailable) return 0;
-    NSInteger writtenLength =
-        [outputStream write:self.buffer.bytes maxLength:bufferLength];
+        // Looks like unless space available
+        // subsequent write blocks
+        if (!outputStream.hasSpaceAvailable) return 0;
+        NSInteger writtenLength =
+            [outputStream write:self.buffer.bytes maxLength:bufferLength];
 
-    // Ignore capacity exceeded (0) or other errors (-1)
-    if (writtenLength <= 0) return 0;
+        // Ignore capacity exceeded (0) or other errors (-1)
+        if (writtenLength <= 0) return 0;
 
-    if (bufferLength == writtenLength) {
-        self.buffer.length = 0;
+        if (bufferLength == writtenLength) {
+            self.buffer.length = 0;
+        }
+        else if (bufferLength > writtenLength) {
+            void *dest = self.buffer.mutableBytes;
+            void *src = self.buffer.mutableBytes + writtenLength;
+            memmove(dest, src, bufferLength - (unsigned long)writtenLength);
+            self.buffer.length = bufferLength - writtenLength;
+        }
+        else NSAssert(NO, @"HTTPBufferedOutputStream - wrote more than asked for");
+
+        return 0;
     }
-    else if (bufferLength > writtenLength) {
-        void *dest = self.buffer.mutableBytes;
-        void *src = self.buffer.mutableBytes + writtenLength;
-        memmove(dest, src, bufferLength - (unsigned long)writtenLength);
-        self.buffer.length = bufferLength - writtenLength;
-    }
-    else NSAssert(NO, @"HTTPBufferedOutputStream - wrote more than asked for");
-
-    return 0;
 }
 
 - (BOOL)isFlushed {
-    return self.buffer.length == 0;
+    @synchronized(self) {
+        return self.buffer.length == 0;
+    }
 }
 @end
