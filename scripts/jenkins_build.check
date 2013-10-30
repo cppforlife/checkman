@@ -94,8 +94,14 @@ class JenkinsBuildStatus
 end
 
 class JenkinsJobStatus
-  def initialize(json)
-    @job_data = JSON.parse(json)
+  def self.from_json(json)
+    new(JSON.parse(json))
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def initialize(job_data)
+    @job_data = job_data
     @last_build_status =
       JenkinsBuildStatus.new(@job_data["lastBuild"])
 
@@ -103,9 +109,10 @@ class JenkinsJobStatus
       @last_successful_build_status =
         JenkinsBuildStatus.new(@job_data["lastSuccessfulBuild"])
     end
+  end
 
-  rescue JSON::ParserError
-    raise RuntimeError, "invalid json: '#{json}'"
+  def name
+    @job_data["name"]
   end
 
   def ok?
@@ -143,23 +150,53 @@ class JenkinsJobStatus
   end
 end
 
+class JenkinsJobStatuses
+  def self.from_json(json)
+    job_datas = JSON.parse(json)["jobs"]
+    new(job_datas.map { |jd| JenkinsJobStatus.new(jd) })
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def initialize(job_statuses)
+    @job_statuses = job_statuses
+  end
+
+  def status_for_job(job_name)
+    @job_statuses.detect { |js| js.name == job_name } || \
+      raise(RuntimeError, "Status for job name is not available")
+  end
+end
+
 class JenkinsJob
-  def initialize(jenkins_url, name)
+  def initialize(jenkins_url, name, *flags)
     raise ArgumentError "jenkins_url must not be nil" \
       unless @jenkins_url = jenkins_url
 
     raise ArgumentError "name must not be nil" \
       unless @name = name
+
+    @uses_root_api = flags.include?("--root-api")
   end
 
   def latest_status
-    JenkinsJobStatus.new(force_utf8(http_get(job_url)))
+    json = force_utf8(http_get(job_url))
+    if @uses_root_api
+      JenkinsJobStatuses.from_json(json) \
+        .status_for_job(@name)
+    else
+      JenkinsJobStatus.from_json(json)
+    end
   end
 
   private
 
   def job_url
-    "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
+    if @uses_root_api
+      "#{@jenkins_url}/api/json?depth=2"
+    else
+      "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
+    end
   end
 
   def http_get(url)
