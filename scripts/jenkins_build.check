@@ -1,6 +1,56 @@
 #!/usr/bin/env ruby
 require "rubygems"
+require "shellwords"
 require "json"
+
+class JenkinsJobTree
+  BUILD_FIELDS = {
+    :id        => true,
+    :result    => true,
+    :building  => true,
+    :fullDisplayName => true,
+    :url       => true,
+    :timestamp => true,
+    :duration  => true,
+    :changeSet => {
+      :items => {
+        :msg => true,
+        :commitId => true,
+        :author => {
+          :fullName => true
+        }
+      }
+    },
+    :actions => {
+      :lastBuiltRevision => {
+        :SHA1 => true
+      }
+    }
+  }
+
+  JOB_FIELDS = {
+    :name  => true,
+    :color => true,
+    :lastBuild => BUILD_FIELDS,
+    :lastSuccessfulBuild => BUILD_FIELDS
+  }
+
+  JOBS_FIELDS = {:jobs => JOB_FIELDS}
+
+  def self.for_job;      new(JOB_FIELDS);  end
+  def self.for_all_jobs; new(JOBS_FIELDS); end
+  def initialize(hash);  @hash = hash;     end
+
+  def to_param
+    stringify = lambda { |h|
+      h.map do |k,v|
+        # escaping '[' since bash will glob otherwise
+        v.is_a?(Hash) ? "#{k}\\[#{stringify.call(v)}\\]" : k
+      end.join(",")
+    }
+    stringify.call(@hash)
+  end
+end
 
 class JenkinsBuildStatus
   def initialize(hash)
@@ -177,6 +227,7 @@ class JenkinsJob
       unless @name = name
 
     @uses_root_api = flags.include?("--root-api")
+    @pretty_api    = flags.include?("--pretty-api")
   end
 
   def latest_status
@@ -193,10 +244,18 @@ class JenkinsJob
 
   def job_url
     if @uses_root_api
-      "#{@jenkins_url}/api/json?depth=2"
+      path = "/api/json"
+      depth_param = 2
+      tree_param  = JenkinsJobTree.for_all_jobs.to_param
     else
-      "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
+      path = "/job/#{@name}/api/json"
+      depth_param = 1
+      tree_param  = JenkinsJobTree.for_job.to_param
     end
+
+    pretty = "&pretty=true" if @pretty_api
+
+    "#{@jenkins_url}#{path}?depth=#{depth_param}&tree=#{tree_param}#{pretty}"
   end
 
   def http_get(url)
