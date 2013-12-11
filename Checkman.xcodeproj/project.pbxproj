@@ -859,7 +859,6 @@
 				96EDD2DE168944D800294E32 /* Frameworks */,
 				96EDD2DF168944D800294E32 /* Resources */,
 				96EDD2E0168944D800294E32 /* ShellScript */,
-				96EDD2E1168944D800294E32 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -973,19 +972,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cp -R \"${TARGET_NAME}\"/Frameworks/Cedar.framework \"${BUILT_PRODUCTS_DIR}\"";
-		};
-		96EDD2E1168944D800294E32 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

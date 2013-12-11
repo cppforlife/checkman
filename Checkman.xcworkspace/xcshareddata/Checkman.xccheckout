@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C87D0A9D-903A-4BC2-911F-60C857D77905</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Checkman</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>317A134F-2B96-4CD2-A4A4-BCDEF0F1E398</key>
+		<string>http://github.com/cppforlife/checkman</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Checkman.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>317A134F-2B96-4CD2-A4A4-BCDEF0F1E398</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://github.com/cppforlife/checkman</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>317A134F-2B96-4CD2-A4A4-BCDEF0F1E398</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>317A134F-2B96-4CD2-A4A4-BCDEF0F1E398</string>
+			<key>IDESourceControlWCCName</key>
+			<string>checkman</string>
+		</dict>
+	</array>
+</dict>
+</plist>

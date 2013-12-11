@@ -57,10 +57,10 @@ namespace :ocunit do
     system_or_exit <<-SHELL
       xcodebuild \
         -project #{PROJECT_NAME}.xcodeproj \
-        -target #{OCUNIT_LOGIC_SPECS_TARGET_NAME} \
+        -scheme #{OCUNIT_LOGIC_SPECS_TARGET_NAME} \
         -configuration #{CONFIGURATION} \
-        -arch x86_64 \
-        build TEST_AFTER_BUILD=YES SYMROOT=#{BUILD_DIR}
+        -destination 'arch=x86_64' \
+        test SYMROOT=#{BUILD_DIR}
     SHELL
   end
 end
