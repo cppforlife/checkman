@@ -96,7 +96,7 @@ class JenkinsBuildStatus
   end
 
   def last_commit_short_sha
-    build_action = @build_data["actions"].detect { |a| a != nil && a["lastBuiltRevision"] }
+    build_action = @build_data["actions"].compact.detect { |a| a["lastBuiltRevision"] }
     build_action && build_action["lastBuiltRevision"]["SHA1"][0..5]
   end
 
