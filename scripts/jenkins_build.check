@@ -264,8 +264,14 @@ class JenkinsJob
   end
 
   def force_utf8(string)
-    string.force_encoding("UTF-8") if string.respond_to?(:force_encoding)
-    string
+    if string.respond_to?(:encode)
+      # Use 'binary' as source encoding since conversion
+      # to the same encoding is a no-op even if there are
+      # invalid bytes.
+      string.encode(string.encoding, "binary", :invalid => :replace, :undef => :replace)
+    else
+      string
+    end
   end
 end
 
