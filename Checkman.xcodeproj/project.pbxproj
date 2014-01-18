@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AE7184D188B0EFA008CF48C /* travis_private.check in Resources */ = {isa = PBXBuildFile; fileRef = 3AE7184C188B0EFA008CF48C /* travis_private.check */; };
 		69CCFAD4174804B60097A6CC /* tracker.check in Resources */ = {isa = PBXBuildFile; fileRef = 69CCFAD3174804B60097A6CC /* tracker.check */; };
 		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
@@ -163,6 +164,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3AE7184C188B0EFA008CF48C /* travis_private.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = travis_private.check; sourceTree = "<group>"; };
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
 		69CCFAD3174804B60097A6CC /* tracker.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracker.check; sourceTree = "<group>"; };
@@ -670,6 +672,7 @@
 			children = (
 				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 				AEBBEDA716B22CB2008C8880 /* travis.check */,
+				3AE7184C188B0EFA008CF48C /* travis_private.check */,
 				62BF3B9716AF60320051A1CC /* semaphore.check */,
 			);
 			name = CI;
@@ -940,6 +943,7 @@
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
 				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
 				69CCFAD4174804B60097A6CC /* tracker.check in Resources */,
+				3AE7184D188B0EFA008CF48C /* travis_private.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
