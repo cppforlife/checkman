@@ -29,10 +29,6 @@
     return [self _checkJSONMessage:check type:@"check.hide"];
 }
 
-- (NSString *)updateCheckJSONMessage:(Check *)check {
-    return [self _checkJSONMessage:check type:@"check.update"];
-}
-
 static inline id _WUObjOrNull(id value) {
     return value ? value : [NSNull null];
 }

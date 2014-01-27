@@ -16,6 +16,11 @@
       <!-- Shows secs since one of the checks were updated -->
     </div>
 
+    <div id="heartBeatOverlay">
+      <!-- Shown if server connection is dead -->
+      <p>Lost connection</p>
+    </div>
+
     <script type="text/javascript" src="connection.js"></script>
     <script type="text/javascript" src="heart_beat.js"></script>
     <script type="text/javascript" src="checks.js"></script>
@@ -23,10 +28,15 @@
     <script type="text/javascript" src="ui.js"></script>
 
     <script type="text/javascript">
-      WebUI("ws://" + location.host + "/check_updates", {
+      var pageLocation = WebUIPageLocation(document.location);
+      var url    = pageLocation.connectionUrl();
+      var filter = pageLocation.checkFilter();
+
+      WebUI(url, filter, {
         checks: "checks",
         heartBeat: "heartBeat",
-        lastUpdated: "lastUpdated"
+        lastUpdated: "lastUpdated",
+        heartBeatOverlay: "heartBeatOverlay"
       });
     </script>
   </body>

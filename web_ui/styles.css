@@ -6,7 +6,6 @@ body {
 #checks .check {
   float: left;
   overflow: hidden;
-
   margin: 0 10px 10px 0;
   padding: 12px 15px;
   border-radius: 10px;
@@ -49,7 +48,6 @@ body {
   right: 0;
   padding: 5px 5px 0 0;
   border-top: 1px solid #ccc;
-
   text-align: right;
   font: 11px Courier New, Courier;
   color: #999;
@@ -60,8 +58,40 @@ body {
   top: 0;
   right: 0;
   padding: 5px 5px 0 0;
-
   text-align: right;
   font: 11px Courier New, Courier;
   color: #999;
 }
+
+/* Overlay for indicating when server connection is down */
+#heartBeatOverlay { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none; 
+  background: #fff;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* Just to mess with ya */
+@-webkit-keyframes rotate {
+  from { -webkit-transform: rotate(0deg)   translate(-5px) rotate(0deg);    }
+  to   { -webkit-transform: rotate(360deg) translate(-5px) rotate(-360deg); }
+}
+#heartBeatOverlay p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -300px;
+  font-size: 80px;
+  color: #ccc;
+  -webkit-animation: rotate 8s infinite linear;
+}
+
+#heartBeatOverlay[data-show] { display: block; }

@@ -72,7 +72,7 @@ If you ever need to kill Checkman:
   e.g. `jenkins_build.check https://user:pass@ci.jenkins-ci.org jenkins_main_trunk`  
   (Tip: Encode `@` symbol as `%40` in username)
 
-* `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>]`  
+* `travis.check <REPO_OWNER> <REPO_NAME> [<REPO_BRANCH>] [<REPO_TOKEN>]`  
   checks specific Travis CI build status  
   e.g. `travis.check rails arel`
 

@@ -1,6 +1,56 @@
 #!/usr/bin/env ruby
 require "rubygems"
+require "shellwords"
 require "json"
+
+class JenkinsJobTree
+  BUILD_FIELDS = {
+    :id        => true,
+    :result    => true,
+    :building  => true,
+    :fullDisplayName => true,
+    :url       => true,
+    :timestamp => true,
+    :duration  => true,
+    :changeSet => {
+      :items => {
+        :msg => true,
+        :commitId => true,
+        :author => {
+          :fullName => true
+        }
+      }
+    },
+    :actions => {
+      :lastBuiltRevision => {
+        :SHA1 => true
+      }
+    }
+  }
+
+  JOB_FIELDS = {
+    :name  => true,
+    :color => true,
+    :lastBuild => BUILD_FIELDS,
+    :lastSuccessfulBuild => BUILD_FIELDS
+  }
+
+  JOBS_FIELDS = {:jobs => JOB_FIELDS}
+
+  def self.for_job;      new(JOB_FIELDS);  end
+  def self.for_all_jobs; new(JOBS_FIELDS); end
+  def initialize(hash);  @hash = hash;     end
+
+  def to_param
+    stringify = lambda { |h|
+      h.map do |k,v|
+        # escaping '[' since bash will glob otherwise
+        v.is_a?(Hash) ? "#{k}\\[#{stringify.call(v)}\\]" : k
+      end.join(",")
+    }
+    stringify.call(@hash)
+  end
+end
 
 class JenkinsBuildStatus
   def initialize(hash)
@@ -46,7 +96,7 @@ class JenkinsBuildStatus
   end
 
   def last_commit_short_sha
-    build_action = @build_data["actions"].detect { |a| a["lastBuiltRevision"] }
+    build_action = @build_data["actions"].compact.detect { |a| a["lastBuiltRevision"] }
     build_action && build_action["lastBuiltRevision"]["SHA1"][0..5]
   end
 
@@ -94,8 +144,14 @@ class JenkinsBuildStatus
 end
 
 class JenkinsJobStatus
-  def initialize(json)
-    @job_data = JSON.parse(json)
+  def self.from_json(json)
+    new(JSON.parse(json))
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def initialize(job_data)
+    @job_data = job_data
     @last_build_status =
       JenkinsBuildStatus.new(@job_data["lastBuild"])
 
@@ -103,9 +159,10 @@ class JenkinsJobStatus
       @last_successful_build_status =
         JenkinsBuildStatus.new(@job_data["lastSuccessfulBuild"])
     end
+  end
 
-  rescue JSON::ParserError
-    raise RuntimeError, "invalid json: '#{json}'"
+  def name
+    @job_data["name"]
   end
 
   def ok?
@@ -143,23 +200,62 @@ class JenkinsJobStatus
   end
 end
 
+class JenkinsJobStatuses
+  def self.from_json(json)
+    job_datas = JSON.parse(json)["jobs"]
+    new(job_datas.map { |jd| JenkinsJobStatus.new(jd) })
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def initialize(job_statuses)
+    @job_statuses = job_statuses
+  end
+
+  def status_for_job(job_name)
+    @job_statuses.detect { |js| js.name == job_name } || \
+      raise(RuntimeError, "Status for job name is not available")
+  end
+end
+
 class JenkinsJob
-  def initialize(jenkins_url, name)
+  def initialize(jenkins_url, name, *flags)
     raise ArgumentError "jenkins_url must not be nil" \
       unless @jenkins_url = jenkins_url
 
     raise ArgumentError "name must not be nil" \
       unless @name = name
+
+    @uses_root_api = flags.include?("--root-api")
+    @pretty_api    = flags.include?("--pretty-api")
   end
 
   def latest_status
-    JenkinsJobStatus.new(force_utf8(http_get(job_url)))
+    json = force_utf8(http_get(job_url))
+    if @uses_root_api
+      JenkinsJobStatuses.from_json(json) \
+        .status_for_job(@name)
+    else
+      JenkinsJobStatus.from_json(json)
+    end
   end
 
   private
 
   def job_url
-    "#{@jenkins_url}/job/#{@name}/api/json?depth=1"
+    if @uses_root_api
+      path = "/api/json"
+      depth_param = 2
+      tree_param  = JenkinsJobTree.for_all_jobs.to_param
+    else
+      path = "/job/#{@name}/api/json"
+      depth_param = 1
+      tree_param  = JenkinsJobTree.for_job.to_param
+    end
+
+    pretty = "&pretty=true" if @pretty_api
+
+    "#{@jenkins_url}#{path}?depth=#{depth_param}&tree=#{tree_param}#{pretty}"
   end
 
   def http_get(url)
@@ -168,8 +264,14 @@ class JenkinsJob
   end
 
   def force_utf8(string)
-    string.force_encoding("UTF-8") if string.respond_to?(:force_encoding)
-    string
+    if string.respond_to?(:encode)
+      # Use 'binary' as source encoding since conversion
+      # to the same encoding is a no-op even if there are
+      # invalid bytes.
+      string.encode(string.encoding, "binary", :invalid => :replace, :undef => :replace)
+    else
+      string
+    end
   end
 end
 

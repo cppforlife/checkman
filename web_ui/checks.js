@@ -1,45 +1,47 @@
 // require "check.js"
 
 function WebUICheckCollection(domId) {
-  var _presentedChecksCount = 0;
-
   return {
     show: show,
     hide: hide,
-    update: update,
-    presentedChecksCount: presentedChecksCount,
   };
 
-  function show(check) {
-    if (check.isDisabled()) return;
+  // Converges UI based on check's state
+  function show(check, filter) {
+    hide(check);
 
+    if (check.isDisabled()) {
+      return console.log(
+        "WebUICheckCollection - show: disabled check", 
+        check.contextualName()
+      );
+    }
+
+    if (!check.matchesFilter(filter)) {
+      return console.log(
+        "WebUICheckCollection - show: filtered check", 
+        check.contextualName()
+      );
+    }
+
+    // Build DOM element for the check
     var checksEl = document.getElementById(domId);
     var checkDom = _checkDom(check);
 
+    // Add green checks to the end of the list
+    // and keep red/undetermined checks in the begginning
     if (check.isOk()) {
       checksEl.innerHTML += checkDom;
     } else {
       checksEl.innerHTML = checkDom + checksEl.innerHTML;
     }
-
-    _presentedChecksCount += 1;
   }
 
   function hide(check) {
     var checkEl = document.getElementById(_checkDomId(check));
     if (checkEl) {
       checkEl.remove();
-      _presentedChecksCount -= 1;
     }
-  }
-
-  function update(check) {
-    hide(check);
-    show(check);
-  }
-
-  function presentedChecksCount() {
-    return _presentedChecksCount;
   }
 
   function _checkDom(check) {

@@ -8,5 +8,4 @@
 
 - (NSString *)showCheckJSONMessage:(Check *)check;
 - (NSString *)hideCheckJSONMessage:(Check *)check;
-- (NSString *)updateCheckJSONMessage:(Check *)check;
 @end

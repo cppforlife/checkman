@@ -99,8 +99,8 @@ class TravisBranchStatus
   end
 
   def ok?
-    if last_build_status.building? && penultimate_build_status
-      penultimate_build_status.ok?
+    if last_build_status.building? && last_done_building_status
+      last_done_building_status.ok?
     else
       last_build_status.ok?
     end
@@ -118,8 +118,16 @@ class TravisBranchStatus
     JSON.dump(as_json)
   end
 
-  def last_build_status;        @build_statuses[0]; end
-  def penultimate_build_status; @build_statuses[1]; end
+  def last_build_status
+    @build_statuses.first
+  end
+
+  def last_done_building_status
+    # Travis does not wait for running/starting builds
+    # to finish before running/starting new builds,
+    # so 2nd build does not necessarily represent last result.
+    @build_statuses[1..-1].detect { |bs| !bs.building? }
+  end
 end
 
 class TravisRepoStatus
@@ -134,13 +142,13 @@ class TravisRepoStatus
 
   def status_for_branch(branch_name)
     build_statuses =
-      @build_statuses.select { |s| s.for_branch?(branch_name) }
+      @build_statuses.select { |bs| bs.for_branch?(branch_name) }
     TravisBranchStatus.new(@repo_url, build_statuses)
   end
 end
 
 class Travis
-  def initialize(repo_owner, repo_name, repo_branch="master")
+  def initialize(repo_owner, repo_name, repo_branch="master", repo_token=nil)
     raise ArgumentError "repo_owner must not be nil" \
       unless @repo_owner = repo_owner
 
@@ -149,6 +157,8 @@ class Travis
 
     raise ArgumentError "repo_branch must not be nil" \
       unless @repo_branch = repo_branch
+
+    @repo_token = repo_token
   end
 
   def latest_status
@@ -159,14 +169,17 @@ class Travis
   private
 
   def repo_url
-    "https://travis-ci.org/#{@repo_owner}/#{@repo_name}"
+    domain = @repo_token ? "magnum.travis-ci.com" : "travis-ci.org"
+    "https://#{domain}/#{@repo_owner}/#{@repo_name}"
   end
 
   def builds_url
     # Since TravisCI does not provide api to fetch build history for
     # a specific branch we have to use repo build history and hope
     # that checked branch does not get pushed off the first N builds.
-    "https://api.travis-ci.org/repositories/#{@repo_owner}/#{@repo_name}/builds.json"
+    domain = @repo_token ? "api.travis-ci.com"    : "api.travis-ci.org"
+    token  = @repo_token ? "token=#{@repo_token}" : ""
+    "https://#{domain}/repositories/#{@repo_owner}/#{@repo_name}/builds.json?#{token}"
   end
 
   def http_get(url)

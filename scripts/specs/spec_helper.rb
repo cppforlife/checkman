@@ -6,7 +6,7 @@ def describe_check(name, file_name=name, &block)
 
   include CheckSharedExamples
 
-  describe check_class do
+  describe(check_class) do
     subject { described_class.new(*opts) }
     instance_eval(&block)
   end
