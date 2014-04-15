@@ -149,9 +149,12 @@
     task.launchPath = @"/bin/bash";
     task.currentDirectoryPath = directoryPath;
 
-    // 'stty: stdin isn't a terminal' is a result of using -l
+    // * login shell is not used because it adds a lot of overhead
+    //   to running a check since bash will load all of user settings
+    // * user can use bash source command to load additional settings
+    // * adding -l could result in 'stty: stdin isn't a terminal'
     NSString *bashCommand = [self _commandWithBundleInPath:command];
-    task.arguments = [NSArray arrayWithObjects:@"-lc", bashCommand, nil];
+    task.arguments = [NSArray arrayWithObjects:@"-c", bashCommand, nil];
 
     return task;
 }
