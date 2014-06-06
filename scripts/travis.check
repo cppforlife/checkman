@@ -17,11 +17,17 @@ class TravisBuildStatus
   end
 
   def state
+    # Possible states seen: created, started, finished
     @build_data["state"]
   end
 
   def branch
     @build_data["branch"]
+  end
+
+  def result
+    # Possible results seen: 1, 0, null
+    @build_data["result"]
   end
 
   def for_branch?(branch_name)
@@ -31,11 +37,11 @@ class TravisBuildStatus
   end
 
   def ok?
-    @build_data["result"] == 0
+    result == 0
   end
 
   def building?
-    @build_data["result"].nil?
+    state != "finished" 
   end
 
   def duration
