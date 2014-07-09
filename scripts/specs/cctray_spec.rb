@@ -26,6 +26,12 @@ describe_check :CCTray, "cctray" do
   end
   # Branches must actually be ok/failing for these tests to pass
 
+  context 'when using pipeline specific api' do
+    it_returns_ok   %w(http://cd-server.example.com/cctray.xml goodPipe)
+    it_returns_fail %w(http://cd-server.example.com/cctray.xml aBadPipeline)
+    it_returns_changing %w(http://cd-server.example.com/cctray.xml goodPipe)
+  end
+
   context 'when using stage specific api' do
     it_returns_ok   %w(http://cd-server.example.com/cctray.xml goodPipe successfulStage)
     it_returns_fail %w(http://cd-server.example.com/cctray.xml aBadPipeline aBrokenStage)
