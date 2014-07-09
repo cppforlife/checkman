@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+
+class SiteStatus
+  def initialize(url, curl_output)
+    @url = url
+    @curl_lines = curl_output.split("\r\n")
+
+    raise ArgumentError, "invalid curl_output: '#{curl_output}'" \
+      if @curl_lines.empty?
+  end
+
+  def ok?
+    @curl_lines.any? { |line| line =~ /200 OK$/ }
+  end
+
+  def headers
+    @curl_lines[1..-1].map { |l| l.split(": ", 2).map { |e| ellipsis(e) } }.sort
+  end
+
+  def as_json(*)
+    {
+      :result => ok?,
+      :changing => false,
+      :url => @url,
+      :info => [
+        [:Url, @url],
+        [:Status, @curl_lines.first]
+      ] + headers
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def ellipsis(text)
+    text[0..59].tap { |short_text| short_text << '...' if short_text != text }
+  end
+end
+
+class Site
+  def initialize(url)
+    raise ArgumentError "url must not be nil" \
+      unless @url = url
+  end
+
+  def latest_status
+    SiteStatus.new(@url, http_get(@url))
+  end
+
+  private
+
+  def http_get(url)
+    curl = "curl -v -sIk --connect-timeout 5 --retry 3 --retry-max-time 15 -A \"CheckmanSite (Hostname: $HOSTNAME)\" '#{url}'"
+    `#{curl} 2>&1`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts Site.new(*ARGV).latest_status.to_json if __FILE__ == $0
