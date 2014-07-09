@@ -1,6 +1,8 @@
+#!/usr/bin/env ruby
 require 'open-uri'
 require 'nokogiri'
 require 'net/https'
+require 'json'
 
 class CCTray
   def initialize(feed_url, pipeline, stage=nil, job=nil)
@@ -18,26 +20,45 @@ class CCTray
 
   def latest_status
     name    = [@pipeline, @stage, @job].compact.join(" :: ")
-    project = @feed.search "Project[name=\"#{name}\"]"
+    projects = @feed.xpath('//Project').select { |proj| proj.attr('name').downcase.include? name.downcase}
 
-    Status.new(project)
+    Status.new(projects)
   end
 
 
   class Status
-    def initialize(project)
-      @project = project
+    def initialize(projects)
+      @projects = projects
     end
 
-    def as_json
-      {result: result}
+    def as_json(*)
+      {
+          result: result,
+          changing: changing
+      }
+    end
+
+    def to_json(*)
+      JSON.dump(as_json)
     end
 
     private
-    attr_reader :project
-
     def result
-      project.attr('lastBuildStatus').value == "Success"
+      @projects.each do |project|
+        return false unless project.attr('lastBuildStatus') == "Success"
+      end
+
+      true
+    end
+
+    def changing
+      @projects.each do |project|
+        return true if project.attr('activity') == "Building"
+      end
+
+      false
     end
   end
 end
+
+puts CCTray.new(*ARGV).latest_status.to_json if __FILE__ == $0
