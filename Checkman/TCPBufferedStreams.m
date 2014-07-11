@@ -141,7 +141,7 @@
             void *dest = self.buffer.mutableBytes;
             void *src = self.buffer.mutableBytes + writtenLength;
             memmove(dest, src, bufferLength - (unsigned long)writtenLength);
-            self.buffer.length = bufferLength - writtenLength;
+            self.buffer.length = bufferLength - (unsigned long)writtenLength;
         }
         else NSAssert(NO, @"HTTPBufferedOutputStream - wrote more than asked for");
 
