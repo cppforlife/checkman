@@ -90,6 +90,11 @@ If you ever need to kill Checkman:
   e.g. `codeship.check 12345 0ea7bbedf3340775cecee5f816d03bdfac69c81f816d03bdfac69c81fqw2 master`  
   (Tip: find the API_KEY under account settings)
 
+* `circleci.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
+  checks specific Circle CI build status  
+  e.g. `circleci.check myusername myproject master 1iGx6asGJHk6aMdsB4eu`  
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token)
+
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
   (options: url, info, fail, changing, slow, error, flapping)  
   e.g. `test.check fail slow`
