@@ -81,6 +81,11 @@ If you ever need to kill Checkman:
   e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`  
   (Tip: open project's settings page, then find the "API" tab to get required ids)
 
+* `circle_ci.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
+  checks specific Circle CI build status  
+  e.g. `circle_ci.check myusername myproject master 1iGx6asGJHk6aMdsB4eu`  
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token)
+
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
   (options: url, info, fail, changing, slow, error, flapping)  
   e.g. `test.check fail slow`
