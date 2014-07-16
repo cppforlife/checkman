@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+require 'open-uri'
+require 'nokogiri'
+require 'net/https'
+require 'json'
+
+class CCTray
+  def initialize(feed_url, pipeline, stage=nil, job=nil)
+    feed_uri          = URI(feed_url)
+    username          = feed_uri.user
+    password          = feed_uri.password
+    feed_uri.user     = nil
+    feed_uri.password = nil
+
+    @feed     = Nokogiri::XML(open(feed_uri, http_basic_authentication: [username, password]))
+    @pipeline = pipeline
+    @stage    = stage
+    @job      = job
+  end
+
+  def latest_status
+    name     = [@pipeline, @stage, @job].compact.join(" :: ")
+    projects = @feed.xpath('//Project').select { |proj| proj.attr('name').downcase.include? name.downcase}
+    Status.new(projects)
+  end
+
+
+  class Status
+    def initialize(projects)
+      @projects = projects
+    end
+
+    def as_json(*)
+      {
+        result: result,
+        changing: changing
+      }
+    end
+
+    def to_json(*)
+      JSON.dump(as_json)
+    end
+
+    private
+
+    def result
+      @projects.each do |project|
+        return false unless project.attr('lastBuildStatus') == "Success"
+      end
+
+      true
+    end
+
+    def changing
+      @projects.each do |project|
+        return true if project.attr('activity') == "Building"
+      end
+
+      false
+    end
+  end
+end
+
+puts CCTray.new(*ARGV).latest_status.to_json if __FILE__ == $0
