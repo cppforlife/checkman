@@ -21,11 +21,11 @@ class TddiumProjectStatus
    @node.attribute("webUrl").value
   end
 
-  def lastBuildLabel
+  def last_build_label
     @node.attribute("lastBuildLabel").value
   end
 
-  def lastBuildStatus
+  def last_build_status
     @node.attribute("lastBuildStatus").value
   end
 
@@ -37,17 +37,22 @@ class TddiumProjectStatus
     Time.parse(raw_utc_time).getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
   end
 
-  def for_project?(project_name)
-    self.project_name == project_name
+  def for_project?(project_name, branch_name)
+    self.project_name == "#{project_name} (#{branch_name})"
+  end
+
+  def building?
+    activity == 'Building'
   end
 
   def as_json(options={})
     {
       :result => ok?,
+      :changing => building?,
       :url => url,
       :info => [
-        [:Build, lastBuildLabel],
-        [:Status, lastBuildStatus],
+        [:Build, last_build_label],
+        [:Status, last_build_status],
         [:Started, formatted_started_at],
         [:Activity, activity]
       ]
@@ -71,8 +76,8 @@ class TddiumAccountStatus
     @project_statuses = extract_projects(raw_xml)
   end
 
-  def status_for_project(project_name)
-    @project_statuses.find { |status| status.for_project? project_name}
+  def status_for_project(project_name, branch_name)
+    @project_statuses.find { |status| status.for_project?(project_name, branch_name)}
   end
 
   private
@@ -80,22 +85,25 @@ class TddiumAccountStatus
   def extract_projects(xml)
     project_nodes = Nokogiri.XML(xml).children.first.children.select \
       { |node| node.name == "Project" }
-    project_nodes.map { |project_node| TddiumProjectStatus.new project_node }
+    project_nodes.map { |project_node| TddiumProjectStatus.new(project_node) }
   end
 end
 
 class TddiumJob
-  def initialize(token, project_name)
+  def initialize(token, project_name, branch_name)
     raise ArgumentError "token must not be nil" \
       unless @token = token
 
     raise ArgumentError "project_name must not be nil" \
       unless @project_name = project_name
+
+    raise ArgumentError "branch_name must not be nil" \
+      unless @branch_name = branch_name
   end
 
   def latest_status
     TddiumAccountStatus.new(http_get(builds_url)) \
-      .status_for_project(@project_name)
+      .status_for_project(@project_name, @branch_name)
   end
 
   private

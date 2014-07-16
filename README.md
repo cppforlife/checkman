@@ -108,9 +108,9 @@ If you ever need to kill Checkman:
   * **Red:** You own a rejected story
   * **Pending:** You haven't started a story
 
-* `tddium.check <ORGANIZATION_TOKEN> <PROJECT_NAME>`  
+* `tddium.check <ORGANIZATION_TOKEN> <PROJECT_NAME> <BRANCH_NAME>`  
   Checks specific TDDium project build status.  
-  e.g. `tddium.check 0691ba134341d1baa978436535b6f2b79fec91 "project (branch)"`  
+  e.g. `tddium.check 0691ba134341d1baa978436535b6f2b79fec91 project branch_name`  
   Hint: to get the token, log in to your TDDium dashboard, go to Organizations using the
   drop down in the top right corner. Then click on organization settings for the
   appropriate organization. Then click on "Chat Notifications"; CCmenu is at the
