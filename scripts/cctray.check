@@ -12,16 +12,15 @@ class CCTray
     feed_uri.user     = nil
     feed_uri.password = nil
 
-    @feed     = Nokogiri::XML open(feed_uri, http_basic_authentication: [username, password])
+    @feed     = Nokogiri::XML(open(feed_uri, http_basic_authentication: [username, password]))
     @pipeline = pipeline
     @stage    = stage
     @job      = job
   end
 
   def latest_status
-    name    = [@pipeline, @stage, @job].compact.join(" :: ")
+    name     = [@pipeline, @stage, @job].compact.join(" :: ")
     projects = @feed.xpath('//Project').select { |proj| proj.attr('name').downcase.include? name.downcase}
-
     Status.new(projects)
   end
 
@@ -33,8 +32,8 @@ class CCTray
 
     def as_json(*)
       {
-          result: result,
-          changing: changing
+        result: result,
+        changing: changing
       }
     end
 
@@ -43,6 +42,7 @@ class CCTray
     end
 
     private
+
     def result
       @projects.each do |project|
         return false unless project.attr('lastBuildStatus') == "Success"

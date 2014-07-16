@@ -17,6 +17,7 @@ describe_check :CCTray, "cctray" do
 </Projects>
     XML
   end
+
   before(:all) do
     WebMock.stub_request(:get, "http://cd-server.example.com/cctray.xml").
       to_return(:status => 200, :body => cctray_xml, :headers => {})
@@ -24,7 +25,6 @@ describe_check :CCTray, "cctray" do
     WebMock.stub_request(:get, "http://username77:passw0rd@cd-server.example.com/cctray.xml").
       to_return(:status => 200, :body => cctray_xml, :headers => {})
   end
-  # Branches must actually be ok/failing for these tests to pass
 
   context 'when using pipeline specific api' do
     it_returns_ok   %w(http://cd-server.example.com/cctray.xml goodPipe)
