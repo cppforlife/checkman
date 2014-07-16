@@ -9,7 +9,7 @@ class GithubIssue
   end
 
   def pull_request?
-    @hash["pull_request"]["html_url"]
+    @hash["pull_request"] && @hash["pull_request"]["html_url"]
   end
 
   def comments_count
