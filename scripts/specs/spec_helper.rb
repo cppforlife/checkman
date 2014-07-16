@@ -29,6 +29,7 @@ def file_contents(file_name)
   contents = File.read(file_path)
 end
 
+require "webmock"
 require "stringio"
 
 def capture_stderr
@@ -45,4 +46,6 @@ RSpec.configure do |config|
     # Checks usually spit out lots of debugging info to stderr
     capture_stderr { example.call }
   end unless ENV["SHOW_STDERR"]
+
+  config.before(:suite) { WebMock.allow_net_connect! }
 end

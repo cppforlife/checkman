@@ -1,10 +1,8 @@
 $:.unshift(File.dirname(__FILE__))
 require "spec_helper"
-require "webmock"
 
 describe_check :CCTray, "cctray" do
-  let(:cctray_xml) do
-    <<-XML
+  cctray_xml = <<-XML
 <Projects>
   <Project name="goodPipe :: successfulStage" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="145" lastBuildTime="2014-06-25T17:46:42" webUrl="http://www.gocd.cf-app.com/go/pipelines/Acceptance/145/provision/1" />
   <Project name="goodPipe :: successfulStage :: reliablyExcellentJob" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="145" lastBuildTime="2014-06-25T18:55:27" webUrl="http://www.gocd.cf-app.com/go/tab/build/detail/Acceptance/145/promote/1/tag" />
@@ -15,8 +13,10 @@ describe_check :CCTray, "cctray" do
   <Project name="aBadPipeline :: aBrokenStage" activity="Sleeping" lastBuildStatus="Failure" lastBuildLabel="145" lastBuildTime="2014-06-25T17:46:42" webUrl="http://www.gocd.cf-app.com/go/pipelines/Acceptance/145/provision/1" />
   <Project name="aBadPipeline :: aBrokenStage :: anEvilJob" activity="Sleeping" lastBuildStatus="Failure" lastBuildLabel="145" lastBuildTime="2014-06-25T18:55:27" webUrl="http://www.gocd.cf-app.com/go/tab/build/detail/Acceptance/145/promote/1/tag" />
 </Projects>
-    XML
-  end
+  XML
+
+  before(:all) { WebMock.disable_net_connect! }
+  after(:all) { WebMock.allow_net_connect! }
 
   before(:all) do
     WebMock.stub_request(:get, "http://cd-server.example.com/cctray.xml").
