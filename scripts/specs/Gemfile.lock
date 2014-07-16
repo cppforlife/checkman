@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.3.6)
     builder (3.2.2)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
@@ -34,6 +35,9 @@ GEM
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
     safe_yaml (0.9.7)
+    webmock (1.18.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
@@ -43,3 +47,4 @@ DEPENDENCIES
   nokogiri (= 1.5.9)
   pivotal-tracker (= 0.5.12)
   rspec
+  webmock
