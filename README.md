@@ -93,7 +93,12 @@ If you ever need to kill Checkman:
 * `circleci.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
   checks specific Circle CI build status  
   e.g. `circleci.check myusername myproject master 73e86a18efba7df5cfc5e03c4b67ff06685c5a75`  
-  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token)
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token of type 'status' or 'all')
+
+* `circlecijson.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
+  checks specific Circle CI build status using the JSON interface which provides build time data  
+  e.g. `circleci.check myusername myproject master 6cadaa96f7c455a658e00dd4500adc8f654342cc`  
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token of type 'all')
 
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
   (options: url, info, fail, changing, slow, error, flapping)  
