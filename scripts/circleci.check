@@ -1,72 +1,63 @@
 #!/usr/bin/env ruby
 require "rubygems"
 require "json"
+require "nokogiri"
 require "time"
 
-class CircleCiBuildStatus
-  def initialize(hash)
-    @build_data = hash
-  end
-
-  def number
-    @build_data["build_num"]
+class CircleCiProjectStatus
+  def initialize(node)
+    @node = node
   end
 
   def ok?
-    @build_data["status"] == "success"
+    @node.attribute("lastBuildStatus").value == "Success"
   end
 
-  def building?
-    %w{running queued}.include?(@build_data["status"])
+  def project_name
+    @node.attribute("name").value
   end
 
-  def build_url
-    @build_data["build_url"]
+  def url
+    @node.attribute("webUrl").value
   end
 
-  def started_at
-    iso8601 = @build_data["start_time"]
-    Time.parse(iso8601) if iso8601
+  def last_build_label
+    @node.attribute("lastBuildLabel").value
   end
 
-  def finished_at
-    iso8601 = @build_data["stop_time"]
-    Time.parse(iso8601) if iso8601
+  def last_build_status
+    @node.attribute("lastBuildStatus").value
   end
 
-  def duration
-    if started_at
-      secs = (finished_at || Time.now) - started_at
-      Time.at(secs).gmtime.strftime("%R:%S")
-    end
+  def activity
+    @node.attribute("activity").value
   end
 
   def formatted_started_at
-    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z") if started_at
+    if raw_utc_time.empty? && raw_utc_time.length > 1
+      Time.parse(raw_utc_time).getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
+    end
   end
 
-  def last_commit_short_sha
-    @build_data["vcs_revision"][0..5]
+  def for_project?(username, project_name, branch_name)
+    self.project_name == "#{username}/#{project_name} (#{branch_name})"
   end
 
-  def last_commit_author
-    @build_data["committer_name"]
-  end
-
-  def last_commit_message
-    @build_data["subject"]
+  def building?
+    activity == 'Building'
   end
 
   def as_json(options={})
     {
       :result => ok?,
       :changing => building?,
-      :url => build_url,
+      :url => url,
       :info => [
-        [:Build, number],
-        [:Duration, duration],
-        [:Started, formatted_started_at]
-      ] + optional_info(options)
+        [:Build, last_build_label],
+        [:Status, last_build_status],
+        [:Started, formatted_started_at],
+        [:Activity, activity]
+      ]
     }
   end
 
@@ -76,56 +67,27 @@ class CircleCiBuildStatus
 
   private
 
-  def optional_info(options)
-    if last_commit_short_sha
-      [ ["-", ""],
-        [:SHA, last_commit_short_sha],
-        [:Branch, @build_data['branch']],
-        [:Message, last_commit_message],
-        [:Author, last_commit_author] ]
-    else
-      []
-    end
+  def raw_utc_time
+    raw_time = @node.attribute("lastBuildTime").value
+    "#{raw_time}Z"
   end
 end
 
-class CircleCiBranchStatus
-  def initialize(json)
-    @branch_data = JSON.parse(json)
-    @build_statuses =
-      @branch_data.map { |d| CircleCiBuildStatus.new(d) }
-
-    raise StandardError, "Status for branch '#{branch_name}' is not available" \
-      unless last_build_status
-
-  rescue JSON::ParserError
-    raise RuntimeError, "invalid json: '#{json}'"
+class CircleCiAccountStatus
+  def initialize(raw_xml)
+    @project_statuses = extract_projects(raw_xml)
   end
 
-  def ok?
-    if last_build_status.building? && last_non_pending_build_status
-      last_non_pending_build_status.ok?
-    else
-      last_build_status.ok?
-    end
+  def status_for_project(username, project_name, branch_name)
+    @project_statuses.find { |status| status.for_project?(username, project_name, branch_name)}
   end
 
-  def as_json(*)
-    last_build_status.as_json.tap do |hash|
-      hash[:result] = ok?
-    end
-  end
+  private
 
-  def to_json(*)
-    JSON.dump(as_json)
-  end
-
-  def last_build_status
-    @build_statuses.first
-  end
-
-  def last_non_pending_build_status
-    @build_statuses.find { |d| !d.building? }
+  def extract_projects(xml)
+    project_nodes = Nokogiri.XML(xml).children.first.children.select \
+      { |node| node.name == "Project" }
+    project_nodes.map { |project_node| CircleCiProjectStatus.new(project_node) }
   end
 end
 
@@ -145,13 +107,14 @@ class CircleCi
   end
 
   def latest_status
-    CircleCiBranchStatus.new(http_get(builds_url))
+    CircleCiAccountStatus.new(http_get(builds_url)) \
+      .status_for_project(@username, @project_name, @branch_name)
   end
 
   private
 
   def builds_url
-    "https://circleci.com/api/v1/project/#{@username}/#{@project_name}/tree/#{@branch_name}?circle-token=#{@auth_token}"
+    "https://circleci.com/gh/#{@username}/#{@project_name}/tree/#{@branch_name}.cc.xml?circle-token=#{@auth_token}"
   end
 
   def http_get(url)
