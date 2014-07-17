@@ -3,7 +3,6 @@ require "spec_helper"
 
 describe_check :TddiumJob, "tddium" do
   # Branches must actually be ok/failing for these tests to pass
-  it { pending "no public account to put here..." }
-  # it_returns_ok   ["placeholder_token", "project (ok)"]
-  # it_returns_fail ["placeholder_token", "project (failing)"]
+  it_returns_ok   %w(4ee7ab3c716d0d0703901410dca129f85fef40eb checkman ok)
+  it_returns_fail %w(4ee7ab3c716d0d0703901410dca129f85fef40eb checkman failing)
 end
