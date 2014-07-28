@@ -102,6 +102,7 @@
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
 		AE1E7D2116FD57070026129A /* github_issues.check in Resources */ = {isa = PBXBuildFile; fileRef = AE1E7D2016FD57070026129A /* github_issues.check */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
+		AE2BF6E21986CB0D009D3D0E /* cctray.check in Resources */ = {isa = PBXBuildFile; fileRef = AE2BF6E11986CB0D009D3D0E /* cctray.check */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
 		AEBC15DA1676D9D2005129E9 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		AEF8D69D1682C0AF00A255D4 /* CheckfileCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D69C1682C0AF00A255D4 /* CheckfileCollection.m */; };
@@ -293,6 +294,7 @@
 		AE1E7D2016FD57070026129A /* github_issues.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = github_issues.check; sourceTree = "<group>"; };
 		AE26D777168D392B008D2498 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		AE2BF6E11986CB0D009D3D0E /* cctray.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cctray.check; sourceTree = "<group>"; };
 		AE6613EF167ACB1D0031F845 /* Checkfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkfile.h; sourceTree = "<group>"; };
 		AE6613F0167ACB1D0031F845 /* Checkfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkfile.m; sourceTree = "<group>"; };
 		AE6EFEE7168D7CA900CC5E11 /* airbrake.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = airbrake.check; sourceTree = "<group>"; };
@@ -654,6 +656,7 @@
 		AE76A5D91682B82E00004A4D /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				AE2BF6E11986CB0D009D3D0E /* cctray.check */,
 				AEBBEDAD16B23E41008C8880 /* CI */,
 				AE6EFEE7168D7CA900CC5E11 /* airbrake.check */,
 				AE1E7D2016FD57070026129A /* github_issues.check */,
@@ -935,6 +938,7 @@
 				AE0C7287167D5317007DC793 /* icon-undetermined.png in Resources */,
 				AE0C7289167D5317007DC793 /* icon-ok-changing.png in Resources */,
 				AE0C728A167D5317007DC793 /* icon-ok.png in Resources */,
+				AE2BF6E21986CB0D009D3D0E /* cctray.check in Resources */,
 				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
