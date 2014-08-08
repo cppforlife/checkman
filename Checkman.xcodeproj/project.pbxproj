@@ -103,6 +103,8 @@
 		AE1E7D2116FD57070026129A /* github_issues.check in Resources */ = {isa = PBXBuildFile; fileRef = AE1E7D2016FD57070026129A /* github_issues.check */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
+		AE96009419954CCC00094BEF /* cctray.check in Resources */ = {isa = PBXBuildFile; fileRef = AE96009319954CCC00094BEF /* cctray.check */; };
+		AE96009619954CD600094BEF /* site_with_retry.check in Resources */ = {isa = PBXBuildFile; fileRef = AE96009519954CD600094BEF /* site_with_retry.check */; };
 		AEBC15DA1676D9D2005129E9 /* Check.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBC15D91676D9D2005129E9 /* Check.m */; };
 		AEF8D69D1682C0AF00A255D4 /* CheckfileCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D69C1682C0AF00A255D4 /* CheckfileCollection.m */; };
 		AEF8D6A91684073D00A255D4 /* FSChangesNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */; };
@@ -299,6 +301,8 @@
 		AE76A5DA1682B82E00004A4D /* jenkins_build.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jenkins_build.check; sourceTree = "<group>"; };
 		AE76A5DB1682B82E00004A4D /* site.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = site.check; sourceTree = "<group>"; };
 		AE76A5DC1682B82E00004A4D /* cf_apps.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cf_apps.check; sourceTree = "<group>"; };
+		AE96009319954CCC00094BEF /* cctray.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cctray.check; sourceTree = "<group>"; };
+		AE96009519954CD600094BEF /* site_with_retry.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = site_with_retry.check; sourceTree = "<group>"; };
 		AEBBEDA716B22CB2008C8880 /* travis.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = travis.check; sourceTree = "<group>"; };
 		AEBC15D81676D9D2005129E9 /* Check.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Check.h; sourceTree = "<group>"; };
 		AEBC15D91676D9D2005129E9 /* Check.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Check.m; sourceTree = "<group>"; };
@@ -660,6 +664,7 @@
 				69CCFAD3174804B60097A6CC /* tracker.check */,
 				96472D5716880F5900D1CF46 /* test.check */,
 				AE76A5DB1682B82E00004A4D /* site.check */,
+				AE96009519954CD600094BEF /* site_with_retry.check */,
 				AE76A5DC1682B82E00004A4D /* cf_apps.check */,
 			);
 			path = scripts;
@@ -668,6 +673,7 @@
 		AEBBEDAD16B23E41008C8880 /* CI */ = {
 			isa = PBXGroup;
 			children = (
+				AE96009319954CCC00094BEF /* cctray.check */,
 				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 				AEBBEDA716B22CB2008C8880 /* travis.check */,
 				62BF3B9716AF60320051A1CC /* semaphore.check */,
@@ -934,7 +940,9 @@
 				AE0C7286167D5317007DC793 /* icon-fail.png in Resources */,
 				AE0C7287167D5317007DC793 /* icon-undetermined.png in Resources */,
 				AE0C7289167D5317007DC793 /* icon-ok-changing.png in Resources */,
+				AE96009619954CD600094BEF /* site_with_retry.check in Resources */,
 				AE0C728A167D5317007DC793 /* icon-ok.png in Resources */,
+				AE96009419954CCC00094BEF /* cctray.check in Resources */,
 				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
