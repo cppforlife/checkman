@@ -11,8 +11,8 @@ class CCTrayMultiProjectStatus
 
   def as_json(*)
     {
-      result:   @projects.all? { |p| p.attr('lastBuildStatus') == "Success" },
-      changing: @projects.any? { |p| p.attr('activity')        == "Building" },
+      :result   => @projects.all? { |p| p.attr('lastBuildStatus') == "Success" },
+      :changing => @projects.any? { |p| p.attr('activity')        == "Building" },
     }
   end
 
@@ -30,7 +30,7 @@ class CCTray
     feed_uri.user     = nil
     feed_uri.password = nil
 
-    @feed     = Nokogiri::XML(open(feed_uri, http_basic_authentication: [username, password]))
+    @feed     = Nokogiri::XML(open(feed_uri, :http_basic_authentication => [username, password]))
     @pipeline = pipeline
     @stage    = stage
     @job      = job
