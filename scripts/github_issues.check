@@ -99,12 +99,12 @@ class GithubIssues
   end
 
   def latest_status
-    GithubIssuesStatus.new(issues_url, run)
+    GithubIssuesStatus.new(issues_url, force_utf8(http_get))
   end
 
   private
 
-  def run
+  def http_get
     # Github rate limits unauthenticated requests to the api by ip.
     # To obtains client_id/client_secret just create new application on
     # `https://github.com/settings/applications`.
@@ -125,6 +125,17 @@ class GithubIssues
 
   def issues_url
     "https://github.com/#{@repo_owner}/#{@repo_name}/issues"
+  end
+
+  def force_utf8(string)
+    if string.respond_to?(:encode)
+      # Use 'binary' as source encoding since conversion
+      # to the same encoding is a no-op even if there are
+      # invalid bytes.
+      string.encode(string.encoding, "binary", :invalid => :replace, :undef => :replace)
+    else
+      string
+    end
   end
 end
 
