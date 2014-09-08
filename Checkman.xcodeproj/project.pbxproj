@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22B0D7F319BE5DAD001F35CD /* concourse.check in Resources */ = {isa = PBXBuildFile; fileRef = 22B0D7F219BE5DAD001F35CD /* concourse.check */; };
 		69CCFAD4174804B60097A6CC /* tracker.check in Resources */ = {isa = PBXBuildFile; fileRef = 69CCFAD3174804B60097A6CC /* tracker.check */; };
 		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
@@ -165,6 +166,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		22B0D7F219BE5DAD001F35CD /* concourse.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = concourse.check; sourceTree = "<group>"; };
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
 		69CCFAD3174804B60097A6CC /* tracker.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracker.check; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 		AEBBEDAD16B23E41008C8880 /* CI */ = {
 			isa = PBXGroup;
 			children = (
+				22B0D7F219BE5DAD001F35CD /* concourse.check */,
 				AE96009319954CCC00094BEF /* cctray.check */,
 				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
 				AEBBEDA716B22CB2008C8880 /* travis.check */,
@@ -935,6 +938,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22B0D7F319BE5DAD001F35CD /* concourse.check in Resources */,
 				AE0C7284167D5317007DC793 /* icon-fail-changing.png in Resources */,
 				AE0C7285167D5317007DC793 /* icon-undetermined-changing.png in Resources */,
 				AE0C7286167D5317007DC793 /* icon-fail.png in Resources */,
