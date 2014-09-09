@@ -16,7 +16,11 @@ class ConcourseBuild
       :result => success?,
       :changing => changing?,
       :url => url,
-      :info => []
+      :info => [
+        ["Job", job_name],
+        ["Number", number],
+        ["Status", status],
+      ]
     }
   end
 
