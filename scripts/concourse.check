@@ -37,7 +37,7 @@ class ConcourseBuild
   end
 
   def changing?
-    ["pending", "started"].include? status
+    !!info["next_build"]
   end
 
   def url
@@ -45,15 +45,15 @@ class ConcourseBuild
   end
 
   def status
-    info["status"]
+    info["finished_build"]["status"]
   end
 
   def job_name
-    info["job_name"]
+    info["finished_build"]["job_name"]
   end
 
   def number
-    info["name"]
+    (info["next_build"] || info["finished_build"])["name"]
   end
 end
 
@@ -82,7 +82,7 @@ class Concourse
   end
 
   def job_url
-    "#{server_url}/api/v1/jobs/#{job_name}/current-build"
+    "#{server_url}/api/v1/jobs/#{job_name}"
   end
 end
 

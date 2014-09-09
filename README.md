@@ -63,9 +63,9 @@ If you ever need to kill Checkman:
   checks returned http response for 200 OK  
   e.g. `site.check http://www.google.com`
 
-* `cf_apps.check <CC_TARGET_URL> <SPACE_ID> <APP_PREFIX>`  
-  checks that all apps are running  
-  e.g. `cf_apps.check http://api.cc.com 37jsd-dsjf79-348jdd-fsa88 my-project`
+* `concourse.check <ATC_URL> [USERNAME] [PASSWORD] <JOB_NAME>`  
+  checks status of a job in a [Concourse](http://concourse.ci) pipelne
+  e.g. `concourse.check https://ci.concourse.ci admin passw0rd deploy`  
 
 * `jenkins_build.check <JENKINS_URL> <JOB_NAME>`  
   checks specific Jenkins build status  
