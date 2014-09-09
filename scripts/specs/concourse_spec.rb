@@ -4,10 +4,10 @@ require "spec_helper"
 describe_check :Concourse, "concourse" do
   current_json = <<-JSON
     {
-      "ID":928,
-      "Name":"%s",
-      "Status":"%s",
-      "JobName":"atc"
+      "id":928,
+      "name":"%s",
+      "status":"%s",
+      "job_name":"atc"
     }
   JSON
 
@@ -29,16 +29,15 @@ describe_check :Concourse, "concourse" do
       WebMock.stub_request(:get, "http://username77:passw0rd@server.example.com/api/v1/jobs/#{status}/current-build").
         to_return(:status => 200, :body => current_json % [status, status], :headers => {})
     end
-
   end
 
   context "with no auth" do
     it_returns_ok   %w(http://server.example.com succeeded)
-  
+
     it_returns_fail %w(http://server.example.com failed)
     it_returns_fail %w(http://server.example.com errored)
     it_returns_fail %w(http://server.example.com aborted)
-  
+
     it_returns_changing %w(http://server.example.com pending)
     it_returns_changing %w(http://server.example.com started)
   end
@@ -49,7 +48,7 @@ describe_check :Concourse, "concourse" do
     it_returns_fail %w(http://server.example.com username77 passw0rd failed)
     it_returns_fail %w(http://server.example.com username77 passw0rd errored)
     it_returns_fail %w(http://server.example.com username77 passw0rd aborted)
-  
+
     it_returns_changing %w(http://server.example.com username77 passw0rd pending)
     it_returns_changing %w(http://server.example.com username77 passw0rd started)
   end

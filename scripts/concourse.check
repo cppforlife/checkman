@@ -41,15 +41,15 @@ class ConcourseBuild
   end
 
   def status
-    info["Status"]
+    info["status"]
   end
 
   def job_name
-    info["JobName"]
+    info["job_name"]
   end
 
   def number
-    info["Name"]
+    info["name"]
   end
 end
 
