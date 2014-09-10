@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+require "rubygems"
+
+require "json"
+require "open-uri"
+require "net/https"
+
+class ConcourseBuild
+  def initialize(server_url, info)
+    @server_url = server_url
+    @info = info
+  end
+
+  def as_json
+    {
+      :result => success?,
+      :changing => changing?,
+      :url => url,
+      :info => [
+        ["Job", job_name],
+        ["Number", number],
+        ["Status", status],
+      ]
+    }
+  end
+
+  def to_json
+    JSON.dump(as_json)
+  end
+
+  private
+
+  attr_reader :server_url, :info
+
+  def success?
+    status == "succeeded"
+  end
+
+  def changing?
+    !!info["next_build"]
+  end
+
+  def url
+    "#{server_url}/jobs/#{job_name}/builds/#{number}"
+  end
+
+  def status
+    info["finished_build"]["status"]
+  end
+
+  def job_name
+    info["finished_build"]["job_name"]
+  end
+
+  def number
+    (info["next_build"] || info["finished_build"])["name"]
+  end
+end
+
+class Concourse
+  def initialize(*args)
+    if args.size == 4
+      @server_url, @username, @password, @job_name = args
+    elsif args.size == 2
+      @server_url, @job_name = args
+    else
+      raise ArgumentError, "malformed arguments"
+    end
+  end
+
+  def latest_status
+    ConcourseBuild.new(server_url, fetch_latest_build)
+  end
+
+  private
+
+  attr_reader :server_url, :job_name, :username, :password
+
+  def fetch_latest_build
+    json = open(job_url, :http_basic_authentication => [username, password]).read
+    JSON.parse(json)
+  end
+
+  def job_url
+    "#{server_url}/api/v1/jobs/#{job_name}"
+  end
+end
+
+puts Concourse.new(*ARGV).latest_status.to_json if __FILE__ == $0
