@@ -81,6 +81,16 @@ If you ever need to kill Checkman:
   e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`  
   (Tip: open project's settings page, then find the "API" tab to get required ids)
 
+* `circleci.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
+  checks specific Circle CI build status  
+  e.g. `circleci.check myusername myproject master 73e86a18efba7df5cfc5e03c4b67ff06685c5a75`  
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token of type 'status' or 'all')
+
+* `circlecijson.check <USERNAME> <PROJECT_NAME> <BRANCH_NAME> <API_TOKEN>`  
+  checks specific Circle CI build status using the JSON interface which provides build time data  
+  e.g. `circlecijson.check myusername myproject master 6cadaa96f7c455a658e00dd4500adc8f654342cc`  
+  (Tip: open project's setting page, then find the "API Tokens" tab to create an API token of type 'all')
+
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
   (options: url, info, fail, changing, slow, error, flapping)  
   e.g. `test.check fail slow`
@@ -102,6 +112,15 @@ If you ever need to kill Checkman:
   * **Green:** You don't own any rejected stories
   * **Red:** You own a rejected story
   * **Pending:** You haven't started a story
+
+* `tddium.check <ORGANIZATION_TOKEN> <PROJECT_NAME> <BRANCH_NAME>`  
+  Checks specific TDDium project build status.  
+  e.g. `tddium.check 0691ba134341d1baa978436535b6f2b79fec91 project branch_name`  
+  Hint: to get the token, log in to your TDDium dashboard, go to Organizations using the
+  drop down in the top right corner. Then click on organization settings for the
+  appropriate organization. Then click on "Chat Notifications"; CCmenu is at the
+  bottom of the page. Extract the token from the URL, which looks like:
+  `https://api.tddium.com/cc/ORGANIZATION_TOKEN/cctray.xml`
 
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env

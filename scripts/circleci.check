@@ -1,0 +1,126 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+require "nokogiri"
+require "time"
+
+class CircleCiProjectStatus
+  def initialize(node)
+    @node = node
+  end
+
+  def ok?
+    @node.attribute("lastBuildStatus").value == "Success"
+  end
+
+  def project_name
+    @node.attribute("name").value
+  end
+
+  def url
+    @node.attribute("webUrl").value
+  end
+
+  def last_build_label
+    @node.attribute("lastBuildLabel").value
+  end
+
+  def last_build_status
+    @node.attribute("lastBuildStatus").value
+  end
+
+  def activity
+    @node.attribute("activity").value
+  end
+
+  def formatted_started_at
+    if raw_utc_time.empty? && raw_utc_time.length > 1
+      Time.parse(raw_utc_time).getlocal.strftime("%I:%M%p %m/%d/%Y %Z")
+    end
+  end
+
+  def for_project?(username, project_name, branch_name)
+    self.project_name == "#{username}/#{project_name} (#{branch_name})"
+  end
+
+  def building?
+    activity == 'Building'
+  end
+
+  def as_json(options={})
+    {
+      :result => ok?,
+      :changing => building?,
+      :url => url,
+      :info => [
+        [:Build, last_build_label],
+        [:Status, last_build_status],
+        [:Started, formatted_started_at],
+        [:Activity, activity]
+      ]
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def raw_utc_time
+    raw_time = @node.attribute("lastBuildTime").value
+    "#{raw_time}Z"
+  end
+end
+
+class CircleCiAccountStatus
+  def initialize(raw_xml)
+    @project_statuses = extract_projects(raw_xml)
+  end
+
+  def status_for_project(username, project_name, branch_name)
+    @project_statuses.find { |status| status.for_project?(username, project_name, branch_name)}
+  end
+
+  private
+
+  def extract_projects(xml)
+    project_nodes = Nokogiri.XML(xml).children.first.children.select \
+      { |node| node.name == "Project" }
+    project_nodes.map { |project_node| CircleCiProjectStatus.new(project_node) }
+  end
+end
+
+class CircleCi
+  def initialize(username, project_name, branch_name, auth_token)
+    raise ArgumentError "username must not be nil" \
+      unless @username = username
+
+    raise ArgumentError "project_name must not be nil" \
+      unless @project_name = project_name
+
+    raise ArgumentError "branch_name must not be nil" \
+      unless @branch_name = branch_name
+
+    raise ArgumentError "auth_token must not be nil" \
+      unless @auth_token = auth_token
+  end
+
+  def latest_status
+    CircleCiAccountStatus.new(http_get(builds_url)) \
+      .status_for_project(@username, @project_name, @branch_name)
+  end
+
+  private
+
+  def builds_url
+    "https://circleci.com/gh/#{@username}/#{@project_name}/tree/#{@branch_name}.cc.xml?circle-token=#{@auth_token}"
+  end
+
+  def http_get(url)
+    curl = "curl -sk -H 'Accept: application/json' -A \"CheckmanCircleCi (Hostname: $HOSTNAME)\" '#{url}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts CircleCi.new(*ARGV).latest_status.to_json if __FILE__ == $0
