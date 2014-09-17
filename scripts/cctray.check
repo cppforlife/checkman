@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
+require 'rubygems'
 require 'open-uri'
 require 'nokogiri'
 require 'net/https'
 require 'json'
+require 'webrick'
 
 class CCTrayMultiProjectStatus
   def initialize(projects)
@@ -23,12 +25,15 @@ end
 
 class CCTray
   def initialize(feed_url, pipeline, stage=nil, job=nil)
-    feed_uri = URI(feed_url)
+    feed_uri = URI(WEBrick::HTTPUtils.escape(feed_url))
     username = feed_uri.user
     password = feed_uri.password
 
     feed_uri.user     = nil
     feed_uri.password = nil
+
+    username = WEBrick::HTTPUtils.unescape(username)
+    password = WEBrick::HTTPUtils.unescape(password)
 
     @feed     = Nokogiri::XML(open(feed_uri, :http_basic_authentication => [username, password]))
     @pipeline = pipeline
