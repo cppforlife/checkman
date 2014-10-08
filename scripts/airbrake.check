@@ -10,7 +10,7 @@ class AirbrakeError
 
   def most_recent_notice_at
     @most_recent_notice_at ||=
-      Time.parse(@hash["most_recent_notice_at"], "%Y-%m-%dT%H:%M:%S%z")
+      Time.parse(@hash["lastNoticeAt"], "%Y-%m-%dT%H:%M:%S%z")
   end
 
   def within_last_10_min?
@@ -22,11 +22,11 @@ class AirbrakeError
   end
 
   def formatted_title
-    "#{formatted_most_recent_notice_at} [#{@hash["notices_count"]}]"
+    "#{formatted_most_recent_notice_at} [#{@hash["noticeCount"]}/#{@hash["noticeTotalCount"]}]"
   end
 
   def formatted_description
-    @hash["error_message"].gsub(/[\r\n\t]/, " ")[0..100] + "..."
+    @hash["errors"][0]["message"].gsub(/[\r\n\t]/, " ")[0..100] + "..."
   end
 
   private
@@ -43,8 +43,9 @@ class AirbrakeError
 end
 
 class AirbrakeStatus
-  def initialize(project_url, json)
+  def initialize(project_url, json, ui_url)
     @project_url = project_url
+    @ui_url = ui_url
     @errors =
       Array(JSON.parse(json)["groups"]) \
         .map { |e| AirbrakeError.new(e) }
@@ -61,7 +62,7 @@ class AirbrakeStatus
     {
       :result => @errors.empty?,
       :changing => any_recent_errors?,
-      :url => @project_url,
+      :url => @ui_url,
       :info => info
     }
   end
@@ -86,7 +87,7 @@ class AirbrakeStatus
 end
 
 class Airbrake
-  def initialize(account, auth_token, project_id)
+  def initialize(account, auth_token, project_id, environment)
     raise ArgumentError "account must not be nil" \
       unless @account = account
 
@@ -95,21 +96,28 @@ class Airbrake
 
     raise ArgumentError "project_id must not be nil" \
       unless @project_id = project_id
+
+    raise ArgumentError "environment must not be nil" \
+      unless @environment = environment
   end
 
   def latest_status
-    AirbrakeStatus.new(project_url, run)
+    AirbrakeStatus.new(project_url, run, ui_url)
   end
 
   private
 
   def project_url
-    "http://#{@account}.airbrake.io/projects/#{@project_id}"
+    "https://#{@account}.airbrake.io/api/v3/projects/#{@project_id}/groups"
+  end
+
+  def ui_url
+    "https://#{@account}.airbrake.io/projects/#{@project_id}/groups?environment=#{@environment}"
   end
 
   def run
     curl  = "curl -sk -A \"CheckmanAirbrake (Hostname: $HOSTNAME)\""
-    curl += " '#{project_url}/errors.json?auth_token=#{@auth_token}'"
+    curl += " '#{project_url}?auth_token=#{@auth_token}&environment=#{@environment}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
