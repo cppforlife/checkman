@@ -29,6 +29,10 @@ class AirbrakeError
     @hash["error_message"].gsub(/[\r\n\t]/, " ")[0..100] + "..."
   end
 
+  def resolved?
+    @hash["resolved"]
+  end
+
   private
 
   # https://gist.github.com/3808180
@@ -45,12 +49,18 @@ end
 class AirbrakeStatus
   def initialize(project_url, json)
     @project_url = project_url
+
     @errors =
       Array(JSON.parse(json)["groups"]) \
         .map { |e| AirbrakeError.new(e) }
+        .reject { |e| e.resolved? }
 
   rescue JSON::ParserError
     raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def ok?
+    @errors.empty?
   end
 
   def any_recent_errors?
@@ -59,7 +69,7 @@ class AirbrakeStatus
 
   def as_json(*)
     {
-      :result => @errors.empty?,
+      :result => ok?,
       :changing => any_recent_errors?,
       :url => @project_url,
       :info => info
@@ -104,12 +114,16 @@ class Airbrake
   private
 
   def project_url
-    "http://#{@account}.airbrake.io/projects/#{@project_id}"
+    "https://#{@account}.airbrake.io/projects/#{@project_id}"
+  end
+
+  def errors_url
+    "https://#{@account}.airbrake.io/errors.json?project_id=#{@project_id}&auth_token=#{@auth_token}"
   end
 
   def run
     curl  = "curl -sk -A \"CheckmanAirbrake (Hostname: $HOSTNAME)\""
-    curl += " '#{project_url}/errors.json?auth_token=#{@auth_token}'"
+    curl += " '#{errors_url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
