@@ -80,6 +80,11 @@ If you ever need to kill Checkman:
   checks specific SemaphoreApp CI build status  
   e.g. `semaphore.check 0691ba134341d1baa978436535b6f2b79fec91 27680 1iGx6asGJHk6aMdsB4eu`  
   (Tip: open project's settings page, then find the "API" tab to get required ids)
+  
+* `codeship.check <PROJECT_ID> <API_KEY> <REPO_BRANCH>`  
+  checks specific Codeship CI build status  
+  e.g. `codeship.check 12345 0ea7bbedf3340775cecee5f816d03bdfac69c81f816d03bdfac69c81fqw2 master`  
+  (Tip: find the API_KEY under account settings)
 
 * `test.check <OPTION_0> ... <OPTION_N>` returns predefined check result  
   (options: url, info, fail, changing, slow, error, flapping)  

@@ -1,0 +1,185 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'json'
+require 'time'
+
+class CodeshipBuild
+  BUILD_ID = 'id'
+  COMMIT_ID = 'commit_id'
+  STATUS = 'status'
+  MESSAGE = 'message'
+  BRANCH = 'branch'
+  FINISHED_AT = 'finished_at'
+  STARTED_AT = 'started_at'
+
+  SUCCESSFUL_STATUS = 'success'
+  BUILDING_STATUS = 'testing'
+
+  def initialize(build_data, project_id)
+    @build_data = build_data
+    @project_id = project_id
+  end
+
+  def number
+    build_data[BUILD_ID]
+  end
+
+  def status
+    build_data[STATUS]
+  end
+
+  def successful?
+    status == SUCCESSFUL_STATUS
+  end
+
+  def building?
+    status == BUILDING_STATUS
+  end
+
+  def build_url
+    "https://codeship.com/projects/#{project_id}/builds/#{number}"
+  end
+
+  def last_commit_short_sha
+    build_data[COMMIT_ID][0..5] if build_data[COMMIT_ID]
+  end
+
+  def last_commit_message
+    build_data[MESSAGE]
+  end
+
+  def branch_name
+    build_data[BRANCH]
+  end
+
+  def duration
+    if building?
+      'Still building...'
+    else
+      duration = Time.parse(build_data[FINISHED_AT]) - Time.parse(build_data[STARTED_AT])
+      if duration < 60
+        "#{duration.round} seconds"
+      else
+        "#{(duration/60).round} minutes"
+      end
+    end
+  end
+
+  def as_json
+    [
+      [:Build, number],
+      [:SHA, last_commit_short_sha],
+      [:Branch, branch_name],
+      [:Message, last_commit_message],
+      [:Duration, duration]
+    ]
+  end
+
+  private
+
+  attr_reader :build_data, :project_id
+end
+
+class CodeshipProject
+  PROJECT_ID = 'id'
+  BUILDS = 'builds'
+
+  def self.from_json_api(api_response)
+    new(JSON.parse(api_response))
+  end
+
+  def initialize(project_data)
+    @project_data = project_data
+  end
+
+  def id
+    project_data[PROJECT_ID]
+  end
+
+  def builds
+    @builds ||= project_data[BUILDS].map { |b| CodeshipBuild.new(b, id) }
+  end
+
+  def builds_in(branch_name)
+    builds.select { |b| b.branch_name == branch_name }
+  end
+
+  private
+
+  attr_reader :project_data
+end
+
+class CodeshipBuildStatus
+  def initialize(api_response, branch_name)
+    @project = CodeshipProject.from_json_api(api_response)
+    @branch_name = branch_name
+  end
+
+  def builds
+    @builds ||= project.builds_in(branch_name)
+  end
+
+  def most_recent_build
+    builds[0]
+  end
+
+  def previous_build
+    builds[1]
+  end
+
+  def successful?
+    if most_recent_build.building? && !previous_build.nil?
+      previous_build.successful?
+    else
+      most_recent_build.successful?
+    end
+  end
+
+  def changing?
+    most_recent_build.building?
+  end
+
+  def as_json
+    {
+      :result => successful?,
+      :changing => changing?,
+      :url => most_recent_build.build_url,
+      :info => most_recent_build.as_json
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  attr_reader :project, :branch_name
+end
+
+class Codeship
+  def initialize(project_id, api_key, branch_name)
+    raise ArgumentError 'project_id must not be nil' unless @project_id = project_id
+    raise ArgumentError 'api_key must not be nil' unless @api_key = api_key
+    raise ArgumentError 'branch_name must not be nil' unless @branch_name = branch_name
+  end
+
+  def latest_status
+    CodeshipBuildStatus.new(http_get(builds_url), branch_name)
+  end
+
+  private
+
+  attr_reader :project_id, :api_key, :branch_name
+
+  def builds_url
+    "https://codeship.com/api/v1/projects/#{project_id}.json?api_key=#{api_key}"
+  end
+
+  def http_get(url)
+    curl = "curl -sk -A \"CheckmanCodeship (Hostname: $HOSTNAME)\" '#{url}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts Codeship.new(*ARGV).latest_status.to_json if __FILE__ == $0
