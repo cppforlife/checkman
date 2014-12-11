@@ -141,10 +141,10 @@ class CodeshipBuildStatus
 
   def as_json
     {
-      result: successful?,
-      changing: changing?,
-      url: most_recent_build.build_url,
-      info: most_recent_build.as_json
+      :result => successful?,
+      :changing => changing?,
+      :url => most_recent_build.build_url,
+      :info => most_recent_build.as_json
     }
   end
 
