@@ -63,6 +63,10 @@ If you ever need to kill Checkman:
   checks returned http response for 200 OK  
   e.g. `site.check http://www.google.com`
 
+* `cctray.check https://user:pass@<CCTRAY_URL> <PIPELINE_NAME>`  
+  checks the status of a GoCD pipeline  
+  e.g. `cctray.check https://admin:badger@[your_go_server]/go/cctray.xml`
+
 * `concourse.check <ATC_URL> [USERNAME] [PASSWORD] <JOB_NAME>`  
   checks status of a job in a [Concourse](http://concourse.ci) pipelne
   e.g. `concourse.check https://ci.concourse.ci admin passw0rd deploy`  
