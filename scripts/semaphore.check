@@ -165,7 +165,7 @@ class Semaphore
   end
 
   def http_get(url)
-    curl = "curl -sk -A \"CheckmanSemaphore (Hostname: $HOSTNAME)\" '#{url}'"
+    curl = "curl -s -A \"CheckmanSemaphore (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end

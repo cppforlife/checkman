@@ -177,7 +177,7 @@ class Codeship
   end
 
   def http_get(url)
-    curl = "curl -sk -A \"CheckmanCodeship (Hostname: $HOSTNAME)\" '#{url}'"
+    curl = "curl -s -A \"CheckmanCodeship (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end

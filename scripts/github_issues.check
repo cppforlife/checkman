@@ -113,7 +113,7 @@ class GithubIssues
       auth += "&client_secret=#{ENV["GITHUB_ISSUES_CHECK_CLIENT_SECRET"]}"
     end
 
-    curl  = "curl -sk -A \"CheckmanGithubIssues (Hostname: $HOSTNAME)\""
+    curl  = "curl -s -A \"CheckmanGithubIssues (Hostname: $HOSTNAME)\""
     curl += " '#{api_url}?#{auth}'"
 
     `#{curl}`.tap { |o| $stderr.puts curl, o }
