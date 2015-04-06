@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require "rubygems"
-
 require "json"
 require "open-uri"
 require "net/https"
@@ -30,30 +29,28 @@ class ConcourseBuild
 
   private
 
-  attr_reader :server_url, :info
-
   def success?
     status == "succeeded"
   end
 
   def changing?
-    !!info["next_build"]
+    !!@info["next_build"]
   end
 
   def url
-    "#{server_url}/jobs/#{job_name}/builds/#{number}"
+    "#{@server_url}/jobs/#{job_name}/builds/#{number}"
   end
 
   def status
-    info["finished_build"]["status"]
+    @info["finished_build"]["status"]
   end
 
   def job_name
-    info["finished_build"]["job_name"]
+    @info["finished_build"]["job_name"]
   end
 
   def number
-    (info["next_build"] || info["finished_build"])["name"]
+    (@info["next_build"] || @info["finished_build"])["name"]
   end
 end
 
@@ -69,24 +66,20 @@ class Concourse
   end
 
   def latest_status
-    ConcourseBuild.new(server_url, fetch_latest_build)
+    ConcourseBuild.new(@server_url, fetch_latest_build)
   end
 
   private
 
-  attr_reader :server_url, :job_name, :username, :password
-
   def fetch_latest_build
-    json = open(
-      job_url,
-      :http_basic_authentication => [username, password],
-      :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE,
-    ).read
-    JSON.parse(json)
-  end
+    job_url = "#{@server_url}/api/v1/jobs/#{@job_name}"
 
-  def job_url
-    "#{server_url}/api/v1/jobs/#{job_name}"
+    http_opts = {
+      :http_basic_authentication => [@username, @password],
+      :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
+    }
+
+    JSON.parse(open(job_url, http_opts).read)
   end
 end
 
