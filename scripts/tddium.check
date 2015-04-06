@@ -113,7 +113,7 @@ class TddiumJob
   end
 
   def http_get(url)
-    curl = "curl -sk -A \"CheckmanTddium (Hostname: $HOSTNAME)\" '#{url}'"
+    curl = "curl -s -A \"CheckmanTddium (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end

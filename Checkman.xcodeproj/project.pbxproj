@@ -103,6 +103,10 @@
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
 		AE1E7D2116FD57070026129A /* github_issues.check in Resources */ = {isa = PBXBuildFile; fileRef = AE1E7D2016FD57070026129A /* github_issues.check */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
+		AE40A9901AD218B3006841E1 /* circleci.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98C1AD218B3006841E1 /* circleci.check */; };
+		AE40A9911AD218B3006841E1 /* circlecijson.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98D1AD218B3006841E1 /* circlecijson.check */; };
+		AE40A9921AD218B3006841E1 /* codeship.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98E1AD218B3006841E1 /* codeship.check */; };
+		AE40A9931AD218B3006841E1 /* tddium.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98F1AD218B3006841E1 /* tddium.check */; };
 		AE6613F1167ACB1D0031F845 /* Checkfile.m in Sources */ = {isa = PBXBuildFile; fileRef = AE6613F0167ACB1D0031F845 /* Checkfile.m */; };
 		AE96009419954CCC00094BEF /* cctray.check in Resources */ = {isa = PBXBuildFile; fileRef = AE96009319954CCC00094BEF /* cctray.check */; };
 		AE96009619954CD600094BEF /* site_with_retry.check in Resources */ = {isa = PBXBuildFile; fileRef = AE96009519954CD600094BEF /* site_with_retry.check */; };
@@ -297,6 +301,10 @@
 		AE1E7D2016FD57070026129A /* github_issues.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = github_issues.check; sourceTree = "<group>"; };
 		AE26D777168D392B008D2498 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		AE40A98C1AD218B3006841E1 /* circleci.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = circleci.check; sourceTree = "<group>"; };
+		AE40A98D1AD218B3006841E1 /* circlecijson.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = circlecijson.check; sourceTree = "<group>"; };
+		AE40A98E1AD218B3006841E1 /* codeship.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = codeship.check; sourceTree = "<group>"; };
+		AE40A98F1AD218B3006841E1 /* tddium.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tddium.check; sourceTree = "<group>"; };
 		AE6613EF167ACB1D0031F845 /* Checkfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Checkfile.h; sourceTree = "<group>"; };
 		AE6613F0167ACB1D0031F845 /* Checkfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Checkfile.m; sourceTree = "<group>"; };
 		AE6EFEE7168D7CA900CC5E11 /* airbrake.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = airbrake.check; sourceTree = "<group>"; };
@@ -675,6 +683,10 @@
 		AEBBEDAD16B23E41008C8880 /* CI */ = {
 			isa = PBXGroup;
 			children = (
+				AE40A98C1AD218B3006841E1 /* circleci.check */,
+				AE40A98D1AD218B3006841E1 /* circlecijson.check */,
+				AE40A98E1AD218B3006841E1 /* codeship.check */,
+				AE40A98F1AD218B3006841E1 /* tddium.check */,
 				22B0D7F219BE5DAD001F35CD /* concourse.check */,
 				AE96009319954CCC00094BEF /* cctray.check */,
 				AE76A5DA1682B82E00004A4D /* jenkins_build.check */,
@@ -942,10 +954,14 @@
 				AE0C7284167D5317007DC793 /* icon-fail-changing.png in Resources */,
 				AE0C7285167D5317007DC793 /* icon-undetermined-changing.png in Resources */,
 				AE0C7286167D5317007DC793 /* icon-fail.png in Resources */,
+				AE40A9901AD218B3006841E1 /* circleci.check in Resources */,
 				AE0C7287167D5317007DC793 /* icon-undetermined.png in Resources */,
+				AE40A9911AD218B3006841E1 /* circlecijson.check in Resources */,
 				AE0C7289167D5317007DC793 /* icon-ok-changing.png in Resources */,
 				AE96009619954CD600094BEF /* site_with_retry.check in Resources */,
+				AE40A9921AD218B3006841E1 /* codeship.check in Resources */,
 				AE0C728A167D5317007DC793 /* icon-ok.png in Resources */,
+				AE40A9931AD218B3006841E1 /* tddium.check in Resources */,
 				AE96009419954CCC00094BEF /* cctray.check in Resources */,
 				DD4F7C1F13C30F9F00825C6E /* MainMenu.xib in Resources */,
 				AE0200881684752A00FFED8D /* README.md in Resources */,

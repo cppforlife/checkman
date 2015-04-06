@@ -155,7 +155,7 @@ class CircleCiJson
   end
 
   def http_get(url)
-    curl = "curl -sk -H 'Accept: application/json' -A \"CheckmanCircleCiJson (Hostname: $HOSTNAME)\" '#{url}'"
+    curl = "curl -s -H 'Accept: application/json' -A \"CheckmanCircleCiJson (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end
 end
