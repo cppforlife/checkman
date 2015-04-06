@@ -32,8 +32,8 @@ class CCTray
     feed_uri.user     = nil
     feed_uri.password = nil
 
-    username = WEBrick::HTTPUtils.unescape(username)
-    password = WEBrick::HTTPUtils.unescape(password)
+    username = WEBrick::HTTPUtils.unescape(username) if username
+    password = WEBrick::HTTPUtils.unescape(password) if password
 
     @feed     = Nokogiri::XML(open(feed_uri, :http_basic_authentication => [username, password]))
     @pipeline = pipeline
