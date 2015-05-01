@@ -119,24 +119,24 @@ class CodeshipBuildStatus
     @builds ||= project.builds_in(branch_name)
   end
 
+  def completed_builds
+    builds.reject &:building?
+  end
+
   def most_recent_build
     builds[0]
   end
 
-  def previous_build
-    builds[1]
+  def most_recent_completed_build
+    completed_builds[0]
   end
 
   def successful?
-    if most_recent_build.building? && !previous_build.nil?
-      previous_build.successful?
-    else
-      most_recent_build.successful?
-    end
+    most_recent_completed_build && most_recent_completed_build.successful?
   end
 
   def changing?
-    most_recent_build.building?
+    most_recent_build && most_recent_build.building?
   end
 
   def as_json
