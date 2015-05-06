@@ -38,7 +38,7 @@ class ConcourseBuild
   end
 
   def url
-    "#{@server_url}/jobs/#{job_name}/builds/#{number}"
+    @info["url"]
   end
 
   def status
@@ -56,10 +56,10 @@ end
 
 class Concourse
   def initialize(*args)
-    if args.size == 4
-      @server_url, @username, @password, @job_name = args
-    elsif args.size == 2
-      @server_url, @job_name = args
+    if args.size == 5
+      @server_url, @username, @password, @pipeline_name, @job_name = args
+    elsif args.size == 3
+      @server_url, @pipeline_name, @job_name = args
     else
       raise ArgumentError, "malformed arguments"
     end
@@ -72,7 +72,7 @@ class Concourse
   private
 
   def fetch_latest_build
-    job_url = "#{@server_url}/api/v1/jobs/#{@job_name}"
+    job_url = "#{@server_url}/api/v1/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
 
     http_opts = {
       :http_basic_authentication => [@username, @password],
