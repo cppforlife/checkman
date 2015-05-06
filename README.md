@@ -67,7 +67,7 @@ If you ever need to kill Checkman:
   checks the status of a GoCD pipeline  
   e.g. `cctray.check https://admin:badger@[your_go_server]/go/cctray.xml`
 
-* `concourse.check <ATC_URL> [USERNAME] [PASSWORD] <JOB_NAME>`  
+* `concourse.check <ATC_URL> [USERNAME] [PASSWORD] <PIPELINE_NAME> <JOB_NAME>`  
   checks status of a job in a [Concourse](http://concourse.ci) pipelne
   e.g. `concourse.check https://ci.concourse.ci admin passw0rd deploy`  
 
