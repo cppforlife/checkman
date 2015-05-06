@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'open-uri'
+require 'nokogiri'
+require 'net/https'
+require 'json'
+require 'webrick'
+
+class SnapCI
+  def initialize(feed_url, pipeline, stage)
+    feed_uri = URI(WEBrick::HTTPUtils.escape(feed_url))
+    @feed     = Nokogiri::XML(open(feed_uri))
+    @pipeline = pipeline
+    @stage    = stage
+  end
+
+  def latest_status
+    name = [@pipeline, @stage].compact.join(" :: ")
+
+    project = @feed.xpath('//Project').find do |proj|
+      proj.attr('name').downcase.include?(name.downcase)
+    end
+
+    ProjectStatus.new(project)
+  end
+  
+  class ProjectStatus
+    def initialize(project)
+      @project = project
+    end
+
+    def as_json(*)
+      {
+        :result => @project.attr('lastBuildStatus') == "Success",
+        :changing => @project.attr('activity') != "Sleeping",
+        :url => @project.attr('webUrl'),
+        :info => info
+      }
+    end
+
+    def to_json(*)
+      JSON.dump(as_json)
+    end
+    
+    private
+    
+    def info
+      [
+        ["Build Time", @project.attr('lastBuildTime') ],
+        ["Build Number", @project.attr('lastBuildLabel')]
+      ]
+    end
+  end
+end
+
+puts SnapCI.new(*ARGV).latest_status.to_json if __FILE__ == $0
