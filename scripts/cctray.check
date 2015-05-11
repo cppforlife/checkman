@@ -42,10 +42,12 @@ class CCTray
   end
 
   def latest_status
-    name = [@pipeline, @stage, @job].compact.join(" :: ")
+    name = [@pipeline, @stage, @job].compact
 
     projects = @feed.xpath('//Project').select do |proj|
-      proj.attr('name').downcase.include?(name.downcase)
+      name.each_with_index do |attribute, index|
+        break unless proj.attr('name').downcase.split(' :: ')[index] == attribute.downcase
+      end
     end
 
     CCTrayMultiProjectStatus.new(projects)
