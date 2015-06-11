@@ -38,7 +38,7 @@ class ConcourseBuild
   end
 
   def url
-    @info["url"]
+    @server_url + @info["url"]
   end
 
   def status
