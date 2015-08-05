@@ -9,13 +9,15 @@ describe_check :Concourse, "concourse" do
         "id": 928,
         "name": "finished",
         "status": "%s",
-        "job_name": "atc"
+        "job_name": "atc",
+        "url": "/finished-build"
       },
       "next_build": {
         "id": 929,
         "name": "next",
         "status": "%s",
-        "job_name": "atc"
+        "job_name": "atc",
+        "url": "/next-build"
       }
     }
   JSON
@@ -64,7 +66,7 @@ describe_check :Concourse, "concourse" do
 
     it "returns a useful url" do
       url = subject.latest_status.as_json[:url]
-      expect(url).to eq("http://server.example.com/some/job/url")
+      expect(url).to eq("http://server.example.com/next-build")
     end
   end
 

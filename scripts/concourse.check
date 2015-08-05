@@ -38,7 +38,15 @@ class ConcourseBuild
   end
 
   def url
-    @server_url + @info["url"]
+    if @info["next_build"]
+      path = @info["next_build"]["url"]
+    elsif @info["finished_build"]
+      path = @info["finished_build"]["url"]
+    else
+      path = @info["url"]
+    end
+
+    @server_url + path.to_s
   end
 
   def status
