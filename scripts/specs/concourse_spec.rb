@@ -59,6 +59,13 @@ describe_check :Concourse, "concourse" do
     it_returns_changing %w(http://server.example.com some-pipeline succeeded-started)
     it_returns_changing %w(http://server.example.com some-pipeline failed-started)
     it_returns_changing %w(http://server.example.com some-pipeline errored-started)
+
+    let(:opts) { %w(http://server.example.com some-pipeline succeeded-started) }
+
+    it "returns a useful url" do
+      url = subject.latest_status.as_json[:url]
+      expect(url).to eq("http://server.example.com/some/job/url")
+    end
   end
 
   context 'when using basic auth' do
