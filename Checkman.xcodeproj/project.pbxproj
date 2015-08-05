@@ -103,6 +103,7 @@
 		AE1C9ABF168190EA00CFCB78 /* InfoMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1C9ABE168190EA00CFCB78 /* InfoMenuItem.m */; };
 		AE1E7D2116FD57070026129A /* github_issues.check in Resources */ = {isa = PBXBuildFile; fileRef = AE1E7D2016FD57070026129A /* github_issues.check */; };
 		AE26D779168D392B008D2498 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = AE26D778168D392B008D2498 /* Settings.m */; };
+		AE2F715A1B72BA900092CA6C /* snapci.check in Resources */ = {isa = PBXBuildFile; fileRef = AE2F71591B72BA900092CA6C /* snapci.check */; };
 		AE40A9901AD218B3006841E1 /* circleci.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98C1AD218B3006841E1 /* circleci.check */; };
 		AE40A9911AD218B3006841E1 /* circlecijson.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98D1AD218B3006841E1 /* circlecijson.check */; };
 		AE40A9921AD218B3006841E1 /* codeship.check in Resources */ = {isa = PBXBuildFile; fileRef = AE40A98E1AD218B3006841E1 /* codeship.check */; };
@@ -301,6 +302,7 @@
 		AE1E7D2016FD57070026129A /* github_issues.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = github_issues.check; sourceTree = "<group>"; };
 		AE26D777168D392B008D2498 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		AE26D778168D392B008D2498 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		AE2F71591B72BA900092CA6C /* snapci.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = snapci.check; sourceTree = "<group>"; };
 		AE40A98C1AD218B3006841E1 /* circleci.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = circleci.check; sourceTree = "<group>"; };
 		AE40A98D1AD218B3006841E1 /* circlecijson.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = circlecijson.check; sourceTree = "<group>"; };
 		AE40A98E1AD218B3006841E1 /* codeship.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = codeship.check; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 		AEBBEDAD16B23E41008C8880 /* CI */ = {
 			isa = PBXGroup;
 			children = (
+				AE2F71591B72BA900092CA6C /* snapci.check */,
 				AE40A98C1AD218B3006841E1 /* circleci.check */,
 				AE40A98D1AD218B3006841E1 /* circlecijson.check */,
 				AE40A98E1AD218B3006841E1 /* codeship.check */,
@@ -968,6 +971,7 @@
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
 				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
 				69CCFAD4174804B60097A6CC /* tracker.check in Resources */,
+				AE2F715A1B72BA900092CA6C /* snapci.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
