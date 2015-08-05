@@ -131,6 +131,12 @@ If you ever need to kill Checkman:
   bottom of the page. Extract the token from the URL, which looks like:
   `https://api.tddium.com/cc/ORGANIZATION_TOKEN/cctray.xml`
 
+* `snapci.check <URL TO CCTRAY FEED> "<PROJECT NAME>" "<STEP NAME>"`  
+  Checks the build status of a specific step in Snap CI  
+  e.g. `snapci.check https://snap-ci.com/some-random-hash/cctray.xml "my-github-org/my-repo (branch-name)" "MyStepInSnapCi"`  
+  To get the PROJECT NAME, look at the CCTray XML and paste in the value before the ` :: ` from `<Project name="">`  
+  To get the STEP NAME, look at the CCTray XML and paste in the value after the ` :: ` from `<Project name="">`
+
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env
 variable when running check commands.
