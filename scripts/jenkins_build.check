@@ -74,7 +74,11 @@ class JenkinsBuildStatus
   end
 
   def console_url
-    @build_data["url"] + "console"
+    if id
+      @build_data["url"] + "console"
+    else
+      @build_data["url"]
+    end
   end
 
   def started_at
@@ -232,11 +236,24 @@ class JenkinsJob
 
   def latest_status
     json = force_utf8(http_get(job_url))
+    parsed_json = JSON.parse(json)
     if @uses_root_api
       JenkinsJobStatuses.from_json(json) \
         .status_for_job(@name)
     else
-      JenkinsJobStatus.from_json(json)
+      if !parsed_json["lastBuild"]
+        parsed_json["lastBuild"] = {
+          "id" => nil,
+          "url" => "#{@jenkins_url}job/#{@name}/",
+          "result" => nil,
+          "fullDisplayName" => nil,
+          "duration" => 0,
+          "timestamp" => 0,
+          "actions" => [],
+          "changeSet" => {"items" => []}
+        }
+      end
+      JenkinsJobStatus.from_json(parsed_json.to_json)
     end
   end
 
