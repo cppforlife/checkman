@@ -243,10 +243,10 @@ class JenkinsJob
     else
       if !parsed_json["lastBuild"]
         parsed_json["lastBuild"] = {
-          "id" => nil,
+          "id" => "N/A",
           "url" => "#{@jenkins_url}job/#{@name}/",
-          "result" => nil,
-          "fullDisplayName" => nil,
+          "result" => false,
+          "fullDisplayName" => "N/A",
           "duration" => 0,
           "timestamp" => 0,
           "actions" => [],
