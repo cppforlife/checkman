@@ -74,7 +74,7 @@ class JenkinsBuildStatus
   end
 
   def console_url
-    if id
+    if id && id != "N/A"
       @build_data["url"] + "console"
     else
       @build_data["url"]
