@@ -97,6 +97,7 @@
 
     while (fileName = [enumerator nextObject]) {
         if ([fileName characterAtIndex:0] == '.') continue;
+        if ([fileName rangeOfString:@"/."].location != NSNotFound) continue;
         NSString *filePath = F(@"%@/%@", directoryPath, fileName);
 
         BOOL isDirectory = NO;
