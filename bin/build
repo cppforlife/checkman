@@ -24,4 +24,4 @@ xcodebuild -project Checkman.xcodeproj -target Checkman -configuration $RELEASE_
 cp "$BUILD_DIR/$RELEASE_CONF/Checkman.zip" $BIN_DIR
 
 rm -rf $BUILD_DIR
-git ci -am "release `git rev-parse --short HEAD`"
+git commit -am "release `git rev-parse --short HEAD`"
