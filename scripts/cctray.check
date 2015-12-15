@@ -42,13 +42,28 @@ class CCTray
   end
 
   def latest_status
-    name = [@pipeline, @stage, @job].compact.join(" :: ")
-
-    projects = @feed.xpath('//Project').select do |proj|
-      proj.attr('name').downcase.include?(name.downcase)
-    end
+    projects = exact_match
+    projects = partial_match if projects.empty?
 
     CCTrayMultiProjectStatus.new(projects)
+  end
+
+  def partial_match
+    name = name = [@pipeline, @stage, @job].compact.join(" :: ").downcase
+
+    @feed.xpath('//Project').select do |proj|
+      proj.attr('name').downcase.include?(name)
+    end
+  end
+
+  def exact_match
+    @feed.xpath('//Project').select do |proj|
+      proj_pipeline, proj_stage, proj_job, _ = proj.attr('name').split(' :: ')
+      [ [ @pipeline, @stage, @job ], [ proj_pipeline, proj_stage, proj_job ]].transpose.all? do |attribute_to_compare, proj_attribute|
+        attribute_to_compare.nil? || 
+          (!proj_attribute.nil? && attribute_to_compare.downcase == proj_attribute.downcase)
+      end
+    end
   end
 end
 
