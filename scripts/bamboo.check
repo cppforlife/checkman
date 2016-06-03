@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+require 'json'
+require 'open-uri'
+require 'webrick'
+require 'nokogiri'
+
+class BambooStatus
+  def initialize(rssUrl, rssFeed)
+    @rssUrl = rssUrl
+    @latest_build_title = rssFeed.xpath('/rss/channel/item/title').first.text
+    @latest_build_link = rssFeed.xpath('/rss/channel/item/link').first.text
+    @latest_build_description = rssFeed.xpath('/rss/channel/item/description').first
+
+    raise ArgumentError, 'nil response from bamboo' if rssFeed.nil?
+  end
+
+  def ok?
+    @latest_build_title.include?('was SUCCESSFUL')
+  end
+
+  def as_json(*)
+    {
+        :result => ok?,
+        :changing => false,
+        :rssUrl => @rssUrl,
+        :info => [
+            [:link, @latest_build_link],
+            [:title, @latest_build_title],
+            [:description, @latest_build_description]
+        ]
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+end
+
+class Bamboo
+  def initialize(rssUrl)
+    raise ArgumentError 'url must not be nil' unless @rssUrl = rssUrl
+  end
+
+  def latest_status
+    BambooStatus.new(@rssUrl, http_get_rss_feed(@rssUrl))
+  end
+
+  private
+
+  def http_get_rss_feed(rssUrl)
+    rss_feed_uri = URI(WEBrick::HTTPUtils.escape(rssUrl))
+    @rssFeed = Nokogiri::XML(open(rss_feed_uri))
+  end
+end
+
+puts Bamboo.new(*ARGV).latest_status.to_json if __FILE__ == $0
