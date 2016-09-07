@@ -64,9 +64,14 @@ end
 
 class Concourse
   def initialize(*args)
-    if args.size == 5
+    case args.size
+    when 6
+      @server_url, @username, @password, @team, @pipeline_name, @job_name = args
+    when 5
       @server_url, @username, @password, @pipeline_name, @job_name = args
-    elsif args.size == 3
+    when 4
+      @server_url, @team, @pipeline_name, @job_name = args
+    when 3
       @server_url, @pipeline_name, @job_name = args
     else
       raise ArgumentError, "malformed arguments"
@@ -80,7 +85,7 @@ class Concourse
   private
 
   def fetch_latest_build
-    job_url = "#{@server_url}/api/v1/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
+    job_url = "#{@server_url}/api/v1#{@team ? "/teams/" + @team : ""}/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
 
     http_opts = {
       :http_basic_authentication => [@username, @password],
