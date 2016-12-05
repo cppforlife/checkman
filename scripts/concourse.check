@@ -76,6 +76,8 @@ class Concourse
     else
       raise ArgumentError, "malformed arguments"
     end
+
+    @auth_token = fetch_auth_token
   end
 
   def latest_status
@@ -85,14 +87,22 @@ class Concourse
   private
 
   def fetch_latest_build
+    http_opts = {
+        'Authorization' => @auth_token,
+        :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
+    }
     job_url = "#{@server_url}/api/v1#{@team ? "/teams/" + @team : ""}/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
+    JSON.parse(open(job_url, http_opts).read)
+  end
 
+  def fetch_auth_token
     http_opts = {
       :http_basic_authentication => [@username, @password],
       :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
     }
-
-    JSON.parse(open(job_url, http_opts).read)
+    url = "#{@server_url}/api/v1#{@team ? "/teams/" + @team : ""}/auth/token"
+    token = JSON.parse(open(url, http_opts).read)
+    "#{token['type']} #{token['value']}"
   end
 end
 
