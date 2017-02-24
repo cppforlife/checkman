@@ -1,0 +1,163 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+require "time"
+
+class CircleCiBuildStatus
+  def initialize(hash)
+    @build_data = hash
+  end
+
+  def number
+    @build_data["build_num"]
+  end
+
+  def ok?
+    @build_data["status"] == "success"
+  end
+
+  def building?
+    %w{running queued}.include?(@build_data["status"])
+  end
+
+  def build_url
+    @build_data["build_url"]
+  end
+
+  def started_at
+    iso8601 = @build_data["start_time"]
+    Time.parse(iso8601) if iso8601
+  end
+
+  def finished_at
+    iso8601 = @build_data["stop_time"]
+    Time.parse(iso8601) if iso8601
+  end
+
+  def duration
+    if started_at
+      secs = (finished_at || Time.now) - started_at
+      Time.at(secs).gmtime.strftime("%R:%S")
+    end
+  end
+
+  def formatted_started_at
+    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z") if started_at
+  end
+
+  def last_commit_short_sha
+    @build_data["vcs_revision"][0..5]
+  end
+
+  def last_commit_author
+    @build_data["committer_name"]
+  end
+
+  def last_commit_message
+    @build_data["subject"]
+  end
+
+  def as_json(options={})
+    {
+      :result => ok?,
+      :changing => building?,
+      :url => build_url,
+      :info => [
+        [:Build, number],
+        [:Duration, duration],
+        [:Started, formatted_started_at]
+      ] + optional_info(options)
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def optional_info(options)
+    if last_commit_short_sha
+      [ ["-", ""],
+        [:SHA, last_commit_short_sha],
+        [:Branch, @build_data['branch']],
+        [:Message, last_commit_message],
+        [:Author, last_commit_author] ]
+    else
+      []
+    end
+  end
+end
+
+class CircleCiBranchStatus
+  def initialize(json)
+    @branch_data = JSON.parse(json)
+    @build_statuses =
+      @branch_data.map { |d| CircleCiBuildStatus.new(d) }
+
+    raise StandardError, "Status for branch '#{branch_name}' is not available" \
+      unless last_build_status
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def ok?
+    if last_build_status.building? && last_non_pending_build_status
+      last_non_pending_build_status.ok?
+    else
+      last_build_status.ok?
+    end
+  end
+
+  def as_json(*)
+    last_build_status.as_json.tap do |hash|
+      hash[:result] = ok?
+    end
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  def last_build_status
+    @build_statuses.first
+  end
+
+  def last_non_pending_build_status
+    @build_statuses.find { |d| !d.building? }
+  end
+end
+
+class CircleCi
+  def initialize(username, project_name, branch_name, auth_token)
+    raise ArgumentError "username must not be nil" \
+      unless @username = username
+
+    raise ArgumentError "project_name must not be nil" \
+      unless @project_name = project_name
+
+    raise ArgumentError "branch_name must not be nil" \
+      unless @branch_name = branch_name
+
+    raise ArgumentError "auth_token must not be nil" \
+      unless @auth_token = auth_token
+  end
+
+  def latest_status
+    CircleCiBranchStatus.new(http_get(builds_url))
+  end
+
+  private
+
+  def builds_url
+    "https://circleci.com/api/v1/project/#{@username}/#{@project_name}/tree/#{@branch_name}?circle-token=#{@auth_token}"
+  end
+
+  def http_get(url)
+    curl = "curl -sk -H 'Accept: application/json' -A \"CheckmanCircleCi (Hostname: $HOSTNAME)\" '#{url}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts CircleCi.new(*ARGV).latest_status.to_json if __FILE__ == $0
