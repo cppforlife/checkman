@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		22B0D7F319BE5DAD001F35CD /* concourse.check in Resources */ = {isa = PBXBuildFile; fileRef = 22B0D7F219BE5DAD001F35CD /* concourse.check */; };
 		69CCFAD4174804B60097A6CC /* tracker.check in Resources */ = {isa = PBXBuildFile; fileRef = 69CCFAD3174804B60097A6CC /* tracker.check */; };
+		7A5F321F2103B8B8001D0B39 /* bitrise.check in Resources */ = {isa = PBXBuildFile; fileRef = 7A5F321E2103B8B8001D0B39 /* bitrise.check */; };
 		960C9F0816C7760100F5FAA2 /* WebUIHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0716C7760100F5FAA2 /* WebUIHandler.m */; };
 		960C9F0C16C77A2700F5FAA2 /* WebSocketConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F0B16C77A2700F5FAA2 /* WebSocketConnection.m */; };
 		960C9F1216C7831400F5FAA2 /* WebSocketFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 960C9F1116C7831400F5FAA2 /* WebSocketFrame.m */; };
@@ -175,6 +176,7 @@
 		62BF3B9716AF60320051A1CC /* semaphore.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = semaphore.check; sourceTree = "<group>"; };
 		62BF3B9A16AF625C0051A1CC /* Checkman.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Checkman.zip; sourceTree = "<group>"; };
 		69CCFAD3174804B60097A6CC /* tracker.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracker.check; sourceTree = "<group>"; };
+		7A5F321E2103B8B8001D0B39 /* bitrise.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bitrise.check; sourceTree = "<group>"; };
 		960C9F0616C7760100F5FAA2 /* WebUIHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebUIHandler.h; sourceTree = "<group>"; };
 		960C9F0716C7760100F5FAA2 /* WebUIHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebUIHandler.m; sourceTree = "<group>"; };
 		960C9F0A16C77A2700F5FAA2 /* WebSocketConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketConnection.h; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 			children = (
 				AE2F71591B72BA900092CA6C /* snapci.check */,
 				AE40A98C1AD218B3006841E1 /* circleci.check */,
+				7A5F321E2103B8B8001D0B39 /* bitrise.check */,
 				AE40A98D1AD218B3006841E1 /* circlecijson.check */,
 				AE40A98E1AD218B3006841E1 /* codeship.check */,
 				AE40A98F1AD218B3006841E1 /* tddium.check */,
@@ -972,6 +975,7 @@
 				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
 				69CCFAD4174804B60097A6CC /* tracker.check in Resources */,
 				AE2F715A1B72BA900092CA6C /* snapci.check in Resources */,
+				7A5F321F2103B8B8001D0B39 /* bitrise.check in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
