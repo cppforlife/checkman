@@ -1,0 +1,160 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "json"
+require "time"
+
+class BitriseBuildStatus
+  def initialize(hash)
+    @build_data = hash
+  end
+
+  def number
+    @build_data["build_number"]
+  end
+
+  def ok?
+    @build_data['status'] == 1
+  end
+
+  def building?
+    @build_data['status'] == 0
+  end
+
+  def build_url
+    @build_data["build_url"]
+  end
+
+  def started_at
+    iso8601 = @build_data["started_on_worker_at"]
+    Time.parse(iso8601) if iso8601
+  end
+
+  def finished_at
+    iso8601 = @build_data["finished_at"]
+    Time.parse(iso8601) if iso8601
+  end
+
+  def duration
+    if started_at
+      secs = (finished_at || Time.now) - started_at
+      Time.at(secs).gmtime.strftime("%R:%S")
+    end
+  end
+
+  def formatted_started_at
+    started_at.getlocal.strftime("%I:%M%p %m/%d/%Y %Z") if started_at
+  end
+
+  def last_commit_short_sha
+    @build_data["commit_hash"][0..5]
+  end
+
+  def last_commit_author
+    @build_data["committer_name"]
+  end
+
+  def last_commit_message
+    @build_data["commit_message"]
+  end
+
+  def as_json(options={})
+    {
+      :result => ok?,
+      :changing => building?,
+      :url => build_url,
+      :info => [
+        [:Build, number],
+        [:Duration, duration],
+        [:Started, formatted_started_at]
+      ] + optional_info(options)
+    }
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  private
+
+  def optional_info(options)
+    if last_commit_short_sha
+      [ ["-", ""],
+        [:SHA, last_commit_short_sha],
+        [:Branch, @build_data['branch']],
+        [:Message, last_commit_message],
+        [:Author, last_commit_author] ]
+    else
+      []
+    end
+  end
+end
+
+class BitriseBranchStatus
+  def initialize(json)
+    @branch_data = JSON.parse(json)['data']
+    @build_statuses =
+      @branch_data.map { |d| BitriseBuildStatus.new(d) }
+
+    raise StandardError, "Status for branch '#{branch_name}' is not available" \
+      unless last_build_status
+
+  rescue JSON::ParserError
+    raise RuntimeError, "invalid json: '#{json}'"
+  end
+
+  def ok?
+    if last_build_status.building? && last_non_pending_build_status
+      last_non_pending_build_status.ok?
+    else
+      last_build_status.ok?
+    end
+  end
+
+  def as_json(*)
+    last_build_status.as_json.tap do |hash|
+      hash[:result] = ok?
+    end
+  end
+
+  def to_json(*)
+    JSON.dump(as_json)
+  end
+
+  def last_build_status
+    @build_statuses.first
+  end
+
+  def last_non_pending_build_status
+    @build_statuses.find { |d| !d.building? }
+  end
+end
+
+class Bitrise
+  def initialize(app_id, branch_name, auth_token)
+    raise ArgumentError "app_id must not be nil" \
+      unless @app_id = app_id
+
+    raise ArgumentError "branch_name must not be nil" \
+      unless @branch_name = branch_name
+
+    raise ArgumentError "auth_token must not be nil" \
+      unless @auth_token = auth_token
+  end
+
+  def latest_status
+    BitriseBranchStatus.new(http_get(app_url))
+  end
+
+  private
+
+  def app_url
+    "https://api.bitrise.io/v0.1/apps/#{@app_id}/builds?branch=#{@branch_name}"
+  end
+
+  def http_get(url)
+    curl = "curl -s -H 'Authorization: token #{@auth_token}' '#{app_url}'"
+    `#{curl}`.tap { |o| $stderr.puts curl, o }
+  end
+end
+
+puts Bitrise.new(*ARGV).latest_status.to_json if __FILE__ == $0
