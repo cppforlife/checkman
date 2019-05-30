@@ -17,7 +17,6 @@ class GithubIssue
   end
 
   def updated_at
-    puts @hash["updated_at"]
     @updated_at ||=
       Time.parse(@hash["updated_at"])
   end
