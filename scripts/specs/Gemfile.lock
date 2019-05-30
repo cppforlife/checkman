@@ -1,34 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
-    builder (3.2.2)
+    addressable (2.3.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.4)
-    happymapper (0.4.1)
-      libxml-ruby (~> 2.0)
     hashdiff (0.4.0)
     json (2.2.0)
-    libxml-ruby (2.7.0)
-    mime-types (1.25)
     mini_portile2 (2.4.0)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
-    nokogiri-happymapper (0.5.8)
-      nokogiri (~> 1.5)
-    pivotal-tracker (0.5.12)
-      builder
-      crack
-      happymapper (>= 0.3.2)
-      nokogiri (>= 1.4.3)
-      nokogiri (>= 1.5.5)
-      nokogiri-happymapper (>= 0.5.4)
-      rest-client (~> 1.6.0)
-    public_suffix (3.1.0)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -49,7 +30,6 @@ PLATFORMS
 DEPENDENCIES
   json
   nokogiri (~> 1.10)
-  pivotal-tracker (= 0.5.12)
   rspec
   webmock
 

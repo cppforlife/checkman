@@ -8,4 +8,3 @@ gem "webmock"
 
 # Below versions work on 1.8.7
 gem "nokogiri", "~> 1.10"
-gem "pivotal-tracker", "0.5.12"
