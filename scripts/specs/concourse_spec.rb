@@ -1,43 +1,31 @@
 $:.unshift(File.dirname(__FILE__))
 require "spec_helper"
 
-describe_check :Concourse, "concourse" do
-  job_json = <<-JSON
+job_json = <<-JSON
   {
-    "id": 2217556,
-    "name": "some-job",
-    "pipeline_name": "some-pipeline",
-    "team_name": "some-team",
+    "url": "/some/job/url",
     "finished_build": {
-      "id": 7151332,
-      "team_name": "some-team",
-      "name": "1",
+      "id": 928,
+      "name": "finished",
       "status": "%s",
-      "job_name": "some-job",
-      "api_url": "/api/v1/builds/7151332",
-      "pipeline_name": "some-pipeline",
-      "start_time": 1556800422,
-      "end_time": 1556800778
+      "job_name": "atc",
+      "url": "/finished-build"
     },
     "next_build": {
-      "id": 7151333,
-      "team_name": "some-team",
-      "name": "2",
+      "id": 929,
+      "name": "next",
       "status": "%s",
-      "job_name": "some-job",
-      "api_url": "/api/v1/builds/7151333",
-      "pipeline_name": "some-pipeline",
-      "start_time": 1556800422,
-      "end_time": 1556800778
-    },
-    "groups": null
+      "job_name": "atc",
+      "url": "/next-build"
+    }
   }
-  JSON
+JSON
 
+describe_check :Concourse, "concourse" do
   before(:all) { WebMock.disable_net_connect! }
   after(:all) { WebMock.allow_net_connect! }
 
-  before(:all) do
+  before(:each) do
     [
       ["succeeded", "pending"],
       ["succeeded", "started"],

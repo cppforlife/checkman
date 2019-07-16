@@ -2,6 +2,7 @@
 require "rubygems"
 require "shellwords"
 require "json"
+require "open-uri"
 
 class JenkinsJobTree
   BUILD_FIELDS = {
@@ -276,6 +277,12 @@ class JenkinsJob
   end
 
   def http_get(url)
+    #http_opts = {
+    #  :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE,
+    #  "User-Agent" => "CheckmanJenkins (Hostname: #{`echo $HOSTNAME`})\" '#{url}'"
+    #}
+
+    #open(url, http_opts).read
     curl = "curl -sk -A \"CheckmanJenkins (Hostname: $HOSTNAME)\" '#{url}'"
     `#{curl}`.tap { |o| $stderr.puts curl, o }
   end

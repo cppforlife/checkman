@@ -15,10 +15,10 @@ describe_check :CCTray, "cctray" do
 </Projects>
   XML
 
-  before(:all) { WebMock.disable_net_connect! }
-  after(:all) { WebMock.allow_net_connect! }
+  before { WebMock.disable_net_connect! }
+  after { WebMock.allow_net_connect! }
 
-  before(:all) do
+  before do
     WebMock.stub_request(:get, "http://cd-server.example.com/cctray.xml").
       to_return(:status => 200, :body => cctray_xml, :headers => {})
 

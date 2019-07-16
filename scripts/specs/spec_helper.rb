@@ -29,7 +29,7 @@ def file_contents(file_name)
   contents = File.read(file_path)
 end
 
-require "webmock"
+require 'webmock/rspec'
 require "stringio"
 
 def capture_stderr
