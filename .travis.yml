@@ -1,22 +1,16 @@
 language: objective-c
 
-env:
-  - RVM_RUBY_VERSION="1.8.7"
-  - RVM_RUBY_VERSION="1.9.3"
-  - RVM_RUBY_VERSION="2.0"
-  - RVM_RUBY_VERSION="2.1"
-  - RVM_RUBY_VERSION="2.2"
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
 
 before_install: >
-  curl -L https://get.rvm.io | bash -s stable --autolibs=enabled &&
-  source ~/.rvm/scripts/rvm &&
-  rvm reload &&
   brew cleanup &&
-  brew tap --repair &&
-  rvm install $RVM_RUBY_VERSION --autolibs=3 &&
-  rvm use $RVM_RUBY_VERSION
+  brew tap --repair
 
 script: >
-  gem install bundler json --source 'https://rubygems.org/' &&
+  gem install bundler &&
   bundle install --gemfile=./scripts/specs/Gemfile &&
   LC_CTYPE="en_US.UTF-8" rake
