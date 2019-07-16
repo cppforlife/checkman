@@ -17,6 +17,6 @@ before_install: >
   rvm use $RVM_RUBY_VERSION
 
 script: >
-  gem install bundler &&
+  gem install bundler json --source 'https://rubygems.org/' &&
   bundle install --gemfile=./scripts/specs/Gemfile &&
   LC_CTYPE="en_US.UTF-8" rake
