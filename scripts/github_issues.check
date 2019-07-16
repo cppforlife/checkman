@@ -2,6 +2,8 @@
 require "rubygems"
 require "time"
 require "json"
+require "open-uri"
+require "net/https"
 
 class GithubIssue
   def initialize(hash)
@@ -113,10 +115,11 @@ class GithubIssues
       auth += "&client_secret=#{ENV["GITHUB_ISSUES_CHECK_CLIENT_SECRET"]}"
     end
 
-    curl  = "curl -s -A \"CheckmanGithubIssues (Hostname: $HOSTNAME)\""
-    curl += " '#{api_url}?#{auth}'"
+    http_opts = {
+      "User-Agent" => "CheckmanGithubIssues (Hostname: #{`printf $HOSTNAME`})"
+    }
 
-    `#{curl}`.tap { |o| $stderr.puts curl, o }
+    open("#{api_url}?#{auth}", http_opts).read
   end
 
   def api_url
