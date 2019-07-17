@@ -11,6 +11,7 @@ class ConcourseBuild
   end
 
   def as_json
+    return nil if undetermined?
     {
       :result => success?,
       :changing => changing?,
@@ -33,32 +34,39 @@ class ConcourseBuild
     status == "succeeded"
   end
 
+  def undetermined?
+    !@info["finished_build"]
+  end
+
   def changing?
     !!@info["next_build"]
   end
 
   def url
-    if @info["next_build"]
-      path = @info["next_build"]["url"]
-    elsif @info["finished_build"]
-      path = @info["finished_build"]["url"]
-    else
-      path = @info["url"]
+    path = job_path
+    if info = @info["next_build"] || @info["finished_build"]
+      path += "/builds/#{info["name"]}"
     end
 
     @server_url + path.to_s
   end
 
   def status
-    @info["finished_build"]["status"]
+    @info["finished_build"] ? @info["finished_build"]["status"] : "unstarted"
   end
 
   def job_name
-    @info["finished_build"]["job_name"]
+    @info["name"]
+  end
+
+  def job_path
+    "/teams/#{@info["team_name"]}" +
+    "/pipelines/#{@info["pipeline_name"]}" +
+    "/jobs/#{@info["name"]}"
   end
 
   def number
-    (@info["next_build"] || @info["finished_build"])["name"]
+    @info["finished_build"] ? @info["finished_build"]["name"] : "n/a"
   end
 end
 
@@ -66,13 +74,9 @@ class Concourse
   def initialize(*args)
     case args.size
     when 6
-      @server_url, @username, @password, @team, @pipeline_name, @job_name = args
-    when 5
-      @server_url, @username, @password, @pipeline_name, @job_name = args
+      @server_url, @username, @password, @team_name, @pipeline_name, @job_name = args
     when 4
-      @server_url, @team, @pipeline_name, @job_name = args
-    when 3
-      @server_url, @pipeline_name, @job_name = args
+      @server_url, @team_name, @pipeline_name, @job_name = args
     else
       raise ArgumentError, "malformed arguments"
     end
@@ -85,7 +89,7 @@ class Concourse
   private
 
   def fetch_latest_build
-    job_url = "#{@server_url}/api/v1#{@team ? "/teams/" + @team : ""}/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
+    job_url = "#{@server_url}/api/v1/teams/#{@team_name}/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
 
     http_opts = {
       :http_basic_authentication => [@username, @password],
