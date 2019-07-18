@@ -109,6 +109,7 @@
 		AEF8D69D1682C0AF00A255D4 /* CheckfileCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D69C1682C0AF00A255D4 /* CheckfileCollection.m */; };
 		AEF8D6A91684073D00A255D4 /* FSChangesNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */; };
 		AEF8D6B116843BB500A255D4 /* TaggedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF8D6B016843BB500A255D4 /* TaggedObject.m */; };
+		D4A6522822E7E36700546DD8 /* buildkite.check in Resources */ = {isa = PBXBuildFile; fileRef = D4A6522722E7E36700546DD8 /* buildkite.check */; };
 		D8197E29229892E5007F94D2 /* icon-ok.png in Resources */ = {isa = PBXBuildFile; fileRef = D8197E24229892E5007F94D2 /* icon-ok.png */; };
 		D8197E2A229892E5007F94D2 /* icon-undetermined-changing.png in Resources */ = {isa = PBXBuildFile; fileRef = D8197E25229892E5007F94D2 /* icon-undetermined-changing.png */; };
 		D8197E2B229892E5007F94D2 /* icon-fail.png in Resources */ = {isa = PBXBuildFile; fileRef = D8197E26229892E5007F94D2 /* icon-fail.png */; };
@@ -318,6 +319,7 @@
 		AEF8D6A81684073D00A255D4 /* FSChangesNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSChangesNotifier.m; sourceTree = "<group>"; };
 		AEF8D6AF16843BB500A255D4 /* TaggedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaggedObject.h; sourceTree = "<group>"; };
 		AEF8D6B016843BB500A255D4 /* TaggedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaggedObject.m; sourceTree = "<group>"; };
+		D4A6522722E7E36700546DD8 /* buildkite.check */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = buildkite.check; sourceTree = "<group>"; };
 		D8197E24229892E5007F94D2 /* icon-ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ok.png"; sourceTree = "<group>"; };
 		D8197E25229892E5007F94D2 /* icon-undetermined-changing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-undetermined-changing.png"; sourceTree = "<group>"; };
 		D8197E26229892E5007F94D2 /* icon-fail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-fail.png"; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 		AEBBEDAD16B23E41008C8880 /* CI */ = {
 			isa = PBXGroup;
 			children = (
+				D4A6522722E7E36700546DD8 /* buildkite.check */,
 				AE2F71591B72BA900092CA6C /* snapci.check */,
 				AE40A98C1AD218B3006841E1 /* circleci.check */,
 				AE40A98D1AD218B3006841E1 /* circlecijson.check */,
@@ -970,6 +973,7 @@
 				D8197E2C229892E5007F94D2 /* icon-ok-changing.png in Resources */,
 				9697A30C16A3870A00ED7544 /* LICENSE in Resources */,
 				D8197E2F22989492007F94D2 /* icon-undetermined.png in Resources */,
+				D4A6522822E7E36700546DD8 /* buildkite.check in Resources */,
 				AE1E7D2116FD57070026129A /* github_issues.check in Resources */,
 				69CCFAD4174804B60097A6CC /* tracker.check in Resources */,
 				AE2F715A1B72BA900092CA6C /* snapci.check in Resources */,

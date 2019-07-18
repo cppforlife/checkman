@@ -63,6 +63,12 @@ If you ever need to kill Checkman:
   checks returned http response for 200 OK  
   e.g. `site.check http://www.google.com`
 
+* `buildkite.check <ORG_SLUG> <PIPELINE_NAME> <BRANCH> <ACCESS_TOKEN>`  
+  checks the status of a Buildkite pipeline
+  ACCESS_TOKEN requires only `read_builds` authorization to org
+  PIPELINE_NAME should be quoted if it contains spaces
+  e.g. `buildkite.check myorg 'My Pipeline' master abcde12345`
+
 * `cctray.check https://user:pass@<CCTRAY_URL> <PIPELINE_NAME>`  
   checks the status of a GoCD pipeline  
   e.g. `cctray.check https://admin:badger@[your_go_server]/go/cctray.xml`
@@ -221,6 +227,16 @@ Delete specific customization:
     defaults delete com.tomato.Checkman <SETTING>
 
 Note: CHECKFILE is checkfile name before symlinks are resolved.
+
+# Running check script specs
+
+Script specs currently target Ruby 1.8.7, which doesn't build by default on Mojave.  It's easiest to use Docker:
+
+    docker pull ruby:1.9-wheezy
+    docker run -v `pwd`:`pwd` -w `pwd` -it ruby:1.9-wheezy /bin/bash
+    cd script/specs
+	bundle
+    rspec .
 
 
 # Todos
