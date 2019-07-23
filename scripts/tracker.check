@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 require "rubygems"
 require "json"
-require "pivotal-tracker"
+require "erb"
+require "open-uri"
 
 class TrackerStatus
   def initialize(project_view)
@@ -32,37 +33,38 @@ class TrackerStatus
 end
 
 class TrackerProjectView
-  def initialize(project, user_name)
-    @project, @user_name = project, user_name
+  def initialize(project_id, stories)
+    @project_id, @stories = project_id, stories
   end
 
   def started_stories;  stories_marked_as(:started);  end
   def rejected_stories; stories_marked_as(:rejected); end
 
   def url
-    "https://pivotaltracker.com/s/projects/#{@project.id}"
+    "https://pivotaltracker.com/s/projects/#{@project_id}"
   end
+
 
   private
 
-  def owned_stories
-    @owned_stories ||= @project.stories.all(:owned_by => @user_name)
-  end
-
   def stories_marked_as(state)
-    owned_stories.select { |s| s.current_state == state.to_s }
+    @stories.select { |s| s["current_state"] == state.to_s }
   end
 end
 
 class Tracker
   def initialize(project_id, user_token, *user_name)
-    @project_id, @user_name = project_id, user_name.join(" ")
-    PivotalTracker::Client.token = user_token
+    @project_id, @user_token, @user_name = project_id, user_token, user_name.join(" ")
+  end
+
+  def fetch_owned_stories
+    url = "https://pivotaltracker.com/services/v5/projects/#{@project_id}/stories?filter=owner:\"#{@user_name}\""
+    JSON.parse(open(url, "X-TrackerToken" => @user_token).read)
   end
 
   def latest_status
-    project = PivotalTracker::Project.find(@project_id)
-    project_view = TrackerProjectView.new(project, @user_name)
+    stories = fetch_owned_stories
+    project_view = TrackerProjectView.new(@project_id, stories)
     TrackerStatus.new(project_view)
   end
 end

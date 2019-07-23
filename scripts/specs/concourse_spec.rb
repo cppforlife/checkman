@@ -1,43 +1,43 @@
 $:.unshift(File.dirname(__FILE__))
 require "spec_helper"
 
-describe_check :Concourse, "concourse" do
-  job_json = <<-JSON
-  {
-    "id": 2217556,
-    "name": "some-job",
-    "pipeline_name": "some-pipeline",
+job_json = <<-JSON
+{
+  "id": 2217556,
+  "name": "some-job",
+  "pipeline_name": "some-pipeline",
+  "team_name": "some-team",
+  "finished_build": {
+    "id": 7151332,
     "team_name": "some-team",
-    "finished_build": {
-      "id": 7151332,
-      "team_name": "some-team",
-      "name": "1",
-      "status": "%s",
-      "job_name": "some-job",
-      "api_url": "/api/v1/builds/7151332",
-      "pipeline_name": "some-pipeline",
-      "start_time": 1556800422,
-      "end_time": 1556800778
-    },
-    "next_build": {
-      "id": 7151333,
-      "team_name": "some-team",
-      "name": "2",
-      "status": "%s",
-      "job_name": "some-job",
-      "api_url": "/api/v1/builds/7151333",
-      "pipeline_name": "some-pipeline",
-      "start_time": 1556800422,
-      "end_time": 1556800778
-    },
-    "groups": null
-  }
-  JSON
+    "name": "1",
+    "status": "%s",
+    "job_name": "some-job",
+    "api_url": "/api/v1/builds/7151332",
+    "pipeline_name": "some-pipeline",
+    "start_time": 1556800422,
+    "end_time": 1556800778
+  },
+  "next_build": {
+    "id": 7151333,
+    "team_name": "some-team",
+    "name": "2",
+    "status": "%s",
+    "job_name": "some-job",
+    "api_url": "/api/v1/builds/7151333",
+    "pipeline_name": "some-pipeline",
+    "start_time": 1556800422,
+    "end_time": 1556800778
+  },
+  "groups": null
+}
+JSON
 
+describe_check :Concourse, "concourse" do
   before(:all) { WebMock.disable_net_connect! }
   after(:all) { WebMock.allow_net_connect! }
 
-  before(:all) do
+  before(:each) do
     [
       ["succeeded", "pending"],
       ["succeeded", "started"],

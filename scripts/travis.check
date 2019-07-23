@@ -56,7 +56,7 @@ class TravisBuildStatus
 
   def started_at
     iso8601 = @build_data["started_at"]
-    iso8601 && Time.parse(iso8601, "%Y-%m-%dT%H:%M:%S%z")
+    iso8601 && Time.parse(iso8601)
   end
 
   def formatted_started_at

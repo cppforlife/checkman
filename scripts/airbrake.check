@@ -10,7 +10,7 @@ class AirbrakeError
 
   def most_recent_notice_at
     @most_recent_notice_at ||=
-      Time.parse(@hash["lastNoticeAt"], "%Y-%m-%dT%H:%M:%S%z")
+      Time.parse(@hash["lastNoticeAt"])
   end
 
   def within_last_10_min?

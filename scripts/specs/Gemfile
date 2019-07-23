@@ -7,5 +7,4 @@ gem "json"
 gem "webmock"
 
 # Below versions work on 1.8.7
-gem "nokogiri", "1.5.9"
-gem "pivotal-tracker", "0.5.12"
+gem "nokogiri", "~> 1.10"
