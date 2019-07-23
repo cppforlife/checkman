@@ -12,21 +12,14 @@ def system_or_exit(cmd, stdout=nil)
 end
 
 task :default => %w(
-  trim_whitespace
   included_scripts:verify_ruby_syntax
   included_scripts:integration_specs
-  ocunit:logic
 )
 
 %w(install build).each do |task_name|
   task(task_name) do
     system_or_exit "./bin/#{task_name}"
   end
-end
-
-desc "Trim whitespace"
-task :trim_whitespace do
-  system_or_exit %Q[git status --short | awk '{if ($1 != "D" && $1 != "R") print $2}' | grep -e '.*\.[cmh]$' | xargs sed -i '' -e 's/	/    /g;s/ *$//g;']
 end
 
 desc "Clean all targets"
