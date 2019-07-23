@@ -2,23 +2,35 @@ $:.unshift(File.dirname(__FILE__))
 require "spec_helper"
 
 job_json = <<-JSON
-  {
-    "url": "/some/job/url",
-    "finished_build": {
-      "id": 928,
-      "name": "finished",
-      "status": "%s",
-      "job_name": "atc",
-      "url": "/finished-build"
-    },
-    "next_build": {
-      "id": 929,
-      "name": "next",
-      "status": "%s",
-      "job_name": "atc",
-      "url": "/next-build"
-    }
-  }
+{
+  "id": 2217556,
+  "name": "some-job",
+  "pipeline_name": "some-pipeline",
+  "team_name": "some-team",
+  "finished_build": {
+    "id": 7151332,
+    "team_name": "some-team",
+    "name": "1",
+    "status": "%s",
+    "job_name": "some-job",
+    "api_url": "/api/v1/builds/7151332",
+    "pipeline_name": "some-pipeline",
+    "start_time": 1556800422,
+    "end_time": 1556800778
+  },
+  "next_build": {
+    "id": 7151333,
+    "team_name": "some-team",
+    "name": "2",
+    "status": "%s",
+    "job_name": "some-job",
+    "api_url": "/api/v1/builds/7151333",
+    "pipeline_name": "some-pipeline",
+    "start_time": 1556800422,
+    "end_time": 1556800778
+  },
+  "groups": null
+}
 JSON
 
 describe_check :Concourse, "concourse" do
