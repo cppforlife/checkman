@@ -116,7 +116,7 @@ class GithubIssues
     end
 
     http_opts = {
-      "User-Agent" => "CheckmanGithubIssues (Hostname: #{`printf $HOSTNAME`})"
+      "User-Agent" => "CheckmanGithubIssues (Hostname: #{`echo -n $HOSTNAME`})"
     }
 
     open("#{api_url}?#{auth}", http_opts).read
