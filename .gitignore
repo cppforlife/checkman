@@ -12,6 +12,8 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+# Rubymine
+.idea
 # Finder
 .DS_Store
 #deploy script

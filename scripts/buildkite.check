@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require 'nokogiri'
+require "json"
+require "open-uri"
+require "net/https"
+
+class BuildkiteBuild
+  def initialize(org_slug, project_name, project)
+    @org_slug = org_slug
+    @project_name = project_name
+    @project = project
+  end
+
+  def as_json
+    status = @project[:lastBuildStatus]
+    activity = @project[:activity]
+    last_build_label = @project[:lastBuildLabel]
+    last_build_time = @project[:lastBuildTime]
+    {
+      :result => status == 'Success',
+      :changing => activity == 'Building',
+      :url => @project[:webUrl],
+      :info => [
+        ["lastBuildStatus", status],
+        ["activity", activity],
+        ["lastBuildLabel", last_build_label],
+        ["lastBuildTime", last_build_time],
+      ]
+    }
+  end
+
+  def to_json
+    JSON.dump(as_json)
+  end
+end
+
+class Buildkite
+  # access_token requires only `read_builds` authorization to org.
+  def initialize(*args)
+    case args.size
+    when 4
+      @org_slug, @project_name, @branch, @access_token = args
+    else
+      raise ArgumentError, "Usage: buildkite.check [org_slug] [quoted project name] [branch] [access_token] (access_token requires only `read_builds` authorization to org)"
+    end
+  end
+
+  def latest_status
+    project = fetch_latest_build_for_project
+    BuildkiteBuild.new(@org_slug, @project_name, project)
+  end
+
+  private
+
+  def fetch_latest_build_for_project
+    job_url_base = "https://cc.buildkite.com/#{@org_slug}.xml?access_token="
+    job_url_suffix = "&branch=#{@branch}"
+    job_url = "#{job_url_base}#{@access_token}#{job_url_suffix}"
+
+    http_opts = {
+      :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
+    }
+
+    projects = Nokogiri::XML(open(job_url, http_opts))
+    project = projects.xpath('//Project').detect do |project|
+      project.attr('name') == "#{@project_name} (#{@branch})"
+    end
+    raise "Project #{@project_name} not found in list of projects at #{job_url_base}MY_ACCESS_TOKEN#{job_url_suffix}" unless project
+    {
+      :activity => project.attr(:activity),
+      :lastBuildStatus => project.attr(:lastBuildStatus),
+      :webUrl => project.attr(:webUrl),
+      :lastBuildLabel => project.attr(:lastBuildLabel),
+      :lastBuildTime => project.attr(:lastBuildTime)
+    }
+  end
+end
+
+puts Buildkite.new(*ARGV).latest_status.to_json if __FILE__ == $0
