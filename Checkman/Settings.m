@@ -91,7 +91,7 @@
 
 - (NSUInteger)_checkRunInterval {
     static NSString *key = @"checkRunInterval";
-    static NSUInteger defaultValue = 10;
+    static NSUInteger defaultValue = 30;
 
     NSNumber *value = [self.userDefaults objectForKey:key];
     return value.unsignedIntegerValue > 0 ? value.unsignedIntegerValue : defaultValue;
