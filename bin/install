@@ -39,9 +39,10 @@ if [ ! -d ~/Checkman ]; then
 google.com: site.check http://www.google.com
 
 #-
-#- jenkins-ci.org builds
-jenkins_main_trunk: jenkins_build.check https://ci.jenkins-ci.org jenkins_main_trunk
-jenkins_lts_branch: jenkins_build.check https://ci.jenkins-ci.org jenkins_lts_branch
+#- ci.concourse-ci.org builds
+job_example: concourse.check https://ci.concourse-ci.org examples job job
+serial_job_example: concourse.check https://ci.concourse-ci.org examples serial-job serial-job
+hooks_example: concourse.check https://ci.concourse-ci.org examples hooks job
 CHECKS
 fi
 
