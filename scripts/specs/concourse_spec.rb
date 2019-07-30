@@ -51,6 +51,7 @@ describe_check :Concourse, "concourse" do
       ["aborted", "started"],
     ].each do |finished_status, next_status|
       WebMock.stub_request(:get, "http://server.example.com/api/v1/teams/some-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
+        with { |request| request.headers['Cookie'].nil? == true }.
         to_return(:status => 200, :body => job_json % [finished_status, next_status], :headers => {})
 
       WebMock.stub_request(:get, "http://server.example.com/api/v1/teams/some-basic-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
