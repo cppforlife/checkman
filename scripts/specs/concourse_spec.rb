@@ -38,6 +38,8 @@ describe_check :Concourse, "concourse" do
   after(:all) { WebMock.allow_net_connect! }
 
   before(:each) do
+    ENV['HOME'] = File.expand_path(File.dirname(__FILE__)) + "/fixtures/"
+
     [
       ["succeeded", "pending"],
       ["succeeded", "started"],
@@ -51,7 +53,12 @@ describe_check :Concourse, "concourse" do
       WebMock.stub_request(:get, "http://server.example.com/api/v1/teams/some-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
         to_return(:status => 200, :body => job_json % [finished_status, next_status], :headers => {})
 
-      WebMock.stub_request(:get, "http://username77:passw0rd@server.example.com/api/v1/teams/some-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
+      WebMock.stub_request(:get, "http://server.example.com/api/v1/teams/some-basic-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
+        with(basic_auth: ['username77', 'passw0rd']).
+        to_return(:status => 200, :body => job_json % [finished_status, next_status], :headers => {})
+
+      WebMock.stub_request(:get, "http://server.example.com/api/v1/teams/some-git-team/pipelines/some-pipeline/jobs/#{finished_status}-#{next_status}").
+        with(:headers => {'Cookie'=>'skymarshal_auth="Bearer some-token"'}).
         to_return(:status => 200, :body => job_json % [finished_status, next_status], :headers => {})
     end
   end
@@ -83,21 +90,40 @@ describe_check :Concourse, "concourse" do
   end
 
   context 'when using basic auth' do
-    it_returns_ok   %w(http://server.example.com username77 passw0rd some-team some-pipeline succeeded-pending)
-    it_returns_ok   %w(http://server.example.com username77 passw0rd some-team some-pipeline succeeded-started)
+    it_returns_ok   %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline succeeded-pending)
+    it_returns_ok   %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline succeeded-started)
 
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline failed-pending)
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline errored-pending)
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline aborted-pending)
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline failed-started)
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline errored-started)
-    it_returns_fail %w(http://server.example.com username77 passw0rd some-team some-pipeline aborted-started)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline failed-pending)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline errored-pending)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline aborted-pending)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline failed-started)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline errored-started)
+    it_returns_fail %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline aborted-started)
 
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline succeeded-pending)
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline failed-pending)
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline errored-pending)
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline succeeded-started)
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline failed-started)
-    it_returns_changing %w(http://server.example.com username77 passw0rd some-team some-pipeline errored-started)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline succeeded-pending)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline failed-pending)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline errored-pending)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline succeeded-started)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline failed-started)
+    it_returns_changing %w(http://server.example.com username77 passw0rd some-basic-team some-pipeline errored-started)
+  end
+
+  context 'when using token auth' do
+    it_returns_ok   %w(http://server.example.com some-git-team some-pipeline succeeded-pending)
+    it_returns_ok   %w(http://server.example.com some-git-team some-pipeline succeeded-started)
+
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline failed-pending)
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline errored-pending)
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline aborted-pending)
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline failed-started)
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline errored-started)
+    it_returns_fail %w(http://server.example.com some-git-team some-pipeline aborted-started)
+
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline succeeded-pending)
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline failed-pending)
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline errored-pending)
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline succeeded-started)
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline failed-started)
+    it_returns_changing %w(http://server.example.com some-git-team some-pipeline errored-started)
   end
 end

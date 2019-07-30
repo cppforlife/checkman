@@ -1,0 +1,8 @@
+targets:
+  target-name:
+    api: http://server.example.com
+    team: some-git-team
+    insecure: true
+    token:
+      type: Bearer
+      value: some-token

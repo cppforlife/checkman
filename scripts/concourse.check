@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "rubygems"
 require "json"
+require "yaml"
 require "open-uri"
 require "net/https"
 
@@ -92,11 +93,36 @@ class Concourse
     job_url = "#{@server_url}/api/v1/teams/#{@team_name}/pipelines/#{@pipeline_name}/jobs/#{@job_name}"
 
     http_opts = {
-      :http_basic_authentication => [@username, @password],
-      :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE
+      :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE,
     }
 
-    JSON.parse(open(job_url, http_opts).read)
+    if !@username.nil? && !@password.nil?
+      http_opts[:http_basic_authentication] = [@username, @password]
+    else
+      token = fetch_flyrc_token @server_url, @team_name
+      http_opts["Cookie"] = "skymarshal_auth=\"#{token}\"" if token
+    end
+
+    begin
+      JSON.parse(open(job_url, http_opts).read)
+    rescue OpenURI::HTTPError => error
+      response = error.io
+      status_code = response.status[0]
+
+      raise ArgumentError, "job not found or unauthorized" if status_code == "401"
+    end
+  end
+
+  def fetch_flyrc_token server_url, team_name
+    flyrc_path = "#{ENV["HOME"]}/.flyrc"
+    if File.exists?(flyrc_path)
+      targets = YAML.load_file(flyrc_path)["targets"]
+      target = targets.find { |t| t[1]["team"] == team_name && t[1]["api"] == server_url }
+      if target
+        token = target[1]["token"]
+        "#{token["type"]} #{token["value"]}"
+      end
+    end
   end
 end
 
