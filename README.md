@@ -143,6 +143,10 @@ If you ever need to kill Checkman:
   To get the PROJECT NAME, look at the CCTray XML and paste in the value before the ` :: ` from `<Project name="">`  
   To get the STEP NAME, look at the CCTray XML and paste in the value after the ` :: ` from `<Project name="">`
 
+* `bamboo.check <BAMBOO_RSS_URL>`   
+  Checks your Bamboo job status using the built in RSS feeds
+  e.g. `bamboo.check http://bamboo.mydomain.com/rss/createAllBuildsRssFeed.action?feedType=rssAll&buildKey=MYBUILDJOB`
+
 Above scripts are located in `/Applications/Checkman.app/Contents/Resources/`.
 Checkman makes these scripts available by appending stated path to PATH env
 variable when running check commands.
