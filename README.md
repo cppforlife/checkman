@@ -1,4 +1,4 @@
-# Checkman
+<h1> VMware has ended active development of this project, this repository will no longer be updated.</h1><br># Checkman
 
 [![Build Status](https://travis-ci.org/cppforlife/checkman.png?branch=master)](https://travis-ci.org/cppforlife/checkman)
 
